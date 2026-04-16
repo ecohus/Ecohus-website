@@ -1,0 +1,736 @@
+
+PRODUCT REQUIREMENTS DOCUMENT
+Ecohus — Sommerhus
+Marketing & Lead Generation Website · ecohus.dk
+Status
+Ready for Development
+Version
+1.0
+Deadline
+Fredag 10. april 2026
+Contact
+Kasper Olander Linder · kasper@clickncontent.dk · +45 61 67 58 83
+Prepared by
+Sonorous Digital
+Handoff to
+Antigravity AI
+
+
+1. PROJECT OVERVIEW
+
+Project Name
+Ecohus — Sommerhus Website
+Project Type
+Marketing website / Lead generation platform
+Domain
+ecohus.dk
+Primary User
+Danish couples, 35–68 years old, with budget and intent to build a prefab summer house
+Core Problem
+Potential buyers have no single place to explore Ecohus house models, understand the process, estimate price, and book a consultation — leading to lost leads
+Success Criteria
+Visitors can browse models, get a price estimate, and submit a consultation request within a single session. Tracked via form submissions and GA4 events
+Client / Company
+Ecohus · Kasper Olander Linder
+Contact Email
+kasper@clickncontent.dk
+Contact Phone
++45 61 67 58 83
+MVP Deadline
+Fredag 10. april 2026
+Go-Live
+Fredag 10. april 2026
+
+ICP Summary
+Primary: Established Danish couples, ~38–65 years old, high household income or equity, busy professional lives. They want a quality summer house without the stress of managing contractors, unexpected costs, or complex permit processes. They respond to: fixed price, fast delivery, one partner for the whole process.
+
+Full ICP document is attached separately. Reference it for copywriting and CTA language throughout the site.
+
+
+2. TECHNICAL STACK
+
+Framework
+Next.js 14 (App Router)
+Styling
+Tailwind CSS + shadcn/ui
+Backend / Database
+Supabase (PostgreSQL + Storage)
+CMS
+Sanity.io — headless CMS for client self-editing of gallery, models, FAQ, team, texts
+Authentication
+None — public marketing site, no user accounts
+Hosting
+Vercel
+Email
+Resend (contact form notifications + lead alerts to client)
+Analytics
+GA4 — fresh setup (client has no existing analytics)
+Cookie Consent
+Custom lightweight implementation — no vendor preference stated; GDPR compliant
+Rate Limiting
+Upstash Redis (API endpoints)
+Language
+Danish only (Dansk)
+
+Key Libraries
+@sanity/client
+CMS data fetching
+resend
+Transactional email
+react-hook-form + zod
+Form handling and server-side validation
+framer-motion
+Subtle scroll animations (fade-in only — minimal)
+@vercel/analytics
+Performance monitoring
+next/image
+Image optimization (WebP, lazy loading)
+
+Architecture Rules
+Must Use:
+	•	Server Components by default — Client Components only where interactive (forms, calculator, lightbox)
+	•	Zod schemas for all form validation — both client-side and server-side API route validation
+	•	Next.js Image component for all images — WebP format, sizes prop required on every instance
+	•	ISR (Incremental Static Regeneration) for Sanity-driven pages — never SSR for static content
+	•	Environment variables for all API keys — nothing hardcoded
+
+Must Avoid:
+	•	Inline styles — Tailwind utility classes only
+	•	any TypeScript types — strict mode enabled
+	•	Client-side data fetching for page-level content — use generateStaticParams + ISR
+	•	"use client" on layout or page components — only on leaf interactive components
+
+Performance Targets
+Page load (LCP)
+< 2.5s
+API response
+< 500ms
+Core Web Vitals
+All green — LCP, FID, CLS
+Image optimization
+WebP, lazy loading, correct sizes prop
+Browser support
+Modern browsers — Chrome, Firefox, Safari, Edge (last 2 versions)
+Accessibility
+WCAG AA minimum — keyboard navigation required, alt text on all images
+
+
+3. DESIGN SYSTEM
+
+Design Direction
+Frifeldt.dk as the structural base: full-bleed photography, clean navigation, generous whitespace, Scandinavian warmth and natural materials feel. Elevated with Huscompagniet.dk's premium touches: bolder hero typography, explicit CTAs, price transparency, editorial section layouts.
+
+HARD NOS (client-specified): No dark backgrounds. No heavy animation. No cluttered layouts. No language implying cheap or low quality. The brand is quality craftsmanship AND fast AND good value — never sacrifice quality perception for speed messaging.
+
+Colors
+Primary — Forest Green
+#2C5F3E  (extract exact hex from ecohus.dk logo — see [REF: ecohus-logo-close.png])
+Primary Light
+#EAF2EC  (backgrounds, hover states, subtle accents)
+Secondary — Warm Off-white
+#F7F4EE  (section backgrounds, alternating rows)
+Background
+#FFFFFF  (default page background)
+Text Primary
+#1A1A1A
+Text Secondary
+#6B6B6B
+Border
+#E2DDD5
+Success
+#2C5F3E
+Error
+#D32F2F
+
+IMPORTANT: The exact primary green must be eyedropped from the ecohus.dk logo before final implementation. The #2C5F3E value above is an approximation. See [REF: ecohus-logo-close.png] for the source asset.
+
+Typography
+Font: Plus Jakarta Sans (Google Font) — modern, clean, Scandinavian character. Load weights: 400 (regular) and 500 (medium) only.
+
+H1 — Hero headline
+56px desktop / 36px mobile · weight 500 · line-height 1.15
+H2 — Section headline
+40px desktop / 28px mobile · weight 500 · line-height 1.25
+H3 — Subsection
+28px desktop / 22px mobile · weight 500
+Body
+18px · weight 400 · line-height 1.75
+Small / caption
+14px · weight 400 · color Text Secondary
+Button
+16px · weight 500 · letter-spacing 0.01em
+
+Component Library
+shadcn/ui — install the following components:
+npx shadcn-ui@latest add button card badge dialog
+npx shadcn-ui@latest add sheet accordion tabs input textarea
+npx shadcn-ui@latest add select label separator skeleton
+
+Animations
+	•	Scroll reveal: opacity 0→1 + translateY 20px→0, 400ms ease-out. Apply to section content blocks on viewport entry.
+	•	Button hover: subtle background darken (5%), transition 150ms
+	•	Card hover: scale(1.02) + box-shadow increase, transition 200ms
+	•	Page transitions: none — fast navigation preferred over animated transitions
+	•	Loading: skeleton screens for CMS-driven sections; spinner (green) for form submit button
+
+Design References
+Screenshots to be added to the project folder by Daniel before handoff. Reference filenames below match what will be present in /references/ folder.
+
+[REF: frifeldt-hero.png]
+Hero layout — full-bleed photo, headline left, 3 CTA buttons. Use as layout template for Ecohus hero.
+[REF: frifeldt-plantegninger-grid.png]
+House model grid — card layout, category filters. Direct reference for Ecohus plantegninger page.
+[REF: frifeldt-model-detail.png]
+Single model detail page — floor plan + specs layout.
+[REF: huscompagniet-hero.png]
+Premium hero style — dual CTA pattern, editorial photography treatment.
+[REF: huscompagniet-process.png]
+Process/timeline section layout. Reference for Processen page.
+[REF: huscompagniet-price.png]
+Price transparency section — reference for how to present pricing clearly.
+[REF: jvrconsult-prisberegner.png]
+Price calculator UI — step-by-step flow, estimate display. Direct functional reference.
+[REF: ecohus-current-hero.png]
+Current ecohus.dk hero — shows what we are replacing and improving.
+[REF: ecohus-logo-close.png]
+Logo close-up — used for exact green hex color extraction.
+
+
+4. FEATURES
+
+Feature 1: Forside (Homepage)   [P0 — MVP]
+
+User Story
+As a potential summer house buyer, I need to immediately understand what Ecohus offers, feel confident in their quality, and have a clear next step so I can decide whether to explore further or book a consultation.
+
+Acceptance Criteria
+	•	Hero section renders with full-bleed house photo, H1 headline ("Færdigbyggede huse direkte til din grund" or updated copy), primary CTA "Book en samtale" and secondary CTA "Se vores modeller"
+	•	"5 gode grunde" value props section renders with 5 points matching current ecohus.dk content (fixed price, fast delivery, eco-friendly, factory-built quality, permit assistance)
+	•	Process teaser section shows 4 horizontal steps: Produktion → Transport → Opsætning → Klar til brug with icons and short labels
+	•	Featured models section renders 3 house model cards (Sanity CMS, is_featured: true). Each card: main image, model name, m², price from (kr.), "Se model" CTA
+	•	Testimonials section: renders empty state ("Anmeldelser tilføjes snart") when Sanity testimonials array is empty; renders testimonial cards with name, quote, star rating when populated
+	•	"Er du klar?" CTA banner renders at bottom with "Book en samtale" button
+	•	All sections fully responsive: 375px (mobile), 768px (tablet), 1440px (desktop)
+	•	Hero image loads with priority={true} — LCP target met < 2.5s
+
+UI/UX Notes
+	•	Hero: 100vh desktop, 70vh mobile. Text left-aligned on desktop, centered on mobile. Photo covers full width with subtle dark overlay gradient (20% opacity) for text legibility
+	•	Value props: 2-column grid desktop, 1-column mobile. Green checkmark icon per item. Light green (#EAF2EC) background for this section
+	•	Process teaser: 4 boxes in a horizontal row with thin green connecting line between them. On mobile: vertical stack with left border accent line
+	•	Featured models: 3-column grid desktop, 1-column mobile. Cards have white background, subtle border, hover state (scale + shadow)
+	•	Reference: [REF: frifeldt-hero.png] for hero layout · [REF: huscompagniet-hero.png] for CTA pattern
+
+Technical
+	•	Server Component — no client state needed on this page
+	•	ISR revalidation: 60 seconds for featured models query from Sanity
+	•	Hero image: stored in Supabase Storage or Sanity asset, optimized via next/image
+	•	Testimonials: GROQ query from Sanity, ordered by date desc, limit 6
+
+Feature 2: Plantegninger (House Models Page)   [P0 — MVP]
+
+User Story
+As a potential buyer, I need to browse all available house models, filter them by size and features, and click through to a detailed page for any model that interests me.
+
+Acceptance Criteria
+	•	Page renders grid of all active house models from Sanity CMS (is_active: true), ordered by size_m2 ascending
+	•	Filter controls: size range slider (m²), room count (1–6+), garage toggle (all / yes / no)
+	•	Filtering updates model grid without page reload (client-side JS filter, data loaded once)
+	•	URL search params update on filter change (?size=60-120&rooms=3&garage=true) — URLs are shareable
+	•	Each model card displays: main image, model name, size in m², number of rooms, price from (kr.), "Se model" CTA button
+	•	Empty state shown ("Ingen modeller matcher dit filter — prøv andre kriterier") if filters return 0 results
+	•	Page renders correctly with 0 models from CMS (graceful empty state: "Modeller tilføjes snart")
+	•	Reference: [REF: frifeldt-plantegninger-grid.png]
+
+Technical
+	•	"use client" component for filter state and URL param updates
+	•	Sanity GROQ: *[_type == "house_model" && is_active == true] | order(size_m2 asc)
+	•	ISR revalidation: 120 seconds
+
+Feature 3: Plantegning Detail (/plantegninger/[slug])   [P0 — MVP]
+
+User Story
+As a buyer exploring a specific model, I need to see the floor plan, measurements, full spec sheet, and included features, then be able to book a consultation about this specific model.
+
+Acceptance Criteria
+	•	Page generates statically for all active model slugs via generateStaticParams()
+	•	Returns 404 for non-existent or inactive model slugs
+	•	Displays: model name, m², rooms, bathrooms, price from, main image, floor plan PNG
+	•	Floor plan PNG is zoomable — click opens fullscreen lightbox (Radix Dialog). Lightbox has close button and click-outside-to-close
+	•	Specs table: size (m²), rooms, bathrooms, has garage (Ja/Nej), has canopy (Ja/Nej), construction type
+	•	"Hvad er inkluderet" features list: rendered from Sanity features[] array
+	•	3D model embed: renders iframe if embed_3d_url field is populated in Sanity; hidden if empty
+	•	"Book en samtale om denne model" CTA links to /kontakt?model=[model-name] (pre-fills model field in contact form)
+	•	"Se lignende modeller" section at bottom: 3 models within ±20m² of current model
+	•	Reference: [REF: frifeldt-model-detail.png]
+
+UI/UX Notes
+	•	Desktop layout: 2-column. Left (60%): main image + floor plan. Right (40%): name, price, specs, features, CTA
+	•	Mobile layout: single column. CTA button is sticky fixed at bottom of viewport
+	•	Floor plan: max-width 600px, object-fit: contain, white background. Click to fullscreen.
+
+Technical
+	•	Static generation: generateStaticParams() fetches all active slugs at build time
+	•	ISR revalidation: 300 seconds
+	•	Lightbox: @radix-ui/react-dialog (already in shadcn/ui) — "use client" component
+
+Feature 4: Prisberegner (Price Calculator)   [P0 — MVP]
+
+User Story
+As a potential buyer, I need to get an estimated price for my summer house configuration so I can evaluate whether Ecohus fits my budget before committing to a consultation call.
+
+Acceptance Criteria
+	•	Multi-step calculator with 4 steps and visible step progress indicator
+	•	Step 1 — Vælg model: Grid of model cards (from Sanity). User selects one. Shows model name, m², price from. "Selected" state visible (green border + checkmark)
+	•	Step 2 — Tilvalg: Checkbox options — garage (+ kr. 120.000), overdækning/carport (+ kr. 45.000), additional insulation (+ kr. 35.000). Live price total updates as options are toggled
+	•	Step 3 — Fundament: Radio select — skruefundament (+ kr. 85.000), støbt betonfundament (+ kr. 110.000). Short explanation text per option
+	•	Step 4 — Din pris: Displays line-item breakdown and total range (e.g. "kr. 1.450.000 – kr. 1.620.000"). Note: "Prisen er vejledende — inkl. levering og opsætning, ekskl. tilslutninger og tilladelser"
+	•	Lead capture form on step 4: Navn (required), E-mail (required), Telefon (required), Kommentar (optional)
+	•	Back button available on all steps (step 1 back button is disabled/hidden)
+	•	On form submit: lead saved to price_calculator_leads Supabase table + email notification to kontakt@ecohus.dk via Resend
+	•	Confirmation screen: "Tak! Vi vender tilbage inden for 1–2 hverdage." with "Tilbage til forsiden" link
+	•	Form validation: client-side + server-side (Zod). Field-level error messages in Danish
+	•	Reference: [REF: jvrconsult-prisberegner.png] for step UI and price display style
+
+UI/UX Notes
+	•	Centered card layout, max-width 760px, white card on warm off-white page background
+	•	Progress indicator: 4 pill-shaped step indicators at top (active = green fill, complete = green outline + checkmark, upcoming = gray)
+	•	Step transitions: slide animation (framer-motion) — slide left when advancing, slide right when going back
+	•	Price display on step 4: large green typography, bold total, line items in smaller text below
+	•	Mobile: full-width card, "Næste →" button fixed at bottom of viewport
+
+Price Logic
+// Base prices come from Sanity model.price_from field
+// Option prices are hardcoded in config (can be moved to Sanity later):
+const OPTION_PRICES = {
+  garage:     120000,
+  canopy:      45000,
+  insulation:  35000,
+};
+const FOUNDATION_PRICES = {
+  screwpile:   85000,
+  concrete:   110000,
+};
+// Total range: base_price_from + options + foundation = min
+// max = min + 12% (contingency buffer — displayed as range)
+
+Technical
+	•	"use client" component — multi-step state managed with useState
+	•	POST /api/calculator-lead: Zod validation → Supabase insert → Resend email
+	•	Rate limited: max 5 submissions per IP per hour (Upstash Redis)
+
+Feature 5: Processen   [P0 — MVP]
+
+User Story
+As a potential buyer worried about complexity, I need to see the full process from first contact to move-in so I can feel confident that Ecohus handles everything.
+
+Acceptance Criteria
+	•	Page renders numbered process steps: 1. Samtale & valg (~1 uge), 2. Projektering & myndighedsbehandling (~4–8 uger), 3. Produktion i fabrikshal (~3–4 uger), 4. Levering & opsætning (3 dage), 5. Eftersyn & nøglevering
+	•	Each step: step number, title, description paragraph, estimated duration badge
+	•	Visual connector between steps: vertical line desktop, horizontal progress bar mobile
+	•	"Garanti for tryghed" section: 3 trust badges — Fast pris, 1-årig garanti, Hjælp til tilladelser
+	•	FAQ accordion section: renders if Sanity faq_items array is non-empty; hidden if empty
+	•	CTA at bottom: "Start din proces i dag" → /kontakt
+	•	Reference: [REF: huscompagniet-process.png]
+
+Feature 6: Galleri   [P0 — MVP]
+
+Acceptance Criteria
+	•	Renders all gallery images from Sanity CMS (category: any, active: true), ordered by order field ascending
+	•	Filter tabs: Alle / Eksteriør / Interiør / Byggefase. Active tab highlighted in green. Click filters grid without page reload.
+	•	Image grid: masonry-style columns desktop (3 col), 2 col tablet, 1 col mobile
+	•	Click any image: fullscreen lightbox opens with prev/next arrow navigation. Keyboard arrow keys also navigate. ESC closes.
+	•	All images lazy-loaded (loading="lazy")
+	•	Empty state per category: "Billeder i denne kategori tilføjes snart"
+	•	CMS-editable: client adds/removes images in Sanity Studio without developer involvement
+
+Feature 7: Kontakt   [P0 — MVP]
+
+Acceptance Criteria
+	•	Form fields: Navn* (text), E-mail* (email), Telefon* (tel), Besked (textarea optional), Model-interesse (optional select — populated from active Sanity models + "Ikke specifik")
+	•	Model select pre-filled from URL param ?model=[name] (set by "Book samtale om denne model" CTA)
+	•	Submit: POST /api/contact → Zod validation → Supabase insert → Resend notification email to kontakt@ecohus.dk
+	•	Success: inline confirmation message replaces form — "Tak for din henvendelse! Vi vender tilbage inden for 1–2 hverdage."
+	•	Error: per-field error messages in Danish. Generic error if API fails: "Der skete en fejl — prøv igen eller ring til os"
+	•	Contact info visible alongside form: +45 55 25 55 10 · kontakt@ecohus.dk · Thrigesvej 37A, 7430 Ikast
+
+Feature 8: Om os   [P0 — MVP]
+
+Acceptance Criteria
+	•	Team section: renders team members from Sanity (name, title, photo, bio). Shows placeholder if empty.
+	•	Company story section: long-form rich text from Sanity — editable by client
+	•	Key stats row: 3 stat cards (e.g. "X leverede huse", "Y års erfaring", "Fast pris — altid"). Values editable in Sanity site_settings.
+	•	CTA: "Book en gratis samtale" → /kontakt
+	•	Client has team photos available (confirmed in briefing)
+
+
+5. DATA & INTEGRATIONS
+
+Database Schema (Supabase)
+-- Lead capture from contact form
+CREATE TABLE contact_submissions (
+  id          UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  name        VARCHAR(255) NOT NULL,
+  email       VARCHAR(255) NOT NULL,
+  phone       VARCHAR(50)  NOT NULL,
+  message     TEXT,
+  model_interest VARCHAR(255),
+  source      VARCHAR(100) DEFAULT 'contact_form',
+  created_at  TIMESTAMPTZ  DEFAULT NOW()
+);
+
+-- Lead capture from price calculator
+CREATE TABLE price_calculator_leads (
+  id                  UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  name                VARCHAR(255) NOT NULL,
+  email               VARCHAR(255) NOT NULL,
+  phone               VARCHAR(50)  NOT NULL,
+  model_selected      VARCHAR(255),
+  options             JSONB,
+  estimated_price_from INTEGER,
+  estimated_price_to   INTEGER,
+  created_at          TIMESTAMPTZ  DEFAULT NOW()
+);
+
+CREATE INDEX idx_contact_submissions_created ON contact_submissions(created_at DESC);
+CREATE INDEX idx_calculator_leads_created ON price_calculator_leads(created_at DESC);
+
+Sanity CMS Schema
+house_model
+name, slug, size_m2 (number), rooms (number), bathrooms (number), has_garage (bool), has_canopy (bool), price_from (number), main_image (image), floorplan_png (image), description (text), features (string[]), is_active (bool), is_featured (bool), embed_3d_url (string optional), order (number)
+gallery_image
+image (image), alt (string), category (eksteriør|interiør|byggefase), order (number), is_active (bool)
+testimonial
+name (string), quote (text), rating (1-5), date (date), is_active (bool)
+team_member
+name, title, photo (image), bio (text), order (number)
+faq_item
+question (string), answer (text), order (number)
+site_settings
+company_name, phone, email, address, stat_1_label, stat_1_value, stat_2_label, stat_2_value, stat_3_label, stat_3_value, meta_title, meta_description
+
+API Endpoints
+POST /api/contact
+Submit contact form. Auth: none (public). Zod validate → Supabase insert → Resend notify. Rate: 5/hour/IP. Returns: 200 {success} | 400 {error: validation} | 500 {error: generic}
+POST /api/calculator-lead
+Submit calculator lead. Auth: none (public). Zod validate → Supabase insert → Resend notify. Rate: 5/hour/IP. Returns: 200 {success} | 400 {error} | 500 {error}
+
+Third-Party Integrations
+Sanity.io
+Headless CMS. SDK: @sanity/client. Project ID: set at setup. Dataset: production. Auth: SANITY_API_TOKEN (read-only token for frontend). Sanity Studio deployed at studio.ecohus.dk or sanity.io/manage.
+Resend
+Transactional email. SDK: resend. From: noreply@ecohus.dk. Notify: kontakt@ecohus.dk. API key: RESEND_API_KEY. Domain must be verified in Resend dashboard.
+GA4
+Google Analytics 4. Fresh account setup needed. Implemented via next/script (gtag). Track: page_views, form_submit (contact + calculator), model_view events. No PII in event parameters.
+Upstash Redis
+Rate limiting. SDK: @upstash/ratelimit + @upstash/redis. Used on /api/contact and /api/calculator-lead. Config: 5 requests per hour per IP using sliding window.
+
+Environment Variables
+# Supabase
+NEXT_PUBLIC_SUPABASE_URL=...
+NEXT_PUBLIC_SUPABASE_ANON_KEY=...
+SUPABASE_SERVICE_ROLE_KEY=...
+
+# Sanity
+NEXT_PUBLIC_SANITY_PROJECT_ID=...
+NEXT_PUBLIC_SANITY_DATASET=production
+SANITY_API_TOKEN=...
+
+# Resend
+RESEND_API_KEY=...
+RESEND_FROM_EMAIL=noreply@ecohus.dk
+RESEND_NOTIFY_EMAIL=kontakt@ecohus.dk
+
+# Upstash
+UPSTASH_REDIS_REST_URL=...
+UPSTASH_REDIS_REST_TOKEN=...
+
+# App
+NEXT_PUBLIC_APP_URL=https://ecohus.dk
+NODE_ENV=production
+
+
+6. USER FLOWS
+
+Flow 1: Lead Conversion via Model Detail
+Trigger
+User lands on homepage
+Step 1
+Reads hero, clicks "Se vores modeller" → /plantegninger
+Step 2
+Browses model grid, applies filters (optional)
+Step 3
+Clicks model card → /plantegninger/[slug]
+Step 4
+Reviews floor plan, specs, features, price from
+Step 5
+Clicks "Book en samtale om denne model" → /kontakt?model=[name]
+Step 6
+Contact form pre-filled with model name. Completes Navn, E-mail, Telefon, Besked.
+Step 7
+Submits form → inline confirmation
+Success
+contact_submissions row in Supabase. Notification email to kontakt@ecohus.dk.
+Edge: Sanity down
+Model pages fall back to last ISR cache. User still reaches contact form.
+
+Flow 2: Price Calculator Lead
+Trigger
+User clicks "Beregn din pris" CTA (homepage or nav)
+Step 1
+Calculator loads at Step 1. User selects base model.
+Step 2
+Selects options (garage, canopy, insulation). Price updates live.
+Step 3
+Selects foundation type. Price updates.
+Step 4
+Views price breakdown. Fills in Navn, E-mail, Telefon.
+Step 5
+Submits → confirmation screen
+Success
+price_calculator_leads row in Supabase. Email notification sent.
+Edge: missing fields
+Zod validation shows Danish field-level error messages. Form not submitted.
+Edge: API error
+Generic Danish error shown. User can retry or use phone number.
+
+
+7. CODE STANDARDS
+
+File Structure
+/app
+  /api
+    /contact/route.ts
+    /calculator-lead/route.ts
+  /(site)
+    /page.tsx                  -- Forside
+    /processen/page.tsx
+    /plantegninger/page.tsx
+    /plantegninger/[slug]/page.tsx
+    /prisberegner/page.tsx
+    /galleri/page.tsx
+    /om-os/page.tsx
+    /kontakt/page.tsx
+  /layout.tsx
+/components
+  /ui/                         -- shadcn components (do not modify)
+  /ModelCard.tsx
+  /PriceCalculator.tsx         -- "use client"
+  /ContactForm.tsx             -- "use client"
+  /GalleryGrid.tsx             -- "use client" (lightbox)
+  /ModelFilters.tsx            -- "use client"
+  /Navbar.tsx
+  /Footer.tsx
+/lib
+  /sanity.ts                   -- Sanity client + GROQ queries
+  /supabase.ts                 -- Supabase client (server + browser)
+  /resend.ts                   -- Email templates + send functions
+  /ratelimit.ts                -- Upstash rate limiter config
+  /validations.ts              -- All Zod schemas
+
+Naming Conventions
+Components
+PascalCase  (ModelCard, PriceCalculator)
+Functions / hooks
+camelCase  (getHouseModels, useCalculatorState)
+Files
+PascalCase for components, kebab-case for pages and API routes
+Constants
+SCREAMING_SNAKE_CASE  (OPTION_PRICES, FOUNDATION_PRICES)
+Database columns
+snake_case  (model_selected, created_at)
+Env variables
+SCREAMING_SNAKE_CASE with service prefix
+
+TypeScript
+	•	Strict mode enabled — no any types
+	•	All Sanity query results typed using inferred Zod schemas or manually defined interfaces
+	•	All API route handlers typed: NextRequest / NextResponse
+
+Testing
+No automated tests required for MVP. Manual QA against acceptance criteria checklist (Section 9) before go-live.
+
+
+8. REFERENCES
+
+Design References
+frifeldt.dk
+Primary layout reference — navigation, hero, model grid, process flow, footer
+huscompagniet.dk
+Premium elevation reference — hero CTAs, editorial photography, process timeline, price transparency
+jvrconsult.dk/prisberegner
+Price calculator UX reference — step flow, estimate display (client-specified)
+ecohus.dk (current)
+Brand colors, existing copy, current structure
+
+Technical Documentation
+Next.js 14 App Router
+https://nextjs.org/docs/app
+Sanity.io
+https://www.sanity.io/docs
+Supabase
+https://supabase.com/docs
+shadcn/ui
+https://ui.shadcn.com
+Resend
+https://resend.com/docs
+Upstash Ratelimit
+https://upstash.com/docs/redis/sdks/ratelimit
+Tailwind CSS
+https://tailwindcss.com/docs
+
+
+9. QUALITY CHECKLIST
+
+Functionality
+	•	All acceptance criteria met for each feature
+	•	All form submissions save to Supabase
+	•	All form submissions trigger Resend email notification
+	•	Price calculator produces correct totals across all model + option combinations
+	•	Model detail pages generate for all active Sanity models
+	•	URL params work for model pre-fill on contact form
+	•	CMS empty states render gracefully (no broken UI when Sanity content is empty)
+	•	Rate limiting active on /api/contact and /api/calculator-lead
+
+UI/UX
+	•	Matches design system (colors, typography, spacing)
+	•	Fully responsive: 375px, 768px, 1280px, 1440px viewports
+	•	No dark backgrounds anywhere on the site
+	•	Hover states on all interactive elements
+	•	Loading skeletons shown while Sanity content loads
+	•	Lightbox works correctly (open, navigate, close, keyboard)
+	•	Price calculator step navigation works (forward and back)
+	•	All CTAs link to correct destinations
+
+Performance
+	•	LCP < 2.5s on homepage (test with Lighthouse)
+	•	Hero image uses priority={true} and next/image
+	•	All other images use loading="lazy" and next/image with correct sizes prop
+	•	No unnecessary re-renders (React DevTools check)
+	•	ISR working correctly — Sanity updates visible within revalidation window
+
+Code Quality
+	•	No TypeScript errors (tsc --noEmit passes)
+	•	No console errors in browser
+	•	No unused imports
+	•	All Zod validations in place on API routes
+	•	npm audit passes with no high/critical vulnerabilities
+
+Pre-launch
+	•	.env.example created and committed
+	•	GA4 tracking verified (events firing in GA4 Debug View)
+	•	Cookie consent banner visible and functional
+	•	HTTPS enforced (Vercel handles this automatically)
+	•	Security headers configured in next.config.js
+	•	README updated with setup instructions
+	•	Sanity Studio accessible and client can log in
+	•	Test form submission end-to-end — email received at kontakt@ecohus.dk
+
+
+10. SECURITY REQUIREMENTS
+
+Application Type
+Public marketing website with lead capture forms
+Security Level
+Low–Medium (no user auth, no payments, no file uploads)
+Applicable Sections
+10.1 Non-Negotiable (always) · 10.3 Rate Limiting (public API) · 10.9 Dependency Security (always)
+
+10.1 Non-Negotiable Security  (ALWAYS REQUIRED)
+All items below are mandatory before deployment. No exceptions.
+
+	•	All API keys in environment variables — nothing hardcoded. .env in .gitignore. .env.example committed.
+	•	HTTPS enforced — Vercel handles this automatically. Confirm HSTS header is present.
+	•	Server-side Zod validation on ALL API endpoints (/api/contact, /api/calculator-lead)
+	•	Supabase client used for all DB queries — parameterized by default, no raw SQL string concatenation
+	•	XSS prevention — React escapes automatically. Never use dangerouslySetInnerHTML.
+	•	CORS configured in next.config.js — no wildcard * in production. Allow: https://ecohus.dk only
+	•	Security headers in next.config.js: X-Frame-Options: DENY, X-Content-Type-Options: nosniff, Strict-Transport-Security
+	•	Generic error messages to users — no stack traces, no internal error details
+	•	npm audit run before deployment — no high/critical vulnerabilities
+
+// next.config.js — security headers
+module.exports = {
+  async headers() {
+    return [{
+      source: "/:path*",
+      headers: [
+        { key: "X-Frame-Options",        value: "DENY" },
+        { key: "X-Content-Type-Options",  value: "nosniff" },
+        { key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains" },
+        { key: "Referrer-Policy",         value: "strict-origin-when-cross-origin" },
+      ]
+    }]
+  }
+}
+
+10.3 Rate Limiting  (Required — public API)
+	•	Rate limit: 5 requests per hour per IP on /api/contact and /api/calculator-lead
+	•	Implementation: Upstash Redis + @upstash/ratelimit (sliding window algorithm)
+	•	Response on limit exceeded: 429 with Danish message "For mange forsøg — prøv igen om lidt"
+
+import { Ratelimit } from "@upstash/ratelimit";
+import { Redis }     from "@upstash/redis";
+
+const ratelimit = new Ratelimit({
+  redis: Redis.fromEnv(),
+  limiter: Ratelimit.slidingWindow(5, "1 h"),
+});
+
+const { success } = await ratelimit.limit(ip);
+if (!success) {
+  return Response.json(
+    { error: "For mange forsøg — prøv igen om lidt" },
+    { status: 429 }
+  );
+}
+
+10.9 Dependency Security  (ALWAYS REQUIRED)
+	•	Run npm audit --audit-level=high before deployment. Fix or document all findings.
+	•	Dependabot enabled in GitHub repository (alerts + auto-PRs for security patches)
+	•	package-lock.json committed to repository
+
+
+11. ARCHITECTURE DECISIONS
+
+ADR 1: Sanity.io as CMS (vs custom Supabase admin)
+Decision
+Use Sanity.io headless CMS for all client-editable content
+Reason
+Client explicitly requires self-editing capability for gallery, house models, FAQ, and team. Building a custom Supabase-backed admin panel would add significant dev time. Sanity has a free tier sufficient for this use case and an excellent Next.js integration.
+Alternatives considered
+Custom Supabase admin panel (more dev time, more maintenance), Contentful (more expensive), WordPress headless (heavier stack)
+Trade-offs accepted
+Adds Sanity subscription if content exceeds free tier limits. Sanity Studio is a separate URL. Antigravity team must define Sanity schemas at setup.
+
+ADR 2: Supabase for lead storage (vs email-only)
+Decision
+Store all form submissions (contact + calculator leads) in Supabase in addition to sending email notifications
+Reason
+Email-only provides no audit trail. Client will want to review leads historically, export to a future CRM, and have a backup if email is missed. Supabase free tier is sufficient.
+Alternatives considered
+Email-only (simpler, no DB setup for leads), direct CRM integration (no CRM identified yet)
+Trade-offs accepted
+Slightly more setup. Supabase requires a separate lead review interface (Supabase dashboard is sufficient for now).
+
+ADR 3: ISR over SSR for Sanity-driven pages
+Decision
+Use Incremental Static Regeneration (ISR) for all Sanity-driven pages rather than Server-Side Rendering (SSR)
+Reason
+Content (house models, gallery, FAQ) changes infrequently. ISR gives near-static performance with automatic content refresh. SSR would add latency on every request and unnecessary Sanity API calls.
+Alternatives considered
+Full SSR (fresh on every request), full static (no auto-refresh without redeploy)
+Trade-offs accepted
+Sanity edits take up to the revalidation window (60–300s) to appear on live site. Client informed of this behaviour.
+
+ADR 4: Claude API not used on this project
+Decision
+No AI/LLM integration in Site 1 (Ecohus Sommerhus)
+Reason
+Site is a marketing and lead generation platform. No feature requirement for AI content generation or chat. Adding Claude API would add cost and complexity without user value.
+Alternatives considered
+AI chatbot for lead qualification (potential Phase 2 feature if client requests)
+Trade-offs accepted
+None. Can be added in a future phase.
+
+END OF PRD — ECOHUS SOMMERHUS
+Ready for Development: YES  ·  Version 1.0  ·  Prepared by Sonorous Digital  ·  Handoff: Antigravity AI
