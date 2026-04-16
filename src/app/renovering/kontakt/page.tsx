@@ -208,7 +208,7 @@ function RenovationContactForm() {
           Hvad ønsker du renoveret?
         </Label>
         <Select
-          onValueChange={(val) => {
+          onValueChange={(val: string) => {
             setSelectedType(val);
             setValue("model_interest", val === "Andet" ? "" : val);
           }}
