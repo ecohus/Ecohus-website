@@ -1,12 +1,21 @@
-import { createClient } from "next-sanity";
+import { createClient, SanityClient } from "next-sanity";
 import { apiVersion, dataset, projectId, useCdn } from "@/sanity/env";
 
-export const client = createClient({
-  projectId,
-  dataset,
-  apiVersion,
-  useCdn,
-  perspective: "published",
+let _client: SanityClient | null = null;
+
+function getClient(): SanityClient {
+  if (_client) return _client;
+  if (!projectId) {
+    throw new Error("Sanity projectId is not configured.");
+  }
+  _client = createClient({ projectId, dataset, apiVersion, useCdn, perspective: "published" });
+  return _client;
+}
+
+export const client = new Proxy({} as SanityClient, {
+  get(_target, prop) {
+    return (getClient() as unknown as Record<string | symbol, unknown>)[prop];
+  },
 });
 
 // Queries
