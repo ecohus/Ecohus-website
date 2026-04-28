@@ -52,6 +52,14 @@ export default async function ModelDetailPage({ params }: { params: { slug: stri
 
   const galleryImages: string[] = (model as any).images ?? [];
 
+  // Resolve the single render that matches this exact slug version
+  // e.g. "61-120-v1" → /renders/120-v1.png  |  "61-120-v2" → /renders/120-v2.png
+  const slugMatch = params.slug.match(/(\d+)-v(\d+)$/);
+  const renderSrc = slugMatch
+    ? `/renders/${parseInt(slugMatch[1], 10)}-v${parseInt(slugMatch[2], 10)}.png`
+    : null;
+
+
   // Similar models
   const allModels = allSanityModels.length > 0 ? allSanityModels : MOCK_MODELS;
   const similarModels = allModels
@@ -113,6 +121,23 @@ export default async function ModelDetailPage({ params }: { params: { slug: stri
                 alt={`Plantegning for ${(model as any).name}`}
               />
             </div>
+
+            {/* Realistic render — single image matching this slug version */}
+            {renderSrc && (
+              <div>
+                <h2 className="text-xl font-medium mb-4">Realistisk visualisering</h2>
+                <div className="relative aspect-video rounded-2xl overflow-hidden border shadow-sm bg-muted">
+                  <Image
+                    src={renderSrc}
+                    alt={`${(model as any).name} render`}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 1024px) 100vw, 58vw"
+                    loading="lazy"
+                  />
+                </div>
+              </div>
+            )}
 
             {/* Additional gallery images (if any beyond the floorplan) */}
             {galleryImages.length > 1 && (

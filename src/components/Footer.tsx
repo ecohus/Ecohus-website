@@ -128,7 +128,7 @@ export function Footer() {
         {/* Bottom strip */}
         <div className="pt-6 flex flex-col md:flex-row justify-between items-center gap-3 text-xs text-white/25">
           <p>© {currentYear} Ecohus. Alle rettigheder forbeholdes.</p>
-          <p>Bygget af Sonorous Digital / Antigravity</p>
+          <p>Bygget af ClicknContent & Sonorous Digital</p>
         </div>
       </div>
     </footer>

@@ -13,6 +13,11 @@ import {
   Factory,
   ArrowRight,
   Star,
+  Banknote,
+  Zap,
+  Leaf,
+  Building2,
+  ClipboardList,
 } from "lucide-react";
 import { MOCK_MODELS } from "@/lib/mock-models";
 import urlBuilder from "@sanity/image-url";
@@ -27,11 +32,11 @@ function urlFor(source: any) {
 export const revalidate = 60;
 
 const VALUE_PROPS = [
-  { icon: "💰", title: "Fast pris", desc: "Ingen overraskelser. Prisen ligger fast fra aftalen er skrevet under." },
-  { icon: "⚡", title: "Hurtig levering", desc: "Fra produktion til nøgle på 8–16 uger — ikke 12–18 måneder." },
-  { icon: "🌿", title: "Bæredygtige valg", desc: "Gennemtænkte materialevalg med fokus på lavt klimaaftryk." },
-  { icon: "🏭", title: "Fabrikskvalitet", desc: "Bygget indendørs under kontrollerede forhold. Aldrig fugtskader." },
-  { icon: "📋", title: "Hjælp til tilladelser", desc: "Vi klarer al kontakt med kommunen og indhentet byggetilladelse." },
+  { icon: Banknote,      title: "Fast pris",           desc: "Ingen overraskelser. Prisen ligger fast fra aftalen er skrevet under." },
+  { icon: Zap,           title: "Hurtig levering",      desc: "Fra produktion til nøgle på 8–16 uger — ikke 12–18 måneder." },
+  { icon: Leaf,          title: "Bæredygtige valg",     desc: "Gennemtænkte materialevalg med fokus på lavt klimaaftryk." },
+  { icon: Building2,     title: "Fabrikskvalitet",      desc: "Bygget indendørs under kontrollerede forhold. Aldrig fugtskader." },
+  { icon: ClipboardList, title: "Hjælp til tilladelser",desc: "Vi klarer al kontakt med kommunen og indhentet byggetilladelse." },
 ];
 
 const PROCESS_STEPS = [
@@ -66,7 +71,8 @@ export default async function HomePage() {
             className="object-cover object-center"
           />
           {/* Layered gradient: dark bottom for text, lighter at top */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/10" />
+          <div className="absolute inset-0 bg-black/20" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/20" />
         </div>
 
         <div className="container mx-auto relative z-10 px-4 md:px-8 pb-16 md:pb-0 text-white">
@@ -143,7 +149,9 @@ export default async function HomePage() {
                 key={i}
                 className="flex flex-col gap-4 bg-background p-7 rounded-2xl border border-border/50 hover:border-primary/30 hover:shadow-md transition-all duration-200 group"
               >
-                <span className="text-3xl">{item.icon}</span>
+                <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center group-hover:bg-primary/15 transition-colors">
+                  <item.icon className="w-5 h-5 text-primary" />
+                </div>
                 <div>
                   <p className="text-base font-medium text-foreground mb-1.5">{item.title}</p>
                   <p className="text-sm text-muted-foreground leading-relaxed">{item.desc}</p>
@@ -194,6 +202,29 @@ export default async function HomePage() {
               Læs mere om processen
               <ArrowRight className="ml-2 h-4 w-4" />
             </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ─── VIDEO ─── */}
+      <section className="py-24 bg-secondary">
+        <div className="container mx-auto px-4 md:px-8 max-w-4xl">
+          <div className="text-center mb-10">
+            <p className="text-sm font-medium text-primary uppercase tracking-[0.12em] mb-3">Se det i praksis</p>
+            <h2 className="mb-4">Fra fabrik til færdigt hus</h2>
+            <p className="text-muted-foreground text-lg max-w-xl mx-auto">
+              Se hvordan vi bygger og monterer dit Ecohus — hurtigt, præcist og uden overraskelser.
+            </p>
+          </div>
+          <div className="rounded-2xl overflow-hidden shadow-xl border border-border/40">
+            <video
+              src="/ecohus.mp4"
+              autoPlay
+              muted
+              loop
+              playsInline
+              className="w-full h-auto"
+            />
           </div>
         </div>
       </section>

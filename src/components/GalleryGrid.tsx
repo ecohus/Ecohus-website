@@ -82,7 +82,7 @@ export function GalleryGrid({ initialImages }: { initialImages: any[] }) {
       ) : (
         <div className="columns-1 sm:columns-2 lg:columns-3 gap-5 [column-fill:_balance]">
           {filteredImages.map((img: any, index: number) => {
-            const imgUrl = img.image ? urlFor(img.image) : null;
+            const imgUrl = img.src ?? (img.image ? urlFor(img.image) : null);
             return (
               <div
                 key={img._id || index}
@@ -152,7 +152,7 @@ export function GalleryGrid({ initialImages }: { initialImages: any[] }) {
               {/* Image */}
               <div className="relative w-full h-[90vh] flex items-center justify-center px-16 md:px-24">
                 {(() => {
-                  const imgUrl = currentImage.image ? urlFor(currentImage.image) : null;
+                  const imgUrl = currentImage.src ?? (currentImage.image ? urlFor(currentImage.image) : null);
                   return imgUrl ? (
                     <Image
                       src={imgUrl}

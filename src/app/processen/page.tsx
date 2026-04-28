@@ -3,7 +3,10 @@ import { getFaqItems } from "@/lib/sanity";
 import { buttonVariants } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { cn } from "@/lib/utils";
-import { CheckCircle2 } from "lucide-react";
+import { 
+  MessageSquare, FileText, Factory, Truck, Wrench, Key, CreditCard, 
+  CheckCircle2, Banknote, ShieldCheck, ClipboardList, ArrowRight, ArrowDown
+} from "lucide-react";
 
 export const revalidate = 3600;
 
@@ -11,67 +14,311 @@ export default async function ProcessenPage() {
   const faqs = await getFaqItems().catch(() => []);
 
   const steps = [
-    { num: 1, title: "Samtale & valg", duration: "~1 uge", desc: "Vi tager en uforpligtende snak om dine muligheder. Sammen finder vi den rette husmodel og gennemgår mulige tilvalg og overflader, så det matcher dine drømme." },
-    { num: 2, title: "Projektering & myndighedsbehandling", duration: "~4–8 uger", desc: "Vi står for indhentning af byggetilladelse hos kommunen, laver landmålerarbejde og faste tegninger. Du skal bare læne dig tilbage." },
-    { num: 3, title: "Produktion i fabrikshal", duration: "~3–4 uger", desc: "Selve huset bygges fra bunden i vores lukkede, tørre produktion. Det sikrer høj kvalitet året rundt, helt uden risiko for fugtskader under byggeriet." },
-    { num: 4, title: "Levering & opsætning", duration: "3 dage", desc: "Når huset er færdigt, køres det sikkert til din grund. Vores montagehold hejser det på plads, samler modulerne og sørger for at taget lukkes med det samme." },
-    { num: 5, title: "Eftersyn & nøgleoverdragelse", duration: "Dag 4", desc: "Vi gennemgår huset sammen med dig, afleverer nøglerne og fejrer, at dit nye fristed er klar til brug." }
+    {
+      num: 1,
+      icon: MessageSquare,
+      title: "Uforpligtende samtale",
+      duration: "~1 uge",
+      desc: "Vi starter med en indledende dialog, hvor vi afklarer dine ønsker, behov og budget. Her taler vi om placering af huset, størrelse, indretning og særlige ønsker som fx solceller eller helårsisolation.",
+      highlight: "På baggrund af samtalen sender vi et konkret oplæg med plantegninger, pris og tidsplan."
+    },
+    {
+      num: 2,
+      icon: FileText,
+      title: "Projektering og tilladelser",
+      duration: "~4–8 uger",
+      desc: "Vi står for alle de praktiske opgaver, så du slipper for bøvl og papirarbejde. Det betyder, at vi:",
+      bullets: [
+        "Indhenter byggetilladelse",
+        "Koordinerer med myndigheder og forsyninger (el, vand, kloak)",
+        "Udarbejder og godkender de endelige tegninger"
+      ],
+      highlight: "Kort sagt: vi sørger for, at alt det formelle er på plads, før dit hus bygges."
+    },
+    {
+      num: 3,
+      icon: Factory,
+      title: "Produktion af huset",
+      duration: "~3–4 uger",
+      desc: "Når projektet er godkendt, går vi i gang med at bygge dit sommerhus på vores fabrik. Det sikrer:",
+      bullets: [
+        "Høj præcision og kvalitet under kontrollerede forhold",
+        "Kortere byggetid sammenlignet med traditionelt byggeri",
+        "Mindre spild og lavere CO₂-aftryk"
+      ],
+      highlight: "Sommerhuset kan rejses på få dage og står typisk klar til indflytning efter ca. 4 måneder."
+    },
+    {
+      num: 4,
+      icon: Wrench,
+      title: "Klargøring af grunden",
+      duration: "Parallelt med produktion",
+      desc: "Samtidig med at huset bygges, sørger vi for, at din grund er klar til montagen. I samarbejde med lokale fagfolk etableres fundament, tilslutninger og eventuelle udearealer. Når huset er færdigt på fabrikken, står grunden klar til at modtage det."
+    },
+    {
+      num: 5,
+      icon: Truck,
+      title: "Transport og montering",
+      duration: "~3–5 dage",
+      desc: "Dit hus leveres i elementer eller som en samlet enhed, afhængigt af projektets størrelse. Vores montører samler huset på din grund hurtigt og effektivt.",
+      highlight: "Hele logistikken styres af os, så du kan være tryg i, at alt forløber gnidningsfrit."
+    },
+    {
+      num: 6,
+      icon: Key,
+      title: "Aflevering og nøgle",
+      duration: "Afleveringsdag",
+      desc: "Inden indflytning gennemgår vi sommerhuset sammen med dig. Vi afleverer et fuldt færdigt og nøgleklart sommerhus, kvalitetssikret og klar til brug fra dag ét.",
+      highlight: "Som ekstra tryghed tilbyder vi et gratis eftersyn 12 måneder efter afleveringen."
+    },
+    {
+      num: 7,
+      icon: CreditCard,
+      title: "Tryg betaling i rater",
+      duration: "Gennem hele forløbet",
+      desc: "Med vores betalingsmodel betaler du i takt med, at arbejdet skrider frem. Du betaler rate for rate når faser er godkendt.",
+      highlight: "På den måde betaler du kun for det, der allerede er leveret – ingen store forudbetalinger og ingen skjulte omkostninger."
+    }
   ];
 
   return (
     <div className="flex flex-col min-h-screen bg-background border-t">
+      {/* GLOBAL HERO FOR THE PAGE */}
       <div className="container mx-auto px-4 md:px-8 py-20 max-w-4xl text-center">
-        <h1 className="text-4xl md:text-5xl font-medium mb-6 text-foreground">Processen fra drøm til virkelighed</h1>
-        <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
+        <p className="text-sm font-medium tracking-[0.15em] text-primary uppercase mb-4">SÅDAN ARBEJDER VI</p>
+        <h1 className="text-4xl md:text-5xl font-medium mb-6 text-foreground text-balance">Processen fra drøm til virkelighed</h1>
+        <p className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-2xl mx-auto">
           Et byggeprojekt skal ikke være uoverskueligt. Hos Ecohus har vi sat processen i system, så du trygt kan følge med fra første skridt til indflytning.
         </p>
+        <div className="mt-10 p-4 bg-amber-500/10 border border-amber-500/20 text-amber-800 dark:text-amber-300 rounded-xl max-w-xl mx-auto text-sm font-medium">
+          Bemærk: Dette er en prototype-side til designgennemgang. Scroll ned for at se Version 1, 2 og 3.
+        </div>
       </div>
 
-      {/* Timeline */}
-      <section className="py-12 relative max-w-4xl mx-auto px-4 md:px-8 w-full">
-        <div className="absolute left-8 md:left-1/2 top-12 bottom-12 w-0.5 bg-border md:-translate-x-1/2 hidden sm:block" />
-        
-        <div className="flex flex-col gap-12 relative z-10">
-          {steps.map((step, i) => (
-            <div key={i} className={cn("flex flex-col sm:flex-row items-start sm:items-center gap-8 sm:gap-16", i % 2 !== 0 ? "sm:flex-row-reverse sm:text-right" : "")}>
-              <div className="hidden sm:block sm:flex-1" />
-              
-              <div className="w-12 h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-medium text-lg shrink-0 z-10 shadow-md ring-8 ring-background mx-auto sm:mx-0">
-                {step.num}
-              </div>
-              
-              <div className="flex-1 bg-secondary p-8 rounded-2xl border shadow-sm relative w-full text-left">
-                <div className="flex items-start sm:items-center justify-between gap-4 mb-4 flex-col xl:flex-row">
-                  <h3 className="text-2xl font-medium text-foreground">{step.title}</h3>
-                  <span className="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm font-medium whitespace-nowrap">
-                    {step.duration}
-                  </span>
-                </div>
-                <p className="text-muted-foreground leading-relaxed text-left">{step.desc}</p>
-              </div>
+      {/* --- VERSION 1: Premium / Apple Approach --- */}
+      <section className="py-24 bg-background border-t border-b">
+        <div className="container mx-auto px-4 md:px-8">
+          <div className="mb-16 text-center md:text-left">
+            <span className="inline-block py-1 px-3 rounded-full bg-primary/10 text-primary text-xs font-bold uppercase tracking-wider mb-3">Version 1</span>
+            <h2 className="text-3xl font-medium">Apple / Premium Layout</h2>
+            <p className="text-muted-foreground mt-2">Minimalistisk, sticky scroll med fokus på ren tekst og smalle ikoner.</p>
+          </div>
+          
+          <div className="flex flex-col md:flex-row gap-12 lg:gap-24 relative items-start">
+            {/* Sticky Header */}
+            <div className="md:w-1/3 md:sticky md:top-32 hidden md:block">
+              <h3 className="text-4xl font-medium mb-4">Trin-for-trin</h3>
+              <p className="text-muted-foreground text-lg leading-relaxed">
+                Fra den første tanke til nøglen drejes i døren. En gennemskuelig proces uden overraskelser.
+              </p>
             </div>
-          ))}
+            
+            {/* Steps */}
+            <div className="md:w-2/3 flex flex-col gap-12 md:gap-20">
+              {steps.map((step, i) => {
+                const Icon = step.icon;
+                return (
+                  <div key={i} className="flex gap-6 lg:gap-10 group">
+                    <div className="flex flex-col items-center">
+                      <div className="w-12 h-12 lg:w-14 lg:h-14 rounded-full bg-secondary text-primary flex items-center justify-center font-medium text-lg shrink-0 border border-border/50 group-hover:border-primary/30 group-hover:scale-105 transition-all">
+                        <Icon className="w-5 h-5 lg:w-6 lg:h-6" strokeWidth={1.5} />
+                      </div>
+                      {i !== steps.length - 1 && <div className="w-px h-full bg-border/50 mt-4" />}
+                    </div>
+                    <div className="pb-12 md:pb-0 pt-1">
+                      <span className="text-xs font-bold uppercase tracking-wider text-primary/70 mb-2 flex items-center gap-2">
+                        Trin 0{step.num} — {step.duration}
+                      </span>
+                      <h4 className="text-2xl font-medium text-foreground mb-3 tracking-tight">{step.title}</h4>
+                      <p className="text-muted-foreground leading-relaxed text-lg mb-5">{step.desc}</p>
+                      {step.bullets && step.bullets.length > 0 && (
+                        <ul className="space-y-3 mb-6">
+                          {step.bullets.map((bullet, bi) => (
+                            <li key={bi} className="flex items-start gap-3 text-muted-foreground">
+                              <CheckCircle2 className="w-5 h-5 text-primary/60 mt-0.5 shrink-0" strokeWidth={1.5} />
+                              <span>{bullet}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                      {step.highlight && (
+                         <div className="bg-secondary/40 p-5 rounded-2xl border border-border/40">
+                           <p className="text-[15px] font-medium text-foreground/90 leading-relaxed">{step.highlight}</p>
+                         </div>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* Trust Badges */}
-      <section className="py-24 bg-muted mt-20">
+      {/* --- VERSION 2: Architectural Approach --- */}
+      <section className="py-24 bg-secondary border-b relative">
+        {/* Subtle Blueprint grid background */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+        
+        <div className="container mx-auto px-4 md:px-8 relative z-10">
+          <div className="text-center mb-16 max-w-2xl mx-auto">
+            <span className="inline-block py-1 px-3 rounded-full bg-primary/10 text-primary text-xs font-bold uppercase tracking-wider mb-3">Version 2</span>
+            <h2 className="text-3xl font-medium mb-4">Arkitektonisk Layout (Stacking Cards)</h2>
+            <p className="text-muted-foreground text-lg">Struktureret, blueprint-inspireret. Scroll ned for at se kortene stable sig oven på hinanden.</p>
+          </div>
+          
+          <div className="max-w-4xl mx-auto flex flex-col pb-[30vh]">
+            {steps.map((step, i) => {
+              const Icon = step.icon;
+              return (
+                <div 
+                  key={i} 
+                  className="bg-background md:bg-background/95 md:backdrop-blur-3xl rounded-3xl border border-border/80 shadow-sm transition-all p-5 md:p-12 sticky mb-[40vh] h-[70vh] md:h-[450px] lg:h-[420px] flex flex-col justify-start overflow-hidden" 
+                  style={{ top: `calc(15vh + ${i * 12}px)`, zIndex: i }}
+                >
+                  <div className="flex flex-col md:flex-row gap-5 md:gap-12">
+                    <div className="shrink-0 flex flex-row items-center justify-between md:flex-col md:items-start md:w-32 border-b md:border-b-0 md:border-r border-border/40 pb-4 md:pb-0 md:pr-8">
+                      <div className="w-12 h-12 md:w-16 md:h-16 rounded-xl md:rounded-2xl bg-[#2C5F3E] text-white flex items-center justify-center shadow-lg">
+                        <Icon className="w-6 h-6 md:w-8 md:h-8" strokeWidth={1.5} />
+                      </div>
+                      <div className="text-right md:text-left mt-0 md:mt-4">
+                        <span className="text-sm text-muted-foreground uppercase tracking-widest font-bold">Trin {step.num}</span>
+                        <div className="text-sm font-semibold text-primary mt-0.5 md:mt-1 flex flex-col items-end md:items-start">
+                          {step.duration}
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div className="flex-1 mt-2 md:mt-0">
+                      <h4 className="text-2xl font-bold mb-2 md:mb-4 text-foreground tracking-tight">{step.title}</h4>
+                      <p className="text-muted-foreground leading-relaxed text-lg">{step.desc}</p>
+                      {step.bullets && step.bullets.length > 0 && (
+                        <ul className="mt-4 md:mt-6 grid gap-2 md:gap-3">
+                          {step.bullets.map((bullet, bi) => (
+                            <li key={bi} className="flex items-start gap-2 md:gap-3 text-muted-foreground text-[15px]">
+                              <CheckCircle2 className="w-4 h-4 md:w-5 md:h-5 text-primary mt-px shrink-0" strokeWidth={2} />
+                              <span>{bullet}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                      {step.highlight && (
+                         <div className="mt-4 md:mt-6 p-3 md:p-4 rounded-xl font-medium text-foreground border-l-4 border-primary bg-primary/5 text-[15px]">
+                           {step.highlight}
+                         </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* --- VERSION 3: Narrative Approach --- */}
+      <section className="py-32 bg-background border-b overflow-hidden relative">
         <div className="container mx-auto px-4 md:px-8">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 text-center max-w-4xl mx-auto">
-            <div className="flex flex-col items-center gap-4 bg-background p-8 rounded-2xl shadow-sm border border-border/50">
-              <CheckCircle2 className="w-10 h-10 text-primary" />
-              <h4 className="text-xl font-medium">Fast pris</h4>
-              <p className="text-muted-foreground text-sm">Ingen overraskelser undervejs. Prisen ligger fast fra aftalen er underskrevet.</p>
+          <div className="text-center mb-24 max-w-3xl mx-auto">
+            <span className="inline-block py-1 px-3 rounded-full bg-primary/10 text-primary text-xs font-bold uppercase tracking-wider mb-3">Version 3</span>
+            <h2 className="text-5xl font-medium mb-6 text-balance">Det narrative Layout (Zigzag & Blobs)</h2>
+            <p className="text-muted-foreground text-xl">Organisk zigzag-opsætning med varme "blobs" og overdimensionerede, venlige ikoner der illustrerer rejsen.</p>
+          </div>
+          
+          <div className="max-w-5xl mx-auto relative">
+            {/* The curving line connecting them (desktop only) */}
+            <div className="absolute top-0 bottom-0 left-1/2 w-0.5 bg-border/50 -translate-x-1/2 hidden md:block border-dashed" />
+            
+            <div className="flex flex-col gap-24 md:gap-40 relative z-10">
+              {steps.map((step, i) => {
+                const Icon = step.icon;
+                const isEven = i % 2 !== 0; // 0 is left text, 1 is right text
+                return (
+                  <div key={i} className={cn("flex flex-col md:flex-row items-center gap-12 lg:gap-20", isEven ? "md:flex-row-reverse" : "")}>
+                    
+                    {/* The Blob & Icon / Image */}
+                    <div className="w-full md:w-1/2 flex justify-center">
+                       <div className="relative w-64 h-64 md:w-80 md:h-80 flex items-center justify-center">
+                         {/* Soft background blob */}
+                         <div className={cn("absolute inset-0 opacity-[0.15] blur-[40px] rounded-[100px]", isEven ? "bg-amber-400" : "bg-[#2C5F3E]")} />
+                         {/* Frame for the icon */}
+                         <div className={cn("absolute inset-4 rounded-[3rem] shadow-xl border border-border/50 flex items-center justify-center backdrop-blur-sm bg-background/80 overflow-hidden", isEven ? "rotate-2 hover:rotate-0" : "-rotate-2 hover:rotate-0", "transition-all duration-500")}>
+                            {/* Oversized friendly icon */}
+                            <Icon className={cn("w-32 h-32 opacity-80 transition-transform hover:scale-110 duration-500", isEven ? "text-amber-500" : "text-[#2C5F3E]")} strokeWidth={1} />
+                         </div>
+                       </div>
+                    </div>
+
+                    {/* The Text Content */}
+                    <div className="w-full md:w-1/2 text-left bg-background/50 backdrop-blur-md p-6 md:p-0 rounded-3xl">
+                       <span className={cn("px-4 py-1.5 rounded-full text-xs font-bold tracking-wider uppercase mb-6 inline-flex items-center gap-2", isEven ? "bg-amber-100 text-amber-800" : "bg-primary/10 text-primary")}>
+                         Trin 0{step.num} — {step.duration}
+                       </span>
+                       <h4 className="text-3xl font-semibold mb-5 text-balance">{step.title}</h4>
+                       <p className="text-muted-foreground leading-relaxed text-lg mb-6">{step.desc}</p>
+                       
+                       {step.bullets && step.bullets.length > 0 && (
+                          <ul className="space-y-3 mb-6">
+                            {step.bullets.map((bullet, bi) => (
+                              <li key={bi} className="flex items-start gap-3 text-[15px] text-muted-foreground">
+                                <CheckCircle2 className={cn("w-5 h-5 mt-px shrink-0", isEven ? "text-amber-500" : "text-primary")} strokeWidth={2} />
+                                <span>{bullet}</span>
+                              </li>
+                            ))}
+                          </ul>
+                       )}
+                       {step.highlight && (
+                         <div className={cn("p-5 rounded-2xl border", isEven ? "bg-amber-50/50 border-amber-200 text-amber-900" : "bg-primary/5 border-primary/20 text-foreground")}>
+                            <p className="text-[15px] font-medium leading-relaxed">
+                              {step.highlight}
+                            </p>
+                         </div>
+                       )}
+                    </div>
+                  </div>
+                )
+              })}
             </div>
-            <div className="flex flex-col items-center gap-4 bg-background p-8 rounded-2xl shadow-sm border border-border/50">
-              <CheckCircle2 className="w-10 h-10 text-primary" />
-              <h4 className="text-xl font-medium">1-årig garanti</h4>
-              <p className="text-muted-foreground text-sm">Vi gennemgår huset et år efter indflytning og retter eventuelle fejl og mangler gratis.</p>
+          </div>
+        </div>
+      </section>
+
+      {/* --- REMAINDER OF THE PAGE (Trust Badges updated) --- */}
+      <section className="py-24 bg-muted border-b">
+        <div className="container mx-auto px-4 md:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-medium">Hvorfor bygge med Ecohus?</h2>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 text-center max-w-5xl mx-auto">
+            {/* Updated Icons for Trust Badges */}
+            <div className="flex flex-col items-center gap-5 bg-background p-10 rounded-3xl shadow-sm border border-border/40 hover:shadow-md hover:-translate-y-1 hover:border-primary/30 transition-all group">
+              <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                <Banknote className="w-8 h-8 text-primary" />
+              </div>
+              <div>
+                <h4 className="text-xl font-medium mb-2">Fast pris</h4>
+                <p className="text-muted-foreground text-[15px] leading-relaxed">Ingen overraskelser undervejs. Prisen ligger fast fra aftalen er underskrevet.</p>
+              </div>
             </div>
-            <div className="flex flex-col items-center gap-4 bg-background p-8 rounded-2xl shadow-sm border border-border/50">
-              <CheckCircle2 className="w-10 h-10 text-primary" />
-              <h4 className="text-xl font-medium">Hjælp til tilladelser</h4>
-              <p className="text-muted-foreground text-sm">Alt det kedelige papirarbejde klarer vores rådgivere for dig.</p>
+            
+            <div className="flex flex-col items-center gap-5 bg-background p-10 rounded-3xl shadow-sm border border-border/40 hover:shadow-md hover:-translate-y-1 hover:border-primary/30 transition-all group">
+              <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                <ShieldCheck className="w-8 h-8 text-primary" />
+              </div>
+              <div>
+                <h4 className="text-xl font-medium mb-2">10-års garanti</h4>
+                <p className="text-muted-foreground text-[15px] leading-relaxed">Vi gennemgår huset og står fuldt ud på mål for kvaliteten i årene efter indflytning.</p>
+              </div>
+            </div>
+            
+            <div className="flex flex-col items-center gap-5 bg-background p-10 rounded-3xl shadow-sm border border-border/40 hover:shadow-md hover:-translate-y-1 hover:border-primary/30 transition-all group">
+              <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                <ClipboardList className="w-8 h-8 text-primary" />
+              </div>
+              <div>
+                <h4 className="text-xl font-medium mb-2">Hjælp til tilladelser</h4>
+                <p className="text-muted-foreground text-[15px] leading-relaxed">Alt det kedelige papirarbejde klarer vores rådgivere for dig, så du slipper for bøvl.</p>
+              </div>
             </div>
           </div>
         </div>
@@ -82,7 +329,7 @@ export default async function ProcessenPage() {
         <section className="py-24 bg-background">
           <div className="container mx-auto px-4 md:px-8 max-w-3xl">
             <h2 className="text-3xl md:text-4xl font-medium mb-12 text-center text-foreground">Ofte stillede spørgsmål</h2>
-            <Accordion className="w-full">
+            <Accordion type="single" collapsible className="w-full">
               {faqs.map((faq: any) => (
                 <AccordionItem key={faq._id} value={faq._id} className="border-b border-border/50 py-2">
                   <AccordionTrigger className="text-lg font-medium text-left hover:text-primary">{faq.question}</AccordionTrigger>
@@ -96,16 +343,55 @@ export default async function ProcessenPage() {
         </section>
       )}
 
+      {/* Video */}
+      <section className="py-24 bg-secondary">
+        <div className="container mx-auto px-4 md:px-8 max-w-4xl">
+          <div className="text-center mb-10">
+            <h2 className="text-3xl md:text-4xl font-medium mb-4 text-foreground">Se processen i praksis</h2>
+            <p className="text-muted-foreground text-lg max-w-xl mx-auto">
+              Fra fabrik til færdigt hus — se hvordan vi bygger og monterer dit Ecohus.
+            </p>
+          </div>
+          <div className="rounded-2xl overflow-hidden shadow-xl border border-border/40">
+            <video
+              src="/ecohus.mp4"
+              autoPlay
+              muted
+              loop
+              playsInline
+              className="w-full h-auto"
+            />
+          </div>
+        </div>
+      </section>
+
       {/* CTA */}
-      <section className="py-24 bg-primary text-primary-foreground">
+      <section className="py-24 bg-[#2C5F3E] text-white">
         <div className="container mx-auto px-4 md:px-8 text-center max-w-3xl">
-          <h2 className="text-4xl font-medium mb-6">Start din proces i dag</h2>
-          <p className="text-lg opacity-90 mb-10 text-primary-light leading-relaxed">
-            Den gennemsnitlige byggetid for et traditionelt sommerhus er over et år. Hos Ecohus er I fremme meget hurtigere.
+          <h2 className="text-4xl font-medium mb-6 text-white">Start din proces i dag</h2>
+          <p className="text-lg text-white/80 mb-10 leading-relaxed max-w-2xl mx-auto">
+            Den gennemsnitlige byggetid for et traditionelt sommerhus er over et år. Hos Ecohus er I fremme meget hurtigere og uden ubehagelige overraskelser.
           </p>
-          <Link href="/kontakt" className={cn(buttonVariants({ variant: "secondary", size: "lg" }), "text-lg px-10 h-14 font-medium shadow-xl hover:scale-105 transition-transform")}>
-            Book en samtale nu
-          </Link>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link 
+              href="/kontakt" 
+              className={cn(
+                buttonVariants({ variant: "secondary", size: "lg" }), 
+                "text-base px-10 h-14 font-medium shadow-xl hover:scale-105 transition-transform bg-white text-[#2C5F3E] hover:bg-white/90"
+              )}
+            >
+              Book en samtale nu
+            </Link>
+            <Link 
+              href="/plantegninger" 
+              className={cn(
+                buttonVariants({ variant: "outline", size: "lg" }), 
+                "text-base px-10 h-14 font-medium border-white/40 text-white hover:bg-white/10"
+              )}
+            >
+              Se vores modeller <ArrowRight className="ml-2 w-4 h-4" />
+            </Link>
+          </div>
         </div>
       </section>
 

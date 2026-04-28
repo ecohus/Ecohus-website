@@ -178,6 +178,12 @@ export function ModelsGrid({ initialModels }: { initialModels: any[] }) {
               const imgUrl = model.floorplan_png ? urlFor(model.floorplan_png) : model.image_url;
               const isExpanded = expandedModelId === model._id;
 
+              // Derive the single render for this model from its slug
+              const slugMatch = model.slug?.current?.match(/(\d+)-v(\d+)$/);
+              const renderSrc = slugMatch
+                ? `/renders/${parseInt(slugMatch[1], 10)}-v${parseInt(slugMatch[2], 10)}.png`
+                : null;
+
               return (
                 <React.Fragment key={model._id}>
                   <div
@@ -274,30 +280,45 @@ export function ModelsGrid({ initialModels }: { initialModels: any[] }) {
                       </div>
 
                       <div className="p-6">
-                        {model.images && model.images.length > 0 ? (
-                          <div className="flex gap-5 overflow-x-auto snap-x pb-3 custom-scrollbar">
-                            {model.images.map((img: string, idx: number) => (
-                              <div
-                                key={idx}
-                                className="relative shrink-0 bg-white rounded-lg snap-center shadow-md overflow-hidden"
-                                style={{ width: "clamp(260px, 35vw, 480px)", height: "clamp(180px, 25vw, 340px)" }}
-                              >
-                                <Image
-                                  src={img}
-                                  alt={`${model.name} visning ${idx + 1}`}
-                                  fill
-                                  className="object-contain p-4"
-                                  sizes="(max-width: 768px) 260px, 480px"
-                                  loading="lazy"
-                                />
-                              </div>
-                            ))}
-                          </div>
-                        ) : (
-                          <div className="text-center text-white/40 py-8 text-sm">
-                            Ingen yderligere billeder tilgængelige.
-                          </div>
-                        )}
+                        {(() => {
+                          // Show floorplan + render in the carousel
+                          const carouselImages: Array<{ src: string; label: string; contain?: boolean }> = [];
+                          if (model.images && model.images.length > 0) {
+                            model.images.forEach((img: string, i: number) =>
+                              carouselImages.push({ src: img, label: `${model.name} visning ${i + 1}`, contain: true })
+                            );
+                          } else if (imgUrl) {
+                            carouselImages.push({ src: imgUrl, label: `Plantegning ${model.name}`, contain: true });
+                          }
+                          // Insert render as 2nd image (index 1)
+                          if (renderSrc) {
+                            carouselImages.splice(1, 0, { src: renderSrc, label: `${model.name} render`, contain: false });
+                          }
+                          return carouselImages.length > 0 ? (
+                            <div className="flex gap-5 overflow-x-auto snap-x pb-3 custom-scrollbar">
+                              {carouselImages.map((item, idx) => (
+                                <div
+                                  key={idx}
+                                  className="relative shrink-0 bg-white rounded-lg snap-center shadow-md overflow-hidden"
+                                  style={{ width: "clamp(260px, 35vw, 480px)", height: "clamp(180px, 25vw, 340px)" }}
+                                >
+                                  <Image
+                                    src={item.src}
+                                    alt={item.label}
+                                    fill
+                                    className={item.contain ? "object-contain p-4" : "object-cover"}
+                                    sizes="(max-width: 768px) 260px, 480px"
+                                    loading="lazy"
+                                  />
+                                </div>
+                              ))}
+                            </div>
+                          ) : (
+                            <div className="text-center text-white/40 py-8 text-sm">
+                              Ingen billeder tilgængelige.
+                            </div>
+                          );
+                        })()} 
 
                         <div className="flex flex-col sm:flex-row gap-3 mt-6">
                           <Link
