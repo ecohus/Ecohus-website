@@ -329,7 +329,7 @@ export default async function ProcessenPage() {
         <section className="py-24 bg-background">
           <div className="container mx-auto px-4 md:px-8 max-w-3xl">
             <h2 className="text-3xl md:text-4xl font-medium mb-12 text-center text-foreground">Ofte stillede spørgsmål</h2>
-            <Accordion type="single" collapsible className="w-full">
+            <Accordion className="w-full">
               {faqs.map((faq: any) => (
                 <AccordionItem key={faq._id} value={faq._id} className="border-b border-border/50 py-2">
                   <AccordionTrigger className="text-lg font-medium text-left hover:text-primary">{faq.question}</AccordionTrigger>
