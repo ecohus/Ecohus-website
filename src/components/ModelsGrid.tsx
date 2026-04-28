@@ -24,7 +24,7 @@ import { MOCK_MODELS } from "@/lib/mock-models";
 const builder = urlBuilder(client);
 function urlFor(source: any) {
   if (!source) return null;
-  return builder.image(source).auto("format").fit("max").url();
+  return builder.image(source).auto("format").width(800).quality(80).url();
 }
 
 export function ModelsGrid({ initialModels }: { initialModels: any[] }) {
@@ -174,7 +174,7 @@ export function ModelsGrid({ initialModels }: { initialModels: any[] }) {
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 gap-y-8">
-            {filteredModels.map((model: any) => {
+            {filteredModels.map((model: any, index: number) => {
               const imgUrl = model.floorplan_png ? urlFor(model.floorplan_png) : model.image_url;
               const isExpanded = expandedModelId === model._id;
 
@@ -214,6 +214,7 @@ export function ModelsGrid({ initialModels }: { initialModels: any[] }) {
                             src={imgUrl}
                             alt={model.name}
                             fill
+                            priority={index < 4}
                             className="object-contain"
                             sizes="(max-width: 768px) 100vw, 280px"
                           />
