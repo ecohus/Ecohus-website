@@ -70,7 +70,7 @@ export default async function HomePage() {
             fill
             priority
             quality={60}
-            sizes="100vw"
+            sizes="(max-width: 768px) 50vw, 100vw"
             className="object-cover object-center"
           />
           {/* Layered gradient: dark bottom for text, lighter at top */}

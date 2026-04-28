@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans, Cormorant_Garamond, DM_Sans } from "next/font/google";
-import Script from "next/script";
+import { GoogleAnalytics } from '@next/third-parties/google';
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { Navbar } from "@/components/Navbar";
@@ -44,15 +44,6 @@ export default function RootLayout({
   return (
     <html lang="da" className={cn("font-sans", plusJakartaSans.variable, cormorantGaramond.variable, dmSans.variable)}>
       <head>
-        <Script src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_ID || 'G-XXXXXXXXXX'}`} strategy="lazyOnload" />
-        <Script id="google-analytics" strategy="lazyOnload">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', '${process.env.NEXT_PUBLIC_GA_ID || 'G-XXXXXXXXXX'}');
-          `}
-        </Script>
       </head>
       <body className="antialiased min-h-screen flex flex-col relative pb-[env(safe-area-inset-bottom)]">
         <ThemeProvider />
@@ -63,6 +54,7 @@ export default function RootLayout({
         </main>
         <Footer />
         <CookieConsent />
+        <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID || 'G-XXXXXXXXXX'} />
       </body>
     </html>
   );
