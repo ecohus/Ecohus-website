@@ -69,6 +69,8 @@ export default async function HomePage() {
             alt="Moderne sommerhus fra Ecohus — nøglefærdigt og leveret til din grund"
             fill
             priority
+            quality={60}
+            sizes="100vw"
             className="object-cover object-center"
           />
           {/* Layered gradient: dark bottom for text, lighter at top */}
@@ -266,7 +268,7 @@ export default async function HomePage() {
                           alt={model.name}
                           fill
                           className="object-contain"
-                          sizes="(max-width: 768px) 100vw, 300px"
+                          sizes="(max-width: 768px) 240px, 240px"
                         />
                       </div>
                     ) : (
