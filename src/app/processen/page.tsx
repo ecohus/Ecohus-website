@@ -3,6 +3,7 @@ import { getFaqItems } from "@/lib/sanity";
 import { buttonVariants } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { cn } from "@/lib/utils";
+import { LazyVideo } from "@/components/LazyVideo";
 import { 
   MessageSquare, FileText, Factory, Truck, Wrench, Key, CreditCard, 
   CheckCircle2, Banknote, ShieldCheck, ClipboardList, ArrowRight, ArrowDown
@@ -353,13 +354,9 @@ export default async function ProcessenPage() {
             </p>
           </div>
           <div className="rounded-2xl overflow-hidden shadow-xl border border-border/40">
-            <video
+            <LazyVideo
               src="/ecohus.mp4"
-              autoPlay
-              muted
-              loop
-              playsInline
-              className="w-full h-auto"
+              className="w-full aspect-video"
             />
           </div>
         </div>

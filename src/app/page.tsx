@@ -22,6 +22,7 @@ import {
 import { MOCK_MODELS } from "@/lib/mock-models";
 import urlBuilder from "@sanity/image-url";
 import { client } from "@/lib/sanity";
+import { LazyVideo } from "@/components/LazyVideo";
 
 const builder = urlBuilder(client);
 function urlFor(source: any) {
@@ -217,13 +218,9 @@ export default async function HomePage() {
             </p>
           </div>
           <div className="rounded-2xl overflow-hidden shadow-xl border border-border/40">
-            <video
+            <LazyVideo
               src="/ecohus.mp4"
-              autoPlay
-              muted
-              loop
-              playsInline
-              className="w-full h-auto"
+              className="w-full aspect-video"
             />
           </div>
         </div>
