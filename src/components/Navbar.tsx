@@ -67,7 +67,7 @@ export function Navbar() {
         className={cn(
           "text-sm font-medium transition-colors duration-200",
           isRenovering
-            ? "text-[#8B4A2B]"
+            ? "text-[#587F66]"
             : isTransparent
             ? "text-white/80 group-hover:text-white"
             : "text-muted-foreground group-hover:text-foreground"
@@ -81,7 +81,7 @@ export function Navbar() {
       <div
         className={cn(
           "relative w-11 h-6 rounded-full transition-all duration-300 flex-shrink-0",
-          isRenovering ? "bg-[#8B4A2B]" : isTransparent ? "bg-white/25" : "bg-muted"
+          isRenovering ? "bg-[#587F66]" : isTransparent ? "bg-white/25" : "bg-muted"
         )}
       >
         <div
@@ -101,7 +101,7 @@ export function Navbar() {
         isTransparent
           ? "border-white/10 bg-black/20"
           : isRenovering
-          ? "border-[#D4B99A]/40 bg-[#F5EDE0]/80 supports-[backdrop-filter]:bg-[#F5EDE0]/70 shadow-sm"
+          ? "border-[#BBD1C2]/40 bg-[#F3F5F4]/80 supports-[backdrop-filter]:bg-[#F3F5F4]/70 shadow-sm"
           : "border-border/40 bg-white/75 supports-[backdrop-filter]:bg-white/60 shadow-sm"
       )}
     >
@@ -136,12 +136,12 @@ export function Navbar() {
                   ? isTransparent
                     ? "text-white"
                     : isRenovering
-                    ? "text-[#8B4A2B]"
+                    ? "text-[#587F66]"
                     : "text-primary"
                   : isTransparent
                   ? "text-white/80 hover:text-white"
                   : isRenovering
-                  ? "text-[#7A5C42] hover:text-[#2A1F14]"
+                  ? "text-[#65806D] hover:text-[#1E2B22]"
                   : "text-muted-foreground hover:text-foreground"
               )}
             >
@@ -153,7 +153,7 @@ export function Navbar() {
                   isTransparent
                     ? "bg-white"
                     : isRenovering
-                    ? "bg-[#8B4A2B]"
+                    ? "bg-[#587F66]"
                     : "bg-primary"
                 )}
               />
@@ -207,7 +207,7 @@ export function Navbar() {
               side="right"
               className={cn(
                 "w-[300px] sm:w-[380px] p-0",
-                isRenovering ? "bg-[#F5EDE0]" : ""
+                isRenovering ? "bg-[#F3F5F4]" : ""
               )}
             >
               <div className="flex flex-col h-full">
@@ -215,7 +215,7 @@ export function Navbar() {
                 <div
                   className={cn(
                     "flex items-center justify-between px-6 py-5 border-b",
-                    isRenovering ? "border-[#D4B99A]/50" : "border-border/50"
+                    isRenovering ? "border-[#BBD1C2]/50" : "border-border/50"
                   )}
                 >
                   <Link href={isRenovering ? "/renovering" : "/"} className="flex items-center">
@@ -239,10 +239,10 @@ export function Navbar() {
                         "text-base font-medium py-3 px-3 rounded-lg transition-colors",
                         pathname === link.href
                           ? isRenovering
-                            ? "text-[#8B4A2B] bg-[#EAD9C3]"
+                            ? "text-[#587F66] bg-[#E4EBE6]"
                             : "text-primary bg-primary/5"
                           : isRenovering
-                          ? "text-[#7A5C42] hover:text-[#8B4A2B] hover:bg-[#EAD9C3]"
+                          ? "text-[#65806D] hover:text-[#587F66] hover:bg-[#E4EBE6]"
                           : "text-foreground hover:text-primary hover:bg-muted"
                       )}
                     >
@@ -261,7 +261,7 @@ export function Navbar() {
                   {isRenovering ? (
                     <Link
                       href="/kontakt"
-                      className="inline-flex items-center justify-center w-full px-6 py-3 rounded-lg bg-[#8B4A2B] text-white font-medium text-sm hover:bg-[#7a4026] transition-colors"
+                      className="inline-flex items-center justify-center w-full px-6 py-3 rounded-lg bg-[#587F66] text-white font-medium text-sm hover:bg-[#456952] transition-colors"
                     >
                       Book en renovering
                     </Link>
@@ -277,7 +277,7 @@ export function Navbar() {
                         href="/kontakt"
                         className={cn(buttonVariants({ variant: "outline", size: "lg" }), "w-full font-medium")}
                       >
-                        Book en samtale
+                        Bliv ringet op
                       </Link>
                     </>
                   )}

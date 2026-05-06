@@ -38,7 +38,7 @@ const renovationTypes = [
 ];
 
 const fieldBase =
-  "w-full rounded-xl border border-[#D4B99A] bg-white/70 px-4 py-3 text-[#2A1F14] placeholder-[#B89F86] focus:outline-none focus:ring-2 focus:ring-[#8B4A2B]/30 focus:border-[#8B4A2B] transition-all duration-200";
+  "w-full rounded-xl border border-[#BBD1C2] bg-white/70 px-4 py-3 text-[#1E2B22] placeholder-[#B89F86] focus:outline-none focus:ring-2 focus:ring-[#587F66]/30 focus:border-[#587F66] transition-all duration-200";
 
 function RenovationContactForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -81,11 +81,11 @@ function RenovationContactForm() {
   if (isSuccess) {
     return (
       <div className="flex flex-col items-center justify-center text-center py-20 px-8">
-        <div className="w-20 h-20 rounded-full bg-[#8B4A2B]/10 flex items-center justify-center mb-8">
-          <CheckCircle2 className="w-10 h-10 text-[#8B4A2B]" />
+        <div className="w-20 h-20 rounded-full bg-[#587F66]/10 flex items-center justify-center mb-8">
+          <CheckCircle2 className="w-10 h-10 text-[#587F66]" />
         </div>
         <h3
-          className="mb-4 text-[#2A1F14]"
+          className="mb-4 text-[#1E2B22]"
           style={{
             fontFamily: "var(--font-cormorant)",
             fontSize: "2rem",
@@ -96,14 +96,14 @@ function RenovationContactForm() {
           Tak for din henvendelse!
         </h3>
         <p
-          className="text-[#7A5C42] max-w-sm leading-relaxed"
+          className="text-[#65806D] max-w-sm leading-relaxed"
           style={{ fontFamily: "var(--font-dm-sans)" }}
         >
           Vi har modtaget din besked og vender tilbage inden for 1–2 hverdage.
         </p>
         <Link
           href="/renovering"
-          className="mt-10 inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#8B4A2B] text-white text-sm font-medium hover:bg-[#7a4026] transition-colors"
+          className="mt-10 inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#587F66] text-white text-sm font-medium hover:bg-[#456952] transition-colors"
           style={{ fontFamily: "var(--font-dm-sans)" }}
         >
           Tilbage til forsiden
@@ -217,7 +217,7 @@ function RenovationContactForm() {
         >
           <SelectTrigger
             id="renov-type"
-            className="border-[#D4B99A] bg-white/70 text-[#2A1F14] focus:ring-[#8B4A2B]/30 rounded-xl h-12"
+            className="border-[#BBD1C2] bg-white/70 text-[#1E2B22] focus:ring-[#587F66]/30 rounded-xl h-12"
             style={{ fontFamily: "var(--font-dm-sans)" }}
           >
             <SelectValue placeholder="Vælg renovationstype (valgfrit)" />
@@ -255,7 +255,7 @@ function RenovationContactForm() {
       <button
         type="submit"
         disabled={isSubmitting}
-        className="w-full flex items-center justify-center gap-2 px-6 py-4 rounded-xl bg-[#8B4A2B] text-white font-medium hover:bg-[#7a4026] disabled:opacity-60 transition-all duration-300 shadow-lg hover:shadow-[#8B4A2B]/20 hover:-translate-y-0.5"
+        className="w-full flex items-center justify-center gap-2 px-6 py-4 rounded-xl bg-[#587F66] text-white font-medium hover:bg-[#456952] disabled:opacity-60 transition-all duration-300 shadow-lg hover:shadow-[#587F66]/20 hover:-translate-y-0.5"
         style={{ fontFamily: "var(--font-dm-sans)" }}
       >
         {isSubmitting ? (
@@ -284,9 +284,9 @@ function RenovationContactForm() {
 
 export default function RenoveringKontaktPage() {
   return (
-    <div className="min-h-screen bg-[#F5EDE0]">
+    <div className="min-h-screen bg-[#F3F5F4]">
       {/* Hero header */}
-      <div className="relative bg-[#2A1F14] py-28 overflow-hidden">
+      <div className="relative bg-[#1E2B22] py-28 overflow-hidden">
         <div
           className="absolute inset-0 opacity-10"
           style={{
@@ -295,7 +295,7 @@ export default function RenoveringKontaktPage() {
         />
         <div className="relative container mx-auto px-4 md:px-8 text-center">
           <p
-            className="text-[#C9A882] text-sm tracking-[0.3em] uppercase mb-6"
+            className="text-[#A2BDAA] text-sm tracking-[0.3em] uppercase mb-6"
             style={{ fontFamily: "var(--font-dm-sans)" }}
           >
             Ecohus Renovering
@@ -328,7 +328,7 @@ export default function RenoveringKontaktPage() {
           {/* Form */}
           <div className="flex-1">
             <h2
-              className="mb-8 text-[#2A1F14]"
+              className="mb-8 text-[#1E2B22]"
               style={{
                 fontFamily: "var(--font-cormorant)",
                 fontSize: "2rem",
@@ -343,9 +343,9 @@ export default function RenoveringKontaktPage() {
 
           {/* Info sidebar */}
           <div className="w-full lg:w-[380px] shrink-0">
-            <div className="rounded-3xl p-8 sticky top-32 border border-[#D4B99A] bg-[#EAD9C3]">
+            <div className="rounded-3xl p-8 sticky top-32 border border-[#BBD1C2] bg-[#E4EBE6]">
               <h2
-                className="mb-8 text-[#2A1F14]"
+                className="mb-8 text-[#1E2B22]"
                 style={{
                   fontFamily: "var(--font-cormorant)",
                   fontSize: "1.8rem",
@@ -380,12 +380,12 @@ export default function RenoveringKontaktPage() {
                   },
                 ].map(({ icon: Icon, label, value, href, sub }) => (
                   <div key={label} className="flex items-start gap-4">
-                    <div className="w-11 h-11 rounded-xl bg-[#8B4A2B]/10 flex items-center justify-center shrink-0">
-                      <Icon className="w-5 h-5 text-[#8B4A2B]" />
+                    <div className="w-11 h-11 rounded-xl bg-[#587F66]/10 flex items-center justify-center shrink-0">
+                      <Icon className="w-5 h-5 text-[#587F66]" />
                     </div>
                     <div>
                       <p
-                        className="text-xs font-medium text-[#7A5C42] uppercase tracking-wider mb-1"
+                        className="text-xs font-medium text-[#65806D] uppercase tracking-wider mb-1"
                         style={{ fontFamily: "var(--font-dm-sans)" }}
                       >
                         {label}
@@ -393,21 +393,21 @@ export default function RenoveringKontaktPage() {
                       {href ? (
                         <a
                           href={href}
-                          className="text-[#2A1F14] font-medium hover:text-[#8B4A2B] transition-colors"
+                          className="text-[#1E2B22] font-medium hover:text-[#587F66] transition-colors"
                           style={{ fontFamily: "var(--font-dm-sans)" }}
                         >
                           {value}
                         </a>
                       ) : (
                         <p
-                          className="text-[#2A1F14] font-medium"
+                          className="text-[#1E2B22] font-medium"
                           style={{ fontFamily: "var(--font-dm-sans)" }}
                         >
                           {value}
                         </p>
                       )}
                       <p
-                        className="text-sm text-[#7A5C42] mt-0.5"
+                        className="text-sm text-[#65806D] mt-0.5"
                         style={{ fontFamily: "var(--font-dm-sans)" }}
                       >
                         {sub}
@@ -418,18 +418,18 @@ export default function RenoveringKontaktPage() {
               </div>
 
               {/* Trust note */}
-              <div className="mt-10 pt-8 border-t border-[#D4B99A]">
+              <div className="mt-10 pt-8 border-t border-[#BBD1C2]">
                 <div className="flex items-center gap-2 mb-2">
-                  <Clock className="w-4 h-4 text-[#8B4A2B]" />
+                  <Clock className="w-4 h-4 text-[#587F66]" />
                   <p
-                    className="text-sm font-medium text-[#2A1F14]"
+                    className="text-sm font-medium text-[#1E2B22]"
                     style={{ fontFamily: "var(--font-dm-sans)" }}
                   >
                     Svar inden for 24 timer
                   </p>
                 </div>
                 <p
-                  className="text-sm text-[#7A5C42] leading-relaxed"
+                  className="text-sm text-[#65806D] leading-relaxed"
                   style={{ fontFamily: "var(--font-dm-sans)" }}
                 >
                   Vi tilbyder altid en gratis og uforpligtende konsultation, inden vi giver et konkret tilbud.

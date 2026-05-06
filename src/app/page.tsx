@@ -35,8 +35,8 @@ export const revalidate = 60;
 const VALUE_PROPS = [
   { icon: Banknote,      title: "Fast pris",           desc: "Ingen overraskelser. Prisen ligger fast fra aftalen er skrevet under." },
   { icon: Zap,           title: "Hurtig levering",      desc: "Fra produktion til nøgle på 8–16 uger — ikke 12–18 måneder." },
-  { icon: Leaf,          title: "Bæredygtige valg",     desc: "Gennemtænkte materialevalg med fokus på lavt klimaaftryk." },
-  { icon: Building2,     title: "Fabrikskvalitet",      desc: "Bygget indendørs under kontrollerede forhold. Aldrig fugtskader." },
+  { icon: CheckCircle2,  title: "Høj præcision",        desc: "Digitaliseret produktion, der sikrer præcise konstruktioner og minimalt materialespild under opførelsen." },
+  { icon: Building2,     title: "Fabrikskvalitet",      desc: "Bygget i en lukket fabrikshal. Det sikrer optimale arbejdsforhold og ingen fugt under byggeriet." },
   { icon: ClipboardList, title: "Hjælp til tilladelser",desc: "Vi klarer al kontakt med kommunen og indhentet byggetilladelse." },
 ];
 
@@ -102,7 +102,7 @@ export default async function HomePage() {
                   "bg-white text-[#2C5F3E] hover:bg-white/90 font-medium text-base px-8 h-13 shadow-lg"
                 )}
               >
-                Book en samtale
+                Bliv ringet op
               </Link>
               <Link
                 href="/plantegninger"
@@ -119,7 +119,7 @@ export default async function HomePage() {
             {/* Social proof strip */}
             <div className="flex items-center gap-6 mt-10 pt-10 border-t border-white/20">
               <div className="text-center">
-                <p className="text-2xl font-medium text-white">120+</p>
+                <p className="text-2xl font-medium text-white">15+</p>
                 <p className="text-xs text-white/60 uppercase tracking-wide">Leverede huse</p>
               </div>
               <div className="w-px h-10 bg-white/20" />
@@ -129,8 +129,8 @@ export default async function HomePage() {
               </div>
               <div className="w-px h-10 bg-white/20" />
               <div className="text-center">
-                <p className="text-2xl font-medium text-white">10 år</p>
-                <p className="text-xs text-white/60 uppercase tracking-wide">Garanti</p>
+                <p className="text-2xl font-medium text-white">15+</p>
+                <p className="text-xs text-white/60 uppercase tracking-wide">Glade kunder</p>
               </div>
             </div>
           </div>
@@ -384,7 +384,7 @@ export default async function HomePage() {
                 "text-base font-medium px-10 h-13 shadow-lg hover:scale-105 transition-transform"
               )}
             >
-              Book en samtale
+              Bliv ringet op
             </Link>
             <Link
               href="/prisberegner"

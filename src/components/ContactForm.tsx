@@ -169,7 +169,7 @@ export function ContactForm({ models }: { models: { name: string }[] }) {
             Sender...
           </>
         ) : (
-          "Send henvendelse"
+          "Bliv ringet op"
         )}
       </Button>
       

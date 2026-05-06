@@ -9,8 +9,8 @@ export function Footer() {
   const isRenovering = pathname.startsWith("/renovering");
   const currentYear = new Date().getFullYear();
 
-  const bgColor = isRenovering ? "#2A1F14" : "#1C1C1C";
-  const accentColor = isRenovering ? "#8B4A2B" : "#2C5F3E";
+  const bgColor = isRenovering ? "#1E2B22" : "#1C1C1C";
+  const accentColor = isRenovering ? "#587F66" : "#2C5F3E";
   const subText = isRenovering
     ? "Professionel renovering med respekt for dit hjem — fra idé til færdigt resultat."
     : "Færdigbyggede sommerhuse af højeste kvalitet — leveret direkte til din grund. Vi tager os af hele processen fra tegning til nøgleoverdragelse.";
@@ -120,7 +120,7 @@ export function Footer() {
               className="mt-3 inline-flex items-center justify-center px-5 py-2.5 rounded-lg text-white text-sm font-medium transition-colors"
               style={{ backgroundColor: accentColor }}
             >
-              {isRenovering ? "Book en renovering" : "Book en samtale"}
+              {isRenovering ? "Book en renovering" : "Bliv ringet op"}
             </Link>
           </div>
         </div>

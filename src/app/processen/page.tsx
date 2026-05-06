@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 import { LazyVideo } from "@/components/LazyVideo";
 import { 
   MessageSquare, FileText, Factory, Truck, Wrench, Key, CreditCard, 
-  CheckCircle2, Banknote, ShieldCheck, ClipboardList, ArrowRight, ArrowDown
+  CheckCircle2, Banknote, ShieldCheck, ClipboardList, ArrowRight, ArrowDown, Star, Clock
 } from "lucide-react";
 
 export const revalidate = 3600;
@@ -91,83 +91,13 @@ export default async function ProcessenPage() {
         <p className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-2xl mx-auto">
           Et byggeprojekt skal ikke være uoverskueligt. Hos Ecohus har vi sat processen i system, så du trygt kan følge med fra første skridt til indflytning.
         </p>
-        <div className="mt-10 p-4 bg-amber-500/10 border border-amber-500/20 text-amber-800 dark:text-amber-300 rounded-xl max-w-xl mx-auto text-sm font-medium">
-          Bemærk: Dette er en prototype-side til designgennemgang. Scroll ned for at se Version 1, 2 og 3.
-        </div>
       </div>
 
-      {/* --- VERSION 1: Premium / Apple Approach --- */}
-      <section className="py-24 bg-background border-t border-b">
-        <div className="container mx-auto px-4 md:px-8">
-          <div className="mb-16 text-center md:text-left">
-            <span className="inline-block py-1 px-3 rounded-full bg-primary/10 text-primary text-xs font-bold uppercase tracking-wider mb-3">Version 1</span>
-            <h2 className="text-3xl font-medium">Apple / Premium Layout</h2>
-            <p className="text-muted-foreground mt-2">Minimalistisk, sticky scroll med fokus på ren tekst og smalle ikoner.</p>
-          </div>
-          
-          <div className="flex flex-col md:flex-row gap-12 lg:gap-24 relative items-start">
-            {/* Sticky Header */}
-            <div className="md:w-1/3 md:sticky md:top-32 hidden md:block">
-              <h3 className="text-4xl font-medium mb-4">Trin-for-trin</h3>
-              <p className="text-muted-foreground text-lg leading-relaxed">
-                Fra den første tanke til nøglen drejes i døren. En gennemskuelig proces uden overraskelser.
-              </p>
-            </div>
-            
-            {/* Steps */}
-            <div className="md:w-2/3 flex flex-col gap-12 md:gap-20">
-              {steps.map((step, i) => {
-                const Icon = step.icon;
-                return (
-                  <div key={i} className="flex gap-6 lg:gap-10 group">
-                    <div className="flex flex-col items-center">
-                      <div className="w-12 h-12 lg:w-14 lg:h-14 rounded-full bg-secondary text-primary flex items-center justify-center font-medium text-lg shrink-0 border border-border/50 group-hover:border-primary/30 group-hover:scale-105 transition-all">
-                        <Icon className="w-5 h-5 lg:w-6 lg:h-6" strokeWidth={1.5} />
-                      </div>
-                      {i !== steps.length - 1 && <div className="w-px h-full bg-border/50 mt-4" />}
-                    </div>
-                    <div className="pb-12 md:pb-0 pt-1">
-                      <span className="text-xs font-bold uppercase tracking-wider text-primary/70 mb-2 flex items-center gap-2">
-                        Trin 0{step.num} — {step.duration}
-                      </span>
-                      <h4 className="text-2xl font-medium text-foreground mb-3 tracking-tight">{step.title}</h4>
-                      <p className="text-muted-foreground leading-relaxed text-lg mb-5">{step.desc}</p>
-                      {step.bullets && step.bullets.length > 0 && (
-                        <ul className="space-y-3 mb-6">
-                          {step.bullets.map((bullet, bi) => (
-                            <li key={bi} className="flex items-start gap-3 text-muted-foreground">
-                              <CheckCircle2 className="w-5 h-5 text-primary/60 mt-0.5 shrink-0" strokeWidth={1.5} />
-                              <span>{bullet}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      )}
-                      {step.highlight && (
-                         <div className="bg-secondary/40 p-5 rounded-2xl border border-border/40">
-                           <p className="text-[15px] font-medium text-foreground/90 leading-relaxed">{step.highlight}</p>
-                         </div>
-                      )}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* --- VERSION 2: Architectural Approach --- */}
       <section className="py-24 bg-secondary border-b relative">
         {/* Subtle Blueprint grid background */}
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
         
         <div className="container mx-auto px-4 md:px-8 relative z-10">
-          <div className="text-center mb-16 max-w-2xl mx-auto">
-            <span className="inline-block py-1 px-3 rounded-full bg-primary/10 text-primary text-xs font-bold uppercase tracking-wider mb-3">Version 2</span>
-            <h2 className="text-3xl font-medium mb-4">Arkitektonisk Layout (Stacking Cards)</h2>
-            <p className="text-muted-foreground text-lg">Struktureret, blueprint-inspireret. Scroll ned for at se kortene stable sig oven på hinanden.</p>
-          </div>
-          
           <div className="max-w-4xl mx-auto flex flex-col pb-[30vh]">
             {steps.map((step, i) => {
               const Icon = step.icon;
@@ -217,82 +147,15 @@ export default async function ProcessenPage() {
         </div>
       </section>
 
-      {/* --- VERSION 3: Narrative Approach --- */}
-      <section className="py-32 bg-background border-b overflow-hidden relative">
-        <div className="container mx-auto px-4 md:px-8">
-          <div className="text-center mb-24 max-w-3xl mx-auto">
-            <span className="inline-block py-1 px-3 rounded-full bg-primary/10 text-primary text-xs font-bold uppercase tracking-wider mb-3">Version 3</span>
-            <h2 className="text-5xl font-medium mb-6 text-balance">Det narrative Layout (Zigzag & Blobs)</h2>
-            <p className="text-muted-foreground text-xl">Organisk zigzag-opsætning med varme "blobs" og overdimensionerede, venlige ikoner der illustrerer rejsen.</p>
-          </div>
-          
-          <div className="max-w-5xl mx-auto relative">
-            {/* The curving line connecting them (desktop only) */}
-            <div className="absolute top-0 bottom-0 left-1/2 w-0.5 bg-border/50 -translate-x-1/2 hidden md:block border-dashed" />
-            
-            <div className="flex flex-col gap-24 md:gap-40 relative z-10">
-              {steps.map((step, i) => {
-                const Icon = step.icon;
-                const isEven = i % 2 !== 0; // 0 is left text, 1 is right text
-                return (
-                  <div key={i} className={cn("flex flex-col md:flex-row items-center gap-12 lg:gap-20", isEven ? "md:flex-row-reverse" : "")}>
-                    
-                    {/* The Blob & Icon / Image */}
-                    <div className="w-full md:w-1/2 flex justify-center">
-                       <div className="relative w-64 h-64 md:w-80 md:h-80 flex items-center justify-center">
-                         {/* Soft background blob */}
-                         <div className={cn("absolute inset-0 opacity-[0.15] blur-[40px] rounded-[100px]", isEven ? "bg-amber-400" : "bg-[#2C5F3E]")} />
-                         {/* Frame for the icon */}
-                         <div className={cn("absolute inset-4 rounded-[3rem] shadow-xl border border-border/50 flex items-center justify-center backdrop-blur-sm bg-background/80 overflow-hidden", isEven ? "rotate-2 hover:rotate-0" : "-rotate-2 hover:rotate-0", "transition-all duration-500")}>
-                            {/* Oversized friendly icon */}
-                            <Icon className={cn("w-32 h-32 opacity-80 transition-transform hover:scale-110 duration-500", isEven ? "text-amber-500" : "text-[#2C5F3E]")} strokeWidth={1} />
-                         </div>
-                       </div>
-                    </div>
-
-                    {/* The Text Content */}
-                    <div className="w-full md:w-1/2 text-left bg-background/50 backdrop-blur-md p-6 md:p-0 rounded-3xl">
-                       <span className={cn("px-4 py-1.5 rounded-full text-xs font-bold tracking-wider uppercase mb-6 inline-flex items-center gap-2", isEven ? "bg-amber-100 text-amber-800" : "bg-primary/10 text-primary")}>
-                         Trin 0{step.num} — {step.duration}
-                       </span>
-                       <h4 className="text-3xl font-semibold mb-5 text-balance">{step.title}</h4>
-                       <p className="text-muted-foreground leading-relaxed text-lg mb-6">{step.desc}</p>
-                       
-                       {step.bullets && step.bullets.length > 0 && (
-                          <ul className="space-y-3 mb-6">
-                            {step.bullets.map((bullet, bi) => (
-                              <li key={bi} className="flex items-start gap-3 text-[15px] text-muted-foreground">
-                                <CheckCircle2 className={cn("w-5 h-5 mt-px shrink-0", isEven ? "text-amber-500" : "text-primary")} strokeWidth={2} />
-                                <span>{bullet}</span>
-                              </li>
-                            ))}
-                          </ul>
-                       )}
-                       {step.highlight && (
-                         <div className={cn("p-5 rounded-2xl border", isEven ? "bg-amber-50/50 border-amber-200 text-amber-900" : "bg-primary/5 border-primary/20 text-foreground")}>
-                            <p className="text-[15px] font-medium leading-relaxed">
-                              {step.highlight}
-                            </p>
-                         </div>
-                       )}
-                    </div>
-                  </div>
-                )
-              })}
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* --- REMAINDER OF THE PAGE (Trust Badges updated) --- */}
       <section className="py-24 bg-muted border-b">
         <div className="container mx-auto px-4 md:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-medium">Hvorfor bygge med Ecohus?</h2>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 text-center max-w-5xl mx-auto">
-            {/* Updated Icons for Trust Badges */}
-            <div className="flex flex-col items-center gap-5 bg-background p-10 rounded-3xl shadow-sm border border-border/40 hover:shadow-md hover:-translate-y-1 hover:border-primary/30 transition-all group">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 text-center max-w-6xl mx-auto">
+            {/* 1. Fast pris */}
+            <div className="flex flex-col items-center gap-5 bg-background p-8 rounded-3xl shadow-sm border border-border/40 hover:shadow-md hover:-translate-y-1 hover:border-primary/30 transition-all group">
               <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
                 <Banknote className="w-8 h-8 text-primary" />
               </div>
@@ -302,17 +165,30 @@ export default async function ProcessenPage() {
               </div>
             </div>
             
-            <div className="flex flex-col items-center gap-5 bg-background p-10 rounded-3xl shadow-sm border border-border/40 hover:shadow-md hover:-translate-y-1 hover:border-primary/30 transition-all group">
+            {/* 2. Bygget i tørvejr */}
+            <div className="flex flex-col items-center gap-5 bg-background p-8 rounded-3xl shadow-sm border border-border/40 hover:shadow-md hover:-translate-y-1 hover:border-primary/30 transition-all group">
               <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
-                <ShieldCheck className="w-8 h-8 text-primary" />
+                <Factory className="w-8 h-8 text-primary" />
               </div>
               <div>
-                <h4 className="text-xl font-medium mb-2">10-års garanti</h4>
-                <p className="text-muted-foreground text-[15px] leading-relaxed">Vi gennemgår huset og står fuldt ud på mål for kvaliteten i årene efter indflytning.</p>
+                <h4 className="text-xl font-medium mb-2">Bygget i tørvejr</h4>
+                <p className="text-muted-foreground text-[15px] leading-relaxed">Produceret indendørs under optimale forhold, hvilket fuldstændigt eliminerer risikoen for fugt under opførslen.</p>
+              </div>
+            </div>
+
+            {/* 3. Hurtig levering */}
+            <div className="flex flex-col items-center gap-5 bg-background p-8 rounded-3xl shadow-sm border border-border/40 hover:shadow-md hover:-translate-y-1 hover:border-primary/30 transition-all group">
+              <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                <Clock className="w-8 h-8 text-primary" />
+              </div>
+              <div>
+                <h4 className="text-xl font-medium mb-2">Hurtig levering</h4>
+                <p className="text-muted-foreground text-[15px] leading-relaxed">Dit nøglefærdige sommerhus står klar på få måneder i stedet for de klassiske 1-2 år.</p>
               </div>
             </div>
             
-            <div className="flex flex-col items-center gap-5 bg-background p-10 rounded-3xl shadow-sm border border-border/40 hover:shadow-md hover:-translate-y-1 hover:border-primary/30 transition-all group">
+            {/* 4. Hjælp til tilladelser */}
+            <div className="flex flex-col items-center gap-5 bg-background p-8 rounded-3xl shadow-sm border border-border/40 hover:shadow-md hover:-translate-y-1 hover:border-primary/30 transition-all group">
               <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
                 <ClipboardList className="w-8 h-8 text-primary" />
               </div>
@@ -377,7 +253,7 @@ export default async function ProcessenPage() {
                 "text-base px-10 h-14 font-medium shadow-xl hover:scale-105 transition-transform bg-white text-[#2C5F3E] hover:bg-white/90"
               )}
             >
-              Book en samtale nu
+              Bliv ringet op nu
             </Link>
             <Link 
               href="/plantegninger" 

@@ -16,4 +16,8 @@ export const calculatorLeadSchema = z.object({
   options: z.any().optional(),
   estimated_price_from: z.number().optional(),
   estimated_price_to: z.number().optional(),
+  is_custom_build: z.boolean().optional(),
+  custom_m2: z.number().optional(),
+  custom_roof: z.string().optional(),
+  custom_tier: z.string().optional(),
 });

@@ -181,7 +181,7 @@ export default async function ModelDetailPage({ params }: { params: { slug: stri
                 <div>
                   <p className="text-xs text-muted-foreground uppercase tracking-wide mb-1">Pris fra</p>
                   <p className="text-3xl font-medium text-primary">
-                    kr. {(model as any).price_from?.toLocaleString("da-DK")}
+                    Fra {(model as any).price_from?.toLocaleString("da-DK")} kr.
                   </p>
                   <p className="text-xs text-muted-foreground mt-1">Inkl. levering og opsætning · ekskl. fundament og tilladelser</p>
                 </div>
@@ -246,7 +246,7 @@ export default async function ModelDetailPage({ params }: { params: { slug: stri
                   href={`/kontakt?model=${encodeURIComponent((model as any).name)}`}
                   className={cn(buttonVariants({ size: "lg" }), "w-full font-medium shadow-sm hover:scale-[1.01] transition-transform")}
                 >
-                  Book en samtale om denne model
+                  Bliv ringet op om denne model
                 </Link>
                 <Link
                   href="/prisberegner"

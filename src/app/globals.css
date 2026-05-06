@@ -133,25 +133,25 @@
 
 /* ── Renovation theme ────────────────────────────────────────────────────── */
 [data-theme="renovering"] {
-  --background: #F5EDE0;
-  --foreground: #2A1F14;
-  --card: #EAD9C3;
-  --card-foreground: #2A1F14;
-  --popover: #EAD9C3;
-  --popover-foreground: #2A1F14;
-  --primary: #8B4A2B;
+  --background: #F3F5F4;
+  --foreground: #1E2B22;
+  --card: #E4EBE6;
+  --card-foreground: #1E2B22;
+  --popover: #E4EBE6;
+  --popover-foreground: #1E2B22;
+  --primary: #587F66;
   --primary-foreground: #FFF8F0;
-  --secondary: #EAD9C3;
+  --secondary: #E4EBE6;
   --secondary-foreground: #5C3A1E;
   --muted: #DEC9AD;
-  --muted-foreground: #7A5C42;
-  --accent: #C9A882;
-  --accent-foreground: #2A1F14;
+  --muted-foreground: #65806D;
+  --accent: #A2BDAA;
+  --accent-foreground: #1E2B22;
   --destructive: #D32F2F;
   --destructive-foreground: #FFFFFF;
-  --border: #D4B99A;
-  --input: #D4B99A;
-  --ring: #8B4A2B;
+  --border: #BBD1C2;
+  --input: #BBD1C2;
+  --ring: #587F66;
 }
 
 /* ── Hero entry animation ─────────────────────────────────────────────────── */

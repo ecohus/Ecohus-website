@@ -14,17 +14,17 @@ export default async function OmOsPage() {
   ]);
 
   const stats = [
-    { label: settings?.stat_1_label || "Leverede huse", value: settings?.stat_1_value || "120+" },
-    { label: settings?.stat_2_label || "Års erfaring",  value: settings?.stat_2_value || "30+"  },
-    { label: settings?.stat_3_label || "Garanti",       value: settings?.stat_3_value || "10 år" },
+    { label: settings?.stat_1_label || "Leverede huse", value: settings?.stat_1_value || "15+" },
+    { label: settings?.stat_2_label || "Års erfaring",  value: settings?.stat_2_value || "15"  },
+    { label: settings?.stat_3_label || "Glade kunder",  value: settings?.stat_3_value || "15+" },
   ];
 
   const values = [
     {
-      icon: Leaf,
-      title: "Bæredygtighed",
+      icon: ShieldCheck,
+      title: "Lang levetid",
       img: "/galleri/eksterioer.png",
-      desc: "Vi anvender miljørigtige materialer og energieffektive løsninger for at minimere vores aftryk på planeten. Vores huse bygges under kontrollerede forhold med fokus på genanvendelighed, lavt energiforbrug og holdbare konstruktioner.",
+      desc: "Vores huse produceres indendørs under kontrollerede forhold med fokus på gedigne materialer og holdbare konstruktioner, så dit sommerhus kan stå smukt i generationer.",
     },
     {
       icon: Hammer,
@@ -36,7 +36,7 @@ export default async function OmOsPage() {
       icon: Lightbulb,
       title: "Innovation",
       img: "/galleri/eksterioer-2.png",
-      desc: "Vi kombinerer moderne arkitektur med de nyeste teknologier inden for bæredygtigt byggeri. Vores proces er effektiv og digitaliseret, og vi udvikler løbende vores løsninger for at kunne levere smartere, hurtigere og grønnere.",
+      desc: "Vi kombinerer moderne arkitektur med avanceret produktionsteknologi. Vores byggeproces er effektiv og digitaliseret, så vi kan levere dit sommerhus smartere, hurtigere og med uovertruffen præcision.",
     },
   ];
 
@@ -107,7 +107,7 @@ export default async function OmOsPage() {
               kort tid efter kan du holde ferie i dit nye fristed.
             </p>
             <p>
-              Vi går ikke på kompromis med kvaliteten. Hvert eneste Ecohus er bygget med fokus på bæredygtighed,
+              Vi går ikke på kompromis med kvaliteten. Hvert eneste Ecohus er bygget med fokus på høj kvalitet,
               gedigne materialer og et tidløst design, der ældes med ynde.
             </p>
           </div>
@@ -120,7 +120,7 @@ export default async function OmOsPage() {
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-medium mb-4 text-foreground">Vores vision og værdier</h2>
             <p className="text-muted-foreground text-lg max-w-2xl mx-auto leading-relaxed">
-              Hos Ecohus stræber vi efter at skabe bæredygtige og innovative boligkoncepter, der ikke blot opfylder dine behov, men også respekterer vores planets ressourcer. Vi arbejder ud fra tre kerneværdier.
+              Hos Ecohus stræber vi efter at skabe gennemtænkte og innovative boligkoncepter, der opfylder dine behov og holder i mange årtier. Vi arbejder ud fra tre kerneværdier.
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">

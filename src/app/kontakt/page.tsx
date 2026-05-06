@@ -34,7 +34,7 @@ export default async function KontaktPage() {
           
           {/* Form Side */}
           <div className="flex-1 bg-background p-0 lg:pr-8">
-            <h2 className="text-2xl font-medium mb-8">Send en besked</h2>
+            <h2 className="text-2xl font-medium mb-8">Bliv ringet op</h2>
             <Suspense fallback={<div className="h-[400px] rounded-xl border-2 border-border/50 animate-pulse bg-muted/20" />}>
               <ContactForm models={modelOptions} />
             </Suspense>

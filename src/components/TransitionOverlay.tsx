@@ -91,7 +91,7 @@ export function TransitionOverlay() {
         position: "fixed",
         inset: 0,
         zIndex: 9999,
-        backgroundColor: "#2A1F14",
+        backgroundColor: "#1E2B22",
         transform: "translateX(-105%)",
         pointerEvents: "none",
         willChange: "transform",

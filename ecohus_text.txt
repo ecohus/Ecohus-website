@@ -1,0 +1,92 @@
+UDARBEJDET AF
+ClicknContent4. maj 2026
+Greenwashing-vurdering
+ecohus.vercel.app — Analyse af markedsføringsmæssige miljøpåstande
+SAMLET RISIKONIVEAU
+MEDIUM-HØJEcohus anvender bæredygtighed som kerneargument på tværs af hele sitet,
+men understøtter ingen af påstandene med dokumentation, tal eller tredjeparts-
+certificering.
+Konkrete udtalelser der udgør en risiko
+PÅSTAND 1
+“Bæredygtige valg — Gennemtænkte materialevalg med fokus på lavt klimaaftryk.”
+Kilde: Forsiden, under "5 gode grunde til at vælge Ecohus"
+Udokumenteret påstand. Hvilke materialer? Hvad er klimaaftrykket sammenlignet med konventionelt byggeri?
+Ingen livscyklusanalyse (LCA), ingen EPD-dokumenter og ingen CO ₂ -tal understøtter påstanden.
+RISIKO: HØJ
+PÅSTAND 2
+“Vi anvender miljørigtige materialer og energieffektive løsninger for at minimere vores aftryk på
+planeten.”
+Kilde: Om os-siden, under kerneværdien "Bæredygtighed"
+"Miljørigtige materialer" er udefineret. Ingen materialeliste, ingen reference til standarder som FSC-certificeret
+træ, DGNB, CE-mærkning eller lignende. Klassisk vag grøn påstand uden specifikationer.
+RISIKO: HØJ
+PÅSTAND 3
+“Vores huse bygges under kontrollerede forhold med fokus på genanvendelighed, lavt energiforbrug
+og holdbare konstruktioner .”
+Kilde: Om os-siden
+Tre sideordnede påstande, ingen dokumenteret. Hvad er energirammen? Opfylder husene blot BR20-
+minimumskrav, eller overperformerer de? "Genanvendelighed" er et specifikt ingeniørteknisk begreb der
+kræver dokumentation.
+RISIKO: MEDIUM-HØJ04/05/2026, 08:15 Greenwashing-vurdering: Ecohus
+ﬁle:///Users/kasperlinder/Downloads/ecohus-greenwashing.html 1/3
+PÅSTAND 4
+“Vi kombinerer moderne arkitektur med de nyeste teknologier inden for bæredygtigt byggeri …
+hurtigere og grønnere.”
+Kilde: Om os-siden, under kerneværdien "Innovation"
+"Grønnere" er et relativt udsagn der kræver en eksplicit sammenligning. Grønnere end hvad? Traditionelt
+byggeri på stedet? Konkurrerende producenter? Ingen baseline er opgivet.
+RISIKO: MEDIUM-HØJ
+PÅSTAND 5
+“Aldrig fugtskader .” (præsenteret som en af 5 kernefordele ved siden af "Bæredygtige valg")
+Kilde: Forsiden, under "Fabrikskvalitet"
+Ikke direkte greenwashing, men den visuelle placering direkte ved siden af bæredygtighedsargumenter skaber
+et grønt signal, der ikke er berettiget. Fugtfrie konstruktioner er et kvalitets- og driftsøkonomisk argument, ikke
+et miljøargument.
+RISIKO: LAV-MEDIUM
+Hvad der mangler for at overholde kravene
+KravStatus på
+sitetHvad er løsningen
+Konkret materialeliste (træsort, isolering,
+overflader)Mangler Publicer specifikationsskema eller
+produktdatablade
+Energiramme / energiklasse (BR20 eller
+bedre)Mangler Angiv energiklasse og reference til
+bygningsreglement
+CO ₂-beregning / livscyklusanalyse (LCA) Mangler Lav LCA eller angiv CO ₂ -tal pr. m²
+Tredjeparts- eller
+certificeringsdokumentationMangler FSC, DGNB, Svanemærket eller tilsvarende
+Sammenligning med konventionelt
+byggeri (baseline)Mangler Angiv konkret reference når der bruges
+"grønnere" eller "lavere aftryk"
+Links til produktdatablade eller EPD Mangler Publicer Environmental Product Declarations for
+nøglematerialer
+Juridisk kontekst04/05/2026, 08:15 Greenwashing-vurdering: Ecohus
+ﬁle:///Users/kasperlinder/Downloads/ecohus-greenwashing.html 2/3
+EU's Green Claims Directive (vedtaget 2024, implementeringsfrist 2026) forbyder udtrykkeligt vage,
+uunderstøttede miljøpåstande som "grøn", "bæredygtig" og "miljøvenlig" uden verificerbar
+dokumentation. Direktivet gælder for alle B2C-markedsførende virksomheder i EU.
+Forbrugerombudsmanden i Danmark har siden 2022 skærpet tilsynet med netop denne type udsagn i
+bygge- og boligsektoren og har udstedt påbud til virksomheder for mindre eksplicitte påstande end dem
+Ecohus anvender p.t.
+Markedsføringsloven §3 forbyder vildledende markedsføring, herunder påstande om en ydelses
+egenskaber når de ikke kan dokumenteres.
+Anbefaling
+TO MULIGE VEJE FREM
+Mulighed A — Dokumenter påstandene: Lav en LCA, angiv energiklasse, publicer materialeliste og
+indhent relevant certificering. Så kan påstandene føres lovligt.
+Mulighed B — Erstat med faktuelle argumetner: Fjern de vage miljøpåstande og erstat dem med
+konkrete, verificerbare fordele. "Bygget i lukket fabrikshal — ingen vejrforsinkelser" er et faktum. "Lavt
+klimaaftryk" er en grøn påstand der kræver dokumentation.
+At bruge bæredygtighed som et rent marketingbegreb uden substans er ikke længere en holdbar
+position — hverken juridisk eller kommercielt.
+Konsekvenser ved manglende handling
+Der er ikke en direkte bøde fra dag ét. Forbrugerombudsmanden udsteder typisk først et påbud om
+at ændre eller fjerne de vildledende udsagn. Efterkommes det ikke, kan sagen overgå til retten.
+Bødeniveauet ved domfældelse under Markedsføringsloven ligger typisk på 50.000–200.000 kr. og
+kan være højere i grove tilfælde. Fra 2026, når EU's Green Claims Directive er implementeret i dansk
+ret, åbnes der for bøder på op til 4% af årlig omsætning — samme model som GDPR.
+Det mest sandsynlige scenarie på kort sigt er ikke en bøde, men en anmeldelse fra konkurrent eller
+NGO, negativ presseomtale, eller kunder der trækker købet tilbage med henvisning til vildledning. Alle
+tre er kommercielt mere skadelige end et påbud.
+ClicknContent Fortroligt — udarbejdet til Ecohus — maj 2026 kontakt@clickncontent.dk04/05/2026, 08:15 Greenwashing-vurdering: Ecohus
+ﬁle:///Users/kasperlinder/Downloads/ecohus-greenwashing.html 3/3
