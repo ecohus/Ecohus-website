@@ -15,7 +15,7 @@ import { CheckCircle2, Loader2, AlertCircle } from "lucide-react";
 
 type ContactFormValues = z.infer<typeof contactFormSchema>;
 
-export function ContactForm({ models }: { models: { name: string }[] }) {
+export function ContactForm({ models }: { models: { name: string; display_name?: string }[] }) {
   const searchParams = useSearchParams();
   const initialModel = searchParams.get("model") || "";
 
@@ -144,7 +144,7 @@ export function ContactForm({ models }: { models: { name: string }[] }) {
             <SelectItem value="ikke_specifik">Ikke specifik model</SelectItem>
             {models.map((model) => (
               <SelectItem key={model.name} value={model.name}>
-                {model.name}
+                {model.display_name ? `${model.display_name} (${model.name})` : model.name}
               </SelectItem>
             ))}
           </SelectContent>

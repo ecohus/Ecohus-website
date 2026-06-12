@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 import { MOCK_MODELS } from "@/lib/mock-models";
+import { ADDONS, FOUNDATIONS } from "@/lib/spec";
 import { CheckCircle2, ChevronRight, ChevronLeft, Loader2, AlertCircle, Home, BoxSelect, Droplets, ClipboardList, Lock, User } from "lucide-react";
 
 type FormValues = z.infer<typeof calculatorLeadSchema>;
@@ -28,21 +29,12 @@ const CUSTOM_TIERS = [
   { id: "premium", title: "Premium / Højstandard", desc: "Eksklusive materialer og detaljer overalt." }
 ];
 
-const ADDONS = [
-  { id: "terrasse", title: "Overdækket terrasse (25m²)", price: 85000, desc: "Integreret overdækning i vinkel." },
-  { id: "varmepumpe", title: "Luft/vand varmepumpe", price: 110000, desc: "Energivenlig og fremtidssikret opvarmning." },
-  { id: "solceller", title: "Solcelleanlæg (6 kW)", price: 95000, desc: "Producer din egen strøm med skjulte paneler." },
-  { id: "udekoekken", title: "Udekøkken integration", price: 45000, desc: "Klar til vand og afløb på terrassen." },
-  { id: "smart_home", title: "Smart Home Pakke", price: 35000, desc: "Intelligent styring af lys og varme." },
-  { id: "brændeovn", title: "Indbygningsbrændeovn", price: 42000, desc: "Centralt placeret for maksimal hygge." }
-];
-
-const FOUNDATIONS = [
-  { id: "skrue", title: "Skruefundament", priceMin: 65000, priceMax: 95000, desc: "Hurtig, miljøvenlig og ingen jordvæk." },
-  { id: "stoebt", title: "Almindeligt/støbt fundament", priceMin: 85000, priceMax: 150000, desc: "Traditionelt stribefundament (afhænger af jordbund)." },
-  { id: "punkt", title: "Punktfundament", priceMin: 50000, priceMax: 80000, desc: "Velegnet til visse jordtyper og hævet byggeri." },
-  { id: "ved_ikke", title: "Ved ikke", priceMin: 75000, priceMax: 120000, desc: "Vi regner med et gennemsnitligt fundament i estimatet." }
-];
+/** Hjælper: viser fundamentets prisforskel ift. standard støbt fundament. */
+function foundationPriceLabel(priceDiff: number): string {
+  if (priceDiff === 0) return "Inkluderet";
+  const sign = priceDiff < 0 ? "−" : "+";
+  return `${sign}${Math.abs(priceDiff).toLocaleString("da-DK")} kr.`;
+}
 
 export function PriceCalculator({ models: sanityModels }: { models: any[] }) {
   // Use mock fallback when Sanity has no models yet
@@ -95,10 +87,11 @@ export function PriceCalculator({ models: sanityModels }: { models: any[] }) {
     const addon = ADDONS.find((a) => a.id === addonId);
     return acc + (addon?.price || 0);
   }, 0);
-  const foundation = FOUNDATIONS.find((f) => f.id === selectedFoundation) || FOUNDATIONS[2];
+  // A standard cast foundation is included in the base price. Alternative
+  // foundation types are applied as a price difference (0 / negative).
+  const foundation = FOUNDATIONS.find((f) => f.id === selectedFoundation) || FOUNDATIONS[0];
 
-  const estimatedTotalMin = basePrice + addonsPrice + foundation.priceMin;
-  const estimatedTotalMax = basePrice + addonsPrice + foundation.priceMax;
+  const estimatedTotal = basePrice + addonsPrice + foundation.priceDiff;
 
   const {
     register,
@@ -130,10 +123,11 @@ export function PriceCalculator({ models: sanityModels }: { models: any[] }) {
       if (selectedFoundation) formData.append("options", JSON.stringify({ foundation: selectedFoundation }));
       if (customFile) formData.append("file", customFile);
     } else {
-      formData.append("model_selected", model?.name || "Ingen");
+      const modelLabel = model?.display_name ? `${model.display_name} (${model.name})` : model?.name;
+      formData.append("model_selected", modelLabel || "Ingen");
       formData.append("options", JSON.stringify({ addons: selectedAddons, foundation: selectedFoundation }));
-      formData.append("estimated_price_from", estimatedTotalMin.toString());
-      formData.append("estimated_price_to", estimatedTotalMax.toString());
+      formData.append("estimated_price_from", estimatedTotal.toString());
+      formData.append("estimated_price_to", estimatedTotal.toString());
     }
 
     try {
@@ -201,8 +195,8 @@ export function PriceCalculator({ models: sanityModels }: { models: any[] }) {
             <div className="text-2xl font-medium text-primary">
               {isCustomBuild ? (
                 <span className="text-base text-muted-foreground">Beregnes individuelt</span>
-              ) : estimatedTotalMin > 0 ? (
-                <>kr. {estimatedTotalMin.toLocaleString("da-DK")}</>
+              ) : estimatedTotal > 0 ? (
+                <>fra kr. {estimatedTotal.toLocaleString("da-DK")}</>
               ) : "—"}
             </div>
           )}
@@ -279,7 +273,10 @@ export function PriceCalculator({ models: sanityModels }: { models: any[] }) {
                           </div>
                           <div className="p-4 flex items-center justify-between bg-background">
                             <div>
-                              <h3 className="font-medium text-lg text-foreground">{m.name}</h3>
+                              <h3 className="font-medium text-lg text-foreground">
+                                {m.display_name || m.name}
+                                {m.display_name && <span className="text-muted-foreground font-normal text-sm ml-2">{m.name}</span>}
+                              </h3>
                               <p className="text-sm text-muted-foreground">{m.size_m2} m² • fra {m.price_from?.toLocaleString("da-DK")} kr.</p>
                             </div>
                             <div className={cn("w-6 h-6 rounded-full border-2 flex items-center justify-center", selectedModelIndex === idx ? "border-primary bg-primary text-primary-foreground" : "border-muted-foreground")}>
@@ -367,12 +364,12 @@ export function PriceCalculator({ models: sanityModels }: { models: any[] }) {
           {(step === 3 && !isCustomBuild) || (step === 2 && isCustomBuild) ? (
             <div className="animate-in fade-in slide-in-from-right-4 duration-500">
               <h2 className="text-2xl font-medium mb-2">{isCustomBuild ? "2" : "3"}. Vælg fundament</h2>
-              <p className="text-muted-foreground mb-8">Et sommerhus kræver et solidt fundament. Typen afhænger ofte af grunden.</p>
+              <p className="text-muted-foreground mb-8">Et almindeligt støbt fundament er inkluderet i standardprisen. Vælger du en anden type, justeres prisen herefter.</p>
               <div className="flex flex-col gap-4 max-w-2xl">
                 {FOUNDATIONS.map((f) => {
                   const isSelected = selectedFoundation === f.id;
                   return (
-                    <div 
+                    <div
                       key={f.id}
                       onClick={() => setSelectedFoundation(f.id)}
                       className={cn(
@@ -387,6 +384,12 @@ export function PriceCalculator({ models: sanityModels }: { models: any[] }) {
                         <h3 className="font-medium text-lg text-foreground">{f.title}</h3>
                         <p className="text-sm text-muted-foreground">{f.desc}</p>
                       </div>
+                      <span className={cn(
+                        "shrink-0 text-sm font-medium px-3 py-1 rounded-full whitespace-nowrap",
+                        f.priceDiff === 0 ? "bg-primary/10 text-primary" : "bg-secondary text-foreground"
+                      )}>
+                        {foundationPriceLabel(f.priceDiff)}
+                      </span>
                     </div>
                   );
                 })}
@@ -490,7 +493,7 @@ export function PriceCalculator({ models: sanityModels }: { models: any[] }) {
               </form>
 
               {/* Blurred price teaser */}
-              {!isCustomBuild && estimatedTotalMin > 0 && (
+              {!isCustomBuild && estimatedTotal > 0 && (
                 <div className="bg-primary/8 border border-primary/25 rounded-2xl p-6 relative overflow-hidden">
                   <p className="text-xs font-medium text-primary uppercase tracking-widest mb-3">Din estimerede pakke</p>
                   <div className="relative">
@@ -549,7 +552,10 @@ export function PriceCalculator({ models: sanityModels }: { models: any[] }) {
                   ) : (
                     <>
                       <div className="flex items-center justify-between gap-4 py-3">
-                        <span className="font-medium text-foreground">{model?.name}</span>
+                        <span className="font-medium text-foreground">
+                          {model?.display_name || model?.name}
+                          <span className="block text-xs text-muted-foreground font-normal">Inkl. standardopbygning og støbt fundament</span>
+                        </span>
                         <span className="font-medium text-foreground tabular-nums whitespace-nowrap">kr. {basePrice.toLocaleString("da-DK")}</span>
                       </div>
                       {selectedAddons.map(id => {
@@ -563,7 +569,7 @@ export function PriceCalculator({ models: sanityModels }: { models: any[] }) {
                       })}
                       <div className="flex items-center justify-between gap-4 py-3">
                         <span className="text-sm text-muted-foreground">{foundation.title}</span>
-                        <span className="text-sm text-muted-foreground tabular-nums whitespace-nowrap">kr. {foundation.priceMin.toLocaleString("da-DK")}–{foundation.priceMax.toLocaleString("da-DK")}</span>
+                        <span className="text-sm text-muted-foreground tabular-nums whitespace-nowrap">{foundationPriceLabel(foundation.priceDiff)}</span>
                       </div>
                     </>
                   )}
@@ -572,9 +578,9 @@ export function PriceCalculator({ models: sanityModels }: { models: any[] }) {
                 {/* Revealed total */}
                 {!isCustomBuild ? (
                   <div className="mt-5 pt-5 border-t flex items-center justify-between gap-4">
-                    <span className="text-lg font-medium text-foreground">Estimeret total</span>
+                    <span className="text-lg font-medium text-foreground">Estimeret pris fra</span>
                     <span className="text-xl font-semibold text-primary tabular-nums whitespace-nowrap">
-                      kr. {estimatedTotalMin.toLocaleString("da-DK")}–{estimatedTotalMax.toLocaleString("da-DK")}
+                      kr. {estimatedTotal.toLocaleString("da-DK")}
                     </span>
                   </div>
                 ) : (

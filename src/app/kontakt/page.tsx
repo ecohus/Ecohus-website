@@ -1,5 +1,6 @@
 import { getSiteSettings, getHouseModels } from "@/lib/sanity";
 import { ContactForm } from "@/components/ContactForm";
+import { MOCK_MODELS } from "@/lib/mock-models";
 import { Mail, MapPin, Phone, Building2 } from "lucide-react";
 import { Suspense } from "react";
 
@@ -18,7 +19,8 @@ export default async function KontaktPage() {
     company: settings?.company_name || "Ecohus",
   };
 
-  const modelOptions = models.map((m: any) => ({ name: m.name }));
+  const sourceModels = models.length > 0 ? models : MOCK_MODELS;
+  const modelOptions = sourceModels.map((m: any) => ({ name: m.name, display_name: m.display_name }));
 
   return (
     <div className="flex flex-col min-h-screen bg-background border-t">

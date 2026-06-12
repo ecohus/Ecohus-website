@@ -5,7 +5,8 @@ export const houseModelSchema: SchemaTypeDefinition = {
   title: "House Model",
   type: "document",
   fields: [
-    { name: "name", title: "Name", type: "string", validation: (Rule) => Rule.required() },
+    { name: "name", title: "Name (model code)", type: "string", validation: (Rule) => Rule.required() },
+    { name: "display_name", title: "Display Name (e.g. Haven V1)", type: "string" },
     { name: "slug", title: "Slug", type: "slug", options: { source: "name" }, validation: (Rule) => Rule.required() },
     { name: "size_m2", title: "Size (m²)", type: "number", validation: (Rule) => Rule.required() },
     { name: "covered_area_m2", title: "Covered Area (m²)", type: "number", initialValue: 0 },

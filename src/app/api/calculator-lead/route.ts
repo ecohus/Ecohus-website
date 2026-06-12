@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { calculatorLeadSchema } from "@/lib/validations";
 import { supabase } from "@/lib/supabase";
 import { ratelimit } from "@/lib/ratelimit";
+import { ADDONS, FOUNDATIONS } from "@/lib/spec";
 import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_API_KEY || "missing");
@@ -85,17 +86,21 @@ export async function POST(req: Request) {
     if (process.env.RESEND_API_KEY && !process.env.RESEND_API_KEY.includes("YOUR_RESEND_API_KEY")) {
       let emailText = `Navn: ${name}\nEmail: ${email}\nTelefon: ${phone}\n\n`;
       
+      const foundationTitle = FOUNDATIONS.find((f) => f.id === options?.foundation)?.title || options?.foundation || "Ikke angivet";
+
       if (is_custom_build) {
         emailText += `Type: BYG SELV\n`;
         emailText += `Kvadratmeter: ${custom_m2 || "Ikke angivet"}\n`;
         emailText += `Tag-type: ${custom_roof || "Ikke angivet"}\n`;
         emailText += `Prisklasse: ${custom_tier || "Ikke angivet"}\n`;
-        emailText += `Fundament: ${options?.foundation || "Ikke angivet"}\n`;
+        emailText += `Fundament: ${foundationTitle}\n`;
       } else {
+        const addonTitles = (options?.addons || []).map((id: string) => ADDONS.find((a) => a.id === id)?.title || id);
         emailText += `Type: STANDARD MODEL\n`;
         emailText += `Model: ${model_selected || "Ikke angivet"}\n`;
-        emailText += `Muligheder valg:\n${JSON.stringify(options, null, 2)}\n`;
-        emailText += `Forsigtig Prisoverslag: ${estimated_price_from} - ${estimated_price_to} kr\n`;
+        emailText += `Tilvalg: ${addonTitles.length ? addonTitles.join(", ") : "Ingen"}\n`;
+        emailText += `Fundament: ${foundationTitle}\n`;
+        emailText += `Estimeret pris fra: ${estimated_price_from ? Number(estimated_price_from).toLocaleString("da-DK") + " kr." : "Ikke beregnet"}\n`;
       }
 
       await resend.emails.send({

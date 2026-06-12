@@ -20,6 +20,7 @@ import {
   ClipboardList,
 } from "lucide-react";
 import { MOCK_MODELS } from "@/lib/mock-models";
+import { PRICE_PER_M2_FROM, STANDARD_PRICE_INCLUSIONS } from "@/lib/spec";
 import urlBuilder from "@sanity/image-url";
 import { client } from "@/lib/sanity";
 import { LazyVideo } from "@/components/LazyVideo";
@@ -228,6 +229,67 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* ─── PRICE TRANSPARENCY ─── */}
+      <section className="py-24 bg-background">
+        <div className="container mx-auto px-4 md:px-8">
+          <div className="text-center mb-14">
+            <p className="text-sm font-medium text-primary uppercase tracking-[0.12em] mb-3">Pris & inkluderet</p>
+            <h2 className="mb-4">Hvad koster et Ecohus?</h2>
+            <p className="text-muted-foreground text-lg max-w-xl mx-auto">
+              Vi opfører nøglefærdige sommerhuse til en fast, gennemsigtig pris — uden skjulte poster.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-5xl mx-auto items-stretch">
+            {/* Price highlight */}
+            <div className="bg-[#2C5F3E] text-white rounded-3xl p-10 flex flex-col justify-center">
+              <p className="text-white/70 text-sm uppercase tracking-[0.12em] mb-3">Nøglefærdigt — fra</p>
+              <div className="flex items-baseline gap-2 mb-2">
+                <span className="text-5xl md:text-6xl font-medium leading-none">{PRICE_PER_M2_FROM.toLocaleString("da-DK")}</span>
+                <span className="text-2xl font-medium text-white/80">kr./m²</span>
+              </div>
+              <p className="text-white/75 leading-relaxed mb-8">
+                Inkl. standardopbygning. Fast pris fra aftalen er underskrevet — ingen overraskelser undervejs.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-3">
+                <Link
+                  href="/prisberegner"
+                  className={cn(
+                    buttonVariants({ size: "lg" }),
+                    "bg-white text-[#2C5F3E] hover:bg-white/90 font-medium"
+                  )}
+                >
+                  Beregn din pris
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
+                <Link
+                  href="/plantegninger"
+                  className={cn(
+                    buttonVariants({ variant: "outline", size: "lg" }),
+                    "bg-transparent text-white border-white/40 hover:bg-white/10 font-medium"
+                  )}
+                >
+                  Se modeller
+                </Link>
+              </div>
+            </div>
+
+            {/* Inclusions checklist */}
+            <div className="bg-secondary rounded-3xl p-10 border border-border/40">
+              <h3 className="text-xl font-medium mb-6">Prisen inkluderer</h3>
+              <ul className="flex flex-col gap-4">
+                {STANDARD_PRICE_INCLUSIONS.map((item, i) => (
+                  <li key={i} className="flex items-start gap-3">
+                    <CheckCircle2 className="w-5 h-5 text-primary shrink-0 mt-0.5" />
+                    <span className="text-foreground">{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ─── FEATURED MODELS ─── */}
       <section className="py-24 bg-secondary">
         <div className="container mx-auto px-4 md:px-8">
@@ -280,7 +342,10 @@ export default async function HomePage() {
                   <div className="p-6 flex flex-col gap-3 bg-[#2C5F3E] text-white flex-1">
                     <div className="flex items-start justify-between gap-2">
                       <div>
-                        <h3 className="text-lg font-medium text-white/90 tracking-tight">{model.name}</h3>
+                        <h3 className="text-lg font-medium text-white/90 tracking-tight">
+                          {model.display_name || model.name}
+                          {model.display_name && <span className="text-white/40 font-normal text-sm ml-2">{model.name}</span>}
+                        </h3>
                         <p className="text-white/60 text-sm mt-0.5">
                           {model.size_m2} m² boligareal
                           {model.covered_area_m2 > 0 && ` · ${model.covered_area_m2} m² overdækket`}

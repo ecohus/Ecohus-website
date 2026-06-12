@@ -228,7 +228,10 @@ export function ModelsGrid({ initialModels }: { initialModels: any[] }) {
                     <div className="bg-[#2C5F3E] text-white px-5 py-4 flex flex-col gap-2">
                       <div className="flex items-start justify-between gap-2">
                         <div>
-                          <h3 className="text-base font-medium text-white/90 leading-tight">{model.name}</h3>
+                          <h3 className="text-base font-medium text-white/90 leading-tight">
+                            {model.display_name || model.name}
+                            {model.display_name && <span className="text-white/40 font-normal ml-1.5">{model.name}</span>}
+                          </h3>
                           <p className="text-white/55 text-xs mt-0.5">{model.size_m2} m²{model.covered_area_m2 > 0 ? ` · ${model.covered_area_m2} m² overdækket` : ""}</p>
                         </div>
                         {isExpanded
@@ -269,7 +272,7 @@ export function ModelsGrid({ initialModels }: { initialModels: any[] }) {
                     >
                       <div className="flex items-center justify-between px-6 py-4 border-b border-white/15">
                         <h4 className="text-base font-medium text-white">
-                          {model.name} — alle visninger
+                          {model.display_name || model.name} — alle visninger
                         </h4>
                         <button
                           onClick={(e) => { e.stopPropagation(); setExpandedModelId(null); }}
