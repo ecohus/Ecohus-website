@@ -5,7 +5,7 @@ import { getHouseModelBySlug, getHouseModels } from "@/lib/sanity";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { ImageLightbox } from "@/components/ImageLightbox";
-import { CheckCircle2, ChevronLeft, Home, BedDouble, Bath, Car, ArrowRight, Plus } from "lucide-react";
+import { CheckCircle2, ChevronLeft, Home, BedDouble, Bath, ArrowRight, Plus } from "lucide-react";
 import { MOCK_MODELS } from "@/lib/mock-models";
 import { STANDARD_CONSTRUCTION, INCLUDED_IN_STANDARD, NOT_INCLUDED } from "@/lib/spec";
 import urlBuilder from "@sanity/image-url";
@@ -244,11 +244,9 @@ export default async function ModelDetailPage({ params }: { params: { slug: stri
                 <ul className="flex flex-col divide-y divide-border/40">
                   {[
                     { label: "Boligareal", value: `${(model as any).size_m2} m²`, icon: <Home className="w-4 h-4" /> },
-                    { label: "Overdækket areal", value: `${(model as any).covered_area_m2 ?? 0} m²`, icon: null },
+                    { label: "Overdækket terrasse", value: (model as any).covered_area_m2 > 0 ? `${(model as any).covered_area_m2} m²` : "Nej", icon: null },
                     { label: "Værelser", value: String((model as any).rooms), icon: <BedDouble className="w-4 h-4" /> },
                     { label: "Badeværelser", value: String((model as any).bathrooms), icon: <Bath className="w-4 h-4" /> },
-                    { label: "Garage", value: (model as any).has_garage ? "Ja" : "Nej", icon: <Car className="w-4 h-4" /> },
-                    { label: "Overdækning/carport", value: (model as any).has_canopy ? "Ja" : "Nej", icon: null },
                   ].map((spec, i) => (
                     <li key={i} className="flex items-center justify-between py-3 gap-3">
                       <div className="flex items-center gap-2 text-muted-foreground text-sm">

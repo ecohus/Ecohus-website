@@ -49,10 +49,10 @@ export const MOCK_MODELS = [
     covered_area_m2: 18,
     rooms: 3,
     bathrooms: 2,
-    has_garage: true,
+    has_garage: false,
     price_from: 1850000,
     description:
-      "Rummelig bolig med tre værelser, to badeværelser og integreret garage. Designet til familier, der ønsker høj komfort og god plads til både hverdag og ferie.",
+      "Rummelig bolig med tre værelser og to badeværelser. Designet til familier, der ønsker høj komfort og god plads til både hverdag og ferie.",
     image_url: "/Plantegninger/120m2/Version 1/Plantegning.png",
     images: [
       "/Plantegninger/120m2/Version 1/Plantegning.png",
@@ -84,13 +84,13 @@ export const MOCK_MODELS = [
     display_name: "Engen V1",
     slug: { current: "61-130-v1" },
     size_m2: 130,
-    covered_area_m2: 24,
+    covered_area_m2: 0,
     rooms: 3,
     bathrooms: 2,
-    has_garage: true,
+    has_garage: false,
     price_from: 2050000,
     description:
-      "Lys og rummelig bolig med fokus på store opholdsrum og gode udearealer. Den store overdækkede terrasse giver mulighed for udeliv året rundt.",
+      "Lys og rummelig bolig med fokus på store opholdsrum og gode udearealer. Masser af plads til både hverdag og ferie.",
     image_url: "/Plantegninger/130m2/Version 1/Plantegning.png",
     images: [
       "/Plantegninger/130m2/Version 1/Plantegning.png",
@@ -126,10 +126,10 @@ export const MOCK_MODELS = [
     covered_area_m2: 20,
     rooms: 4,
     bathrooms: 2,
-    has_garage: true,
+    has_garage: false,
     price_from: 2650000,
     description:
-      "Eksklusiv bolig med god plads til både familie og gæster. Integreret garage og store vinduespartier skaber et moderne og lyst hjem.",
+      "Eksklusiv bolig med god plads til både familie og gæster. Store vinduespartier skaber et moderne og lyst hjem.",
     image_url: "/Plantegninger/146m2/Version 1/Plantegning.png",
     images: [
       "/Plantegninger/146m2/Version 1/Plantegning.png",

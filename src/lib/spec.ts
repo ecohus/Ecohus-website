@@ -4,6 +4,8 @@
 // Single source of truth for the standard construction spec, pricing and
 // add-ons. Used by the price calculator, model detail pages and the homepage
 // so copy and prices never drift between pages.
+//
+// All prices are indicative "fra"-priser (from-prices) / estimates.
 // ───────────────────────────────────────────────────────────────────────────
 
 /** Vejledende kvadratmeterpris for et nøglefærdigt Ecohus inkl. standardopbygning. */
@@ -16,6 +18,7 @@ export const STANDARD_PRICE_INCLUSIONS = [
   "3-lags energivinduer",
   "Køkken og badeværelse",
   "El- og VVS-installationer",
+  "Luft/vand varmepumpe",
   "Indvendige overflader",
   "Nøglefærdig levering",
 ];
@@ -32,14 +35,14 @@ export const STANDARD_CONSTRUCTION: { title: string; items: string[] }[] = [
       "195 mm mineraluld eller træfiberisolering",
       "Dampspærre",
       "Installationsvæg 45 × 45 mm med 45 mm isolering",
-      "Indvendig beklædning i gips eller Fermacell",
+      "Indvendig beklædning i gips",
       "Malerbehandlet overflade",
     ],
   },
   {
     title: "Tagtype",
     items: [
-      "Sadeltag med 25–30 graders hældning",
+      "Sadeltag med 15–30 graders hældning",
       "Tagpap eller tagsten",
       "Diffusionsåbent undertag",
       "Tagkonstruktion 45 × 295 mm spær",
@@ -63,11 +66,11 @@ export const STANDARD_CONSTRUCTION: { title: string; items: string[] }[] = [
 export const INCLUDED_IN_STANDARD = [
   "Projektering og byggetegninger",
   "Fundament (traditionelt støbt fundament)",
-  "Komplet klimaskærm",
   "Vinduer og yderdøre",
   "Isolering iht. BR18",
   "El-installation standard",
   "VVS-installation standard",
+  "Luft/vand varmepumpe",
   "Gulvvarme i hele huset",
   "Standard køkken",
   "Badeværelse med fliser",
@@ -80,50 +83,54 @@ export const INCLUDED_IN_STANDARD = [
 /** Ikke inkluderet — tilvalg, der kan tilkøbes. */
 export const NOT_INCLUDED = [
   "Solcelleanlæg",
-  "Luft/vand varmepumpe",
   "Smart Home løsning",
   "Udekøkken",
-  "Indbygningsbrændeovn",
-  "Carport eller garage",
-  "Ekstra terrassearealer",
+  "Brændeovn (indbygget eller fritstående)",
+  "Fermacell indvendig beklædning",
+  "Spa og sauna",
+  "Garage",
+  "Terrassearealer",
   "Belægning og haveanlæg",
   "Tilslutningsafgifter",
-  "Jordbundsundersøgelse",
-  "Byggestrøm og byggepladsindretning",
 ];
 
 export type AddonOption = {
   id: string;
   title: string;
-  price: number;
+  /** Fast fra-pris i kr. */
+  price?: number;
+  /** Fra-pris pr. m² (f.eks. terrasse uden overdækning). */
+  pricePerM2?: number;
+  /** Prissættes individuelt — indgår ikke i estimatet. */
+  custom?: boolean;
   desc: string;
 };
 
-/** Tilvalgspriser — bruges i prisberegneren. */
+/** Tilvalgspriser — bruges i prisberegneren. Alle priser er fra-priser. */
 export const ADDONS: AddonOption[] = [
   { id: "terrasse", title: "Overdækket terrasse (25 m²)", price: 175000, desc: "Integreret, overdækket uderum i forlængelse af boligen." },
-  { id: "varmepumpe", title: "Luft/vand varmepumpe", price: 95000, desc: "Energivenlig og fremtidssikret opvarmning." },
-  { id: "solceller", title: "Solcelleanlæg (6 kW)", price: 85000, desc: "Producér din egen grønne strøm." },
+  { id: "terrasse_aaben", title: "Terrasse – ikke overdækket", pricePerM2: 800, desc: "Anlagt terrasse uden overdækning. Pris pr. m²." },
+  { id: "solceller", title: "Solcelleanlæg (6 kW)", price: 60000, desc: "Producér din egen grønne strøm." },
   { id: "udekoekken", title: "Udekøkken integration", price: 45000, desc: "Forberedt til vand og afløb på terrassen." },
-  { id: "smart_home", title: "Smart Home pakke", price: 35000, desc: "Intelligent styring af lys, varme og overvågning." },
+  { id: "smart_home", title: "Smart Home pakke", price: 45000, desc: "Intelligent styring af lys, varme og overvågning." },
   { id: "brændeovn", title: "Indbygningsbrændeovn", price: 55000, desc: "Centralt placeret for maksimal hygge." },
+  { id: "braendeovn_fritstaaende", title: "Fritstående brændeovn", price: 25000, desc: "Klassisk, fritstående brændeovn." },
+  { id: "spa_sauna", title: "Spa og sauna", custom: true, desc: "Luksuriøst spa- og saunaanlæg. Pris oplyses individuelt." },
 ];
 
 export type Foundation = {
   id: string;
   title: string;
-  /** Prisforskel ift. standard støbt fundament (0 = inkluderet i prisen). */
-  priceDiff: number;
   desc: string;
 };
 
 /**
- * Fundamenttyper. Et almindeligt støbt fundament er inkluderet i standardprisen
- * (priceDiff 0). Alternativer angives som en prisforskel ift. standarden.
+ * Fundamenttyper. Et almindeligt støbt fundament er inkluderet i standardprisen.
+ * Typen er primært til orientering og en god ting at afklare til samtalen.
  */
 export const FOUNDATIONS: Foundation[] = [
-  { id: "stoebt", title: "Almindeligt støbt fundament", priceDiff: 0, desc: "Inkluderet i standardprisen — solidt, traditionelt støbt fundament." },
-  { id: "skrue", title: "Skruefundament", priceDiff: -25000, desc: "Hurtig og miljøvenlig montering uden større jordarbejde." },
-  { id: "punkt", title: "Punktfundament", priceDiff: -55000, desc: "Velegnet til visse jordtyper og hævet byggeri." },
-  { id: "ved_ikke", title: "Ved ikke endnu", priceDiff: 0, desc: "Vi regner med et standard støbt fundament i estimatet og rådgiver dig undervejs." },
+  { id: "stoebt", title: "Almindeligt støbt fundament", desc: "Inkluderet i standardprisen — solidt, traditionelt støbt fundament." },
+  { id: "skrue", title: "Skruefundament", desc: "Hurtig og miljøvenlig montering uden større jordarbejde." },
+  { id: "punkt", title: "Punktfundament", desc: "Velegnet til visse jordtyper og hævet byggeri." },
+  { id: "ved_ikke", title: "Ved ikke endnu", desc: "Vi rådgiver dig om den rette fundamentstype undervejs." },
 ];

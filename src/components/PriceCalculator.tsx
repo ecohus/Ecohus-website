@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 import { MOCK_MODELS } from "@/lib/mock-models";
-import { ADDONS, FOUNDATIONS } from "@/lib/spec";
+import { ADDONS, FOUNDATIONS, type AddonOption } from "@/lib/spec";
 import { CheckCircle2, ChevronRight, ChevronLeft, Loader2, AlertCircle, Home, BoxSelect, Droplets, ClipboardList, Lock, User } from "lucide-react";
 
 type FormValues = z.infer<typeof calculatorLeadSchema>;
@@ -29,11 +29,11 @@ const CUSTOM_TIERS = [
   { id: "premium", title: "Premium / Højstandard", desc: "Eksklusive materialer og detaljer overalt." }
 ];
 
-/** Hjælper: viser fundamentets prisforskel ift. standard støbt fundament. */
-function foundationPriceLabel(priceDiff: number): string {
-  if (priceDiff === 0) return "Inkluderet";
-  const sign = priceDiff < 0 ? "−" : "+";
-  return `${sign}${Math.abs(priceDiff).toLocaleString("da-DK")} kr.`;
+/** Hjælper: vis en tilvalgs fra-pris (fast, pr. m² eller individuel). */
+function addonPriceLabel(a: AddonOption): string {
+  if (a.pricePerM2) return `Fra ${a.pricePerM2.toLocaleString("da-DK")} kr./m²`;
+  if (a.custom) return "Pris oplyses";
+  return `Fra ${(a.price ?? 0).toLocaleString("da-DK")} kr.`;
 }
 
 export function PriceCalculator({ models: sanityModels }: { models: any[] }) {
@@ -51,6 +51,7 @@ export function PriceCalculator({ models: sanityModels }: { models: any[] }) {
   const [selectedTier, setSelectedTier] = useState<string | null>(null);
   const [selectedModelIndex, setSelectedModelIndex] = useState<number | null>(null);
   const [selectedAddons, setSelectedAddons] = useState<string[]>([]);
+  const [addonAreas, setAddonAreas] = useState<Record<string, number>>({});
   const [selectedFoundation, setSelectedFoundation] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -81,17 +82,25 @@ export function PriceCalculator({ models: sanityModels }: { models: any[] }) {
 
   const model = selectedModelIndex !== null ? models[selectedModelIndex] : null;
 
-  // Pricing calculations
+  // Pricing calculations — everything is a "fra"-pris / estimate.
   const basePrice = model?.price_from || 0;
   const addonsPrice = selectedAddons.reduce((acc, addonId) => {
     const addon = ADDONS.find((a) => a.id === addonId);
-    return acc + (addon?.price || 0);
+    if (!addon) return acc;
+    if (addon.pricePerM2) return acc + addon.pricePerM2 * (addonAreas[addonId] || 0);
+    if (addon.custom) return acc; // priced individually — not part of the estimate
+    return acc + (addon.price || 0);
   }, 0);
-  // A standard cast foundation is included in the base price. Alternative
-  // foundation types are applied as a price difference (0 / negative).
+  // Foundation is informational only — a standard cast foundation is included
+  // in the price, so the choice does not change the estimate.
   const foundation = FOUNDATIONS.find((f) => f.id === selectedFoundation) || FOUNDATIONS[0];
 
-  const estimatedTotal = basePrice + addonsPrice + foundation.priceDiff;
+  const estimatedTotal = basePrice + addonsPrice;
+  // True when the selection contains tilvalg priced by area or individually.
+  const hasVariableAddon = selectedAddons.some((id) => {
+    const a = ADDONS.find((x) => x.id === id);
+    return !!a && (a.custom || (!!a.pricePerM2 && !(addonAreas[id] > 0)));
+  });
 
   const {
     register,
@@ -350,21 +359,38 @@ export function PriceCalculator({ models: sanityModels }: { models: any[] }) {
                       <div className={cn("w-6 h-6 rounded-md border-2 shrink-0 flex items-center justify-center mt-0.5", isSelected ? "border-primary bg-primary text-primary-foreground" : "border-muted-foreground/50")}>
                         {isSelected && <CheckCircle2 className="w-4 h-4" />}
                       </div>
-                      <div>
+                      <div className="flex-1">
                         <h3 className="font-medium text-foreground mb-1">{addon.title}</h3>
                         <p className="text-xs text-muted-foreground leading-relaxed mb-1">{addon.desc}</p>
+                        <p className="text-sm font-medium text-primary">{addonPriceLabel(addon)}</p>
+                        {isSelected && addon.pricePerM2 && (
+                          <div className="mt-3 flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
+                            <Label htmlFor={`area-${addon.id}`} className="text-xs text-muted-foreground">Antal m²</Label>
+                            <Input
+                              id={`area-${addon.id}`}
+                              type="number"
+                              min={0}
+                              inputMode="numeric"
+                              placeholder="0"
+                              value={addonAreas[addon.id] ?? ""}
+                              onChange={(e) => setAddonAreas((prev) => ({ ...prev, [addon.id]: Math.max(0, Number(e.target.value) || 0) }))}
+                              className="h-9 w-24"
+                            />
+                          </div>
+                        )}
                       </div>
                     </div>
                   );
                 })}
               </div>
+              <p className="text-xs text-muted-foreground mt-6">Alle tilvalgspriser er vejledende fra-priser.</p>
             </div>
           )}
 
           {(step === 3 && !isCustomBuild) || (step === 2 && isCustomBuild) ? (
             <div className="animate-in fade-in slide-in-from-right-4 duration-500">
               <h2 className="text-2xl font-medium mb-2">{isCustomBuild ? "2" : "3"}. Vælg fundament</h2>
-              <p className="text-muted-foreground mb-8">Et almindeligt støbt fundament er inkluderet i standardprisen. Vælger du en anden type, justeres prisen herefter.</p>
+              <p className="text-muted-foreground mb-8">Et almindeligt støbt fundament er inkluderet i standardprisen. Dit valg påvirker ikke estimatet — det er bare godt at få afklaret inden samtalen.</p>
               <div className="flex flex-col gap-4 max-w-2xl">
                 {FOUNDATIONS.map((f) => {
                   const isSelected = selectedFoundation === f.id;
@@ -384,12 +410,6 @@ export function PriceCalculator({ models: sanityModels }: { models: any[] }) {
                         <h3 className="font-medium text-lg text-foreground">{f.title}</h3>
                         <p className="text-sm text-muted-foreground">{f.desc}</p>
                       </div>
-                      <span className={cn(
-                        "shrink-0 text-sm font-medium px-3 py-1 rounded-full whitespace-nowrap",
-                        f.priceDiff === 0 ? "bg-primary/10 text-primary" : "bg-secondary text-foreground"
-                      )}>
-                        {foundationPriceLabel(f.priceDiff)}
-                      </span>
                     </div>
                   );
                 })}
@@ -554,22 +574,34 @@ export function PriceCalculator({ models: sanityModels }: { models: any[] }) {
                       <div className="flex items-center justify-between gap-4 py-3">
                         <span className="font-medium text-foreground">
                           {model?.display_name || model?.name}
-                          <span className="block text-xs text-muted-foreground font-normal">Inkl. standardopbygning og støbt fundament</span>
+                          <span className="block text-xs text-muted-foreground font-normal">Inkl. standardopbygning, varmepumpe og støbt fundament</span>
                         </span>
-                        <span className="font-medium text-foreground tabular-nums whitespace-nowrap">kr. {basePrice.toLocaleString("da-DK")}</span>
+                        <span className="font-medium text-foreground tabular-nums whitespace-nowrap">Fra kr. {basePrice.toLocaleString("da-DK")}</span>
                       </div>
                       {selectedAddons.map(id => {
                         const addon = ADDONS.find(a => a.id === id);
+                        if (!addon) return null;
+                        let amount: string;
+                        if (addon.pricePerM2) {
+                          const m2 = addonAreas[id] || 0;
+                          amount = m2 > 0
+                            ? `Fra kr. ${(addon.pricePerM2 * m2).toLocaleString("da-DK")} (${m2} m²)`
+                            : `Fra ${addon.pricePerM2.toLocaleString("da-DK")} kr./m²`;
+                        } else if (addon.custom) {
+                          amount = "Pris oplyses";
+                        } else {
+                          amount = `Fra kr. ${(addon.price ?? 0).toLocaleString("da-DK")}`;
+                        }
                         return (
                           <div key={id} className="flex items-center justify-between gap-4 py-3">
-                            <span className="text-sm text-muted-foreground">+ {addon?.title}</span>
-                            <span className="text-sm text-muted-foreground tabular-nums whitespace-nowrap">kr. {addon?.price.toLocaleString("da-DK")}</span>
+                            <span className="text-sm text-muted-foreground">+ {addon.title}</span>
+                            <span className="text-sm text-muted-foreground tabular-nums whitespace-nowrap">{amount}</span>
                           </div>
                         );
                       })}
                       <div className="flex items-center justify-between gap-4 py-3">
-                        <span className="text-sm text-muted-foreground">{foundation.title}</span>
-                        <span className="text-sm text-muted-foreground tabular-nums whitespace-nowrap">{foundationPriceLabel(foundation.priceDiff)}</span>
+                        <span className="text-sm text-muted-foreground">Fundament</span>
+                        <span className="text-sm text-muted-foreground whitespace-nowrap">{foundation.title}</span>
                       </div>
                     </>
                   )}
@@ -589,7 +621,10 @@ export function PriceCalculator({ models: sanityModels }: { models: any[] }) {
                     <span className="text-sm font-medium text-primary">Beregnes individuelt</span>
                   </div>
                 )}
-                <p className="text-xs text-muted-foreground mt-2 text-right">Uforpligtende estimat · ekskl. grundkøb og tinglysning</p>
+                {!isCustomBuild && hasVariableAddon && (
+                  <p className="text-xs text-muted-foreground mt-2 text-right">+ tilvalg, der prissættes efter areal eller individuelt</p>
+                )}
+                <p className="text-xs text-muted-foreground mt-2 text-right">Vejledende fra-priser · uforpligtende estimat · ekskl. grundkøb og tinglysning</p>
               </div>
 
               <Button size="lg" className="w-full sm:w-auto" onClick={() => window.location.href = "/"}>
