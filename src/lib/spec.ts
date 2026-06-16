@@ -87,7 +87,8 @@ export const NOT_INCLUDED = [
   "Udekøkken",
   "Brændeovn (indbygget eller fritstående)",
   "Fermacell indvendig beklædning",
-  "Spa og sauna",
+  "Spabad",
+  "Udendørs sauna",
   "Garage",
   "Terrassearealer",
   "Belægning og haveanlæg",
@@ -112,10 +113,11 @@ export const ADDONS: AddonOption[] = [
   { id: "terrasse_aaben", title: "Terrasse – ikke overdækket", pricePerM2: 800, desc: "Anlagt terrasse uden overdækning. Pris pr. m²." },
   { id: "solceller", title: "Solcelleanlæg (6 kW)", price: 60000, desc: "Producér din egen grønne strøm." },
   { id: "udekoekken", title: "Udekøkken integration", price: 45000, desc: "Forberedt til vand og afløb på terrassen." },
-  { id: "smart_home", title: "Smart Home pakke", price: 45000, desc: "Intelligent styring af lys, varme og overvågning." },
+  { id: "smart_home", title: "Smart Home pakke", price: 50000, desc: "Intelligent styring af lys, varme og overvågning." },
   { id: "brændeovn", title: "Indbygningsbrændeovn", price: 55000, desc: "Centralt placeret for maksimal hygge." },
   { id: "braendeovn_fritstaaende", title: "Fritstående brændeovn", price: 25000, desc: "Klassisk, fritstående brændeovn." },
-  { id: "spa_sauna", title: "Spa og sauna", custom: true, desc: "Luksuriøst spa- og saunaanlæg. Pris oplyses individuelt." },
+  { id: "spabad", title: "Spabad", price: 17000, desc: "Udendørs spabad til afslapning året rundt." },
+  { id: "sauna_udendoers", title: "Udendørs sauna", price: 60000, desc: "Fritstående udendørs sauna i naturmaterialer." },
 ];
 
 export type Foundation = {

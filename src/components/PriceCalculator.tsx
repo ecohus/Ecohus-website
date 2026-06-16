@@ -359,8 +359,8 @@ export function PriceCalculator({ models: sanityModels }: { models: any[] }) {
                       <div className={cn("w-6 h-6 rounded-md border-2 shrink-0 flex items-center justify-center mt-0.5", isSelected ? "border-primary bg-primary text-primary-foreground" : "border-muted-foreground/50")}>
                         {isSelected && <CheckCircle2 className="w-4 h-4" />}
                       </div>
-                      <div className="flex-1">
-                        <h3 className="font-medium text-foreground mb-1">{addon.title}</h3>
+                      <div className="flex-1 min-w-0">
+                        <h3 className="font-medium text-foreground mb-1 break-words hyphens-auto">{addon.title}</h3>
                         <p className="text-xs text-muted-foreground leading-relaxed mb-1">{addon.desc}</p>
                         <p className="text-sm font-medium text-primary">{addonPriceLabel(addon)}</p>
                         {isSelected && addon.pricePerM2 && (

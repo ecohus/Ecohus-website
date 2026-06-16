@@ -103,18 +103,25 @@ export async function POST(req: Request) {
         emailText += `Estimeret pris fra: ${estimated_price_from ? Number(estimated_price_from).toLocaleString("da-DK") + " kr." : "Ikke beregnet"}\n`;
       }
 
-      await resend.emails.send({
-        from: process.env.RESEND_FROM_EMAIL || "noreply@ecohus.dk",
-        to: process.env.RESEND_NOTIFY_EMAIL || "kontakt@ecohus.dk",
-        subject: `Nyt Prisberegner Lead: ${name} ${is_custom_build ? "(Byg Selv)" : ""}`,
-        text: emailText,
-        attachments: fileBuffer ? [
-          {
-            filename: fileName,
-            content: fileBuffer,
-          }
-        ] : undefined,
-      });
+      // The lead is already saved at this point, so an email failure must not
+      // fail the request — just log it.
+      try {
+        await resend.emails.send({
+          from: process.env.RESEND_FROM_EMAIL || "noreply@ecohus.dk",
+          to: process.env.RESEND_NOTIFY_EMAIL || "kontakt@ecohus.dk",
+          replyTo: email,
+          subject: `Nyt Prisberegner Lead: ${name} ${is_custom_build ? "(Byg Selv)" : ""}`,
+          text: emailText,
+          attachments: fileBuffer ? [
+            {
+              filename: fileName,
+              content: fileBuffer,
+            }
+          ] : undefined,
+        });
+      } catch (emailError) {
+        console.error("Resend error (calculator-lead):", emailError);
+      }
     }
 
     return NextResponse.json({ success: true });
