@@ -8,6 +8,7 @@ import { Footer } from "@/components/Footer";
 import { CookieConsent } from "@/components/CookieConsent";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { TransitionOverlay } from "@/components/TransitionOverlay";
+import { MetaPixel } from "@/components/MetaPixel";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -54,6 +55,7 @@ export default function RootLayout({
         </main>
         <Footer />
         <CookieConsent />
+        <MetaPixel />
         <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID || 'G-XXXXXXXXXX'} />
       </body>
     </html>

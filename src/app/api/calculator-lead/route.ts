@@ -35,6 +35,7 @@ export async function POST(req: Request) {
         name: rawData.name,
         email: rawData.email,
         phone: rawData.phone,
+        call_consent: rawData.call_consent === "true",
         model_selected: rawData.model_selected,
         options: rawData.options ? JSON.parse(rawData.options as string) : undefined,
         estimated_price_from: rawData.estimated_price_from ? Number(rawData.estimated_price_from) : undefined,
@@ -54,7 +55,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Ugyldigt input data", details: result.error.format() }, { status: 400 });
     }
 
-    const { name, email, phone, model_selected, options, estimated_price_from, estimated_price_to, is_custom_build, custom_m2, custom_roof, custom_tier } = result.data;
+    const { name, email, phone, call_consent, model_selected, options, estimated_price_from, estimated_price_to, is_custom_build, custom_m2, custom_roof, custom_tier } = result.data;
 
     // Bypass DB insert if local placeholder is used
     if (process.env.NEXT_PUBLIC_SUPABASE_URL?.includes("your-project.supabase.co")) {
@@ -62,11 +63,12 @@ export async function POST(req: Request) {
     } else {
       const { error: dbError } = await supabase
         .from("price_calculator_leads")
-        .insert([{ 
-          name, 
-          email, 
-          phone, 
-          model_selected, 
+        .insert([{
+          name,
+          email,
+          phone,
+          call_consent,
+          model_selected,
           options, 
           estimated_price_from, 
           estimated_price_to,
@@ -84,7 +86,7 @@ export async function POST(req: Request) {
 
     // Bypass Email if local placeholder is used
     if (process.env.RESEND_API_KEY && !process.env.RESEND_API_KEY.includes("YOUR_RESEND_API_KEY")) {
-      let emailText = `Navn: ${name}\nEmail: ${email}\nTelefon: ${phone}\n\n`;
+      let emailText = `Navn: ${name}\nEmail: ${email}\nTelefon: ${phone}\nMå ringes op: ${call_consent ? "JA" : "NEJ"}\n\n`;
       
       const foundationTitle = FOUNDATIONS.find((f) => f.id === options?.foundation)?.title || options?.foundation || "Ikke angivet";
 

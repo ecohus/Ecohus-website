@@ -28,6 +28,8 @@ CREATE TABLE IF NOT EXISTS price_calculator_leads (
   custom_m2           INTEGER,
   custom_roof         VARCHAR(100),
   custom_tier         VARCHAR(100),
+  -- Consent: the lead accepted that we may call them with a specific offer
+  call_consent        BOOLEAN      DEFAULT FALSE,
   created_at          TIMESTAMPTZ  DEFAULT NOW()
 );
 
@@ -36,6 +38,7 @@ ALTER TABLE price_calculator_leads ADD COLUMN IF NOT EXISTS is_custom_build BOOL
 ALTER TABLE price_calculator_leads ADD COLUMN IF NOT EXISTS custom_m2 INTEGER;
 ALTER TABLE price_calculator_leads ADD COLUMN IF NOT EXISTS custom_roof VARCHAR(100);
 ALTER TABLE price_calculator_leads ADD COLUMN IF NOT EXISTS custom_tier VARCHAR(100);
+ALTER TABLE price_calculator_leads ADD COLUMN IF NOT EXISTS call_consent BOOLEAN DEFAULT FALSE;
 
 CREATE INDEX IF NOT EXISTS idx_contact_submissions_created ON contact_submissions(created_at DESC);
 CREATE INDEX IF NOT EXISTS idx_calculator_leads_created ON price_calculator_leads(created_at DESC);

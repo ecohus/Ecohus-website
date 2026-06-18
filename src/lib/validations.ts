@@ -20,4 +20,7 @@ export const calculatorLeadSchema = z.object({
   custom_m2: z.number().optional(),
   custom_roof: z.string().optional(),
   custom_tier: z.string().optional(),
+  call_consent: z.boolean().refine((v) => v === true, {
+    message: "Du skal acceptere, at vi må ringe dig op for at give et tilbud",
+  }),
 });

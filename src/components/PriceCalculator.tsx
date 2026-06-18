@@ -13,7 +13,7 @@ import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 import { MOCK_MODELS } from "@/lib/mock-models";
 import { ADDONS, FOUNDATIONS, type AddonOption } from "@/lib/spec";
-import { CheckCircle2, ChevronRight, ChevronLeft, Loader2, AlertCircle, Home, BoxSelect, Droplets, ClipboardList, Lock, User } from "lucide-react";
+import { CheckCircle2, ChevronRight, ChevronLeft, Loader2, AlertCircle, Home, BoxSelect, Droplets, ClipboardList, Lock, User, Phone } from "lucide-react";
 
 type FormValues = z.infer<typeof calculatorLeadSchema>;
 
@@ -112,6 +112,7 @@ export function PriceCalculator({ models: sanityModels }: { models: any[] }) {
       name: "",
       email: "",
       phone: "",
+      call_consent: false,
     },
   });
 
@@ -123,6 +124,7 @@ export function PriceCalculator({ models: sanityModels }: { models: any[] }) {
     formData.append("name", data.name);
     formData.append("email", data.email);
     formData.append("phone", data.phone);
+    formData.append("call_consent", data.call_consent.toString());
     formData.append("is_custom_build", isCustomBuild.toString());
     
     if (isCustomBuild) {
@@ -500,6 +502,21 @@ export function PriceCalculator({ models: sanityModels }: { models: any[] }) {
                   <Input id="calc-phone" type="tel" placeholder="+45 12 34 56 78" {...register("phone")} disabled={isSubmitting} />
                   {errors.phone && <p className="text-sm text-destructive">{errors.phone.message}</p>}
                 </div>
+                <div className="space-y-1.5 pt-1">
+                  <label htmlFor="calc-consent" className="flex items-start gap-3 cursor-pointer">
+                    <input
+                      id="calc-consent"
+                      type="checkbox"
+                      {...register("call_consent")}
+                      disabled={isSubmitting}
+                      className="mt-1 h-4 w-4 shrink-0 rounded border-2 border-muted-foreground/50 text-primary accent-primary cursor-pointer"
+                    />
+                    <span className="text-sm text-muted-foreground leading-relaxed">
+                      Ja tak, I må gerne ringe mig op for at give mig et specifikt tilbud.
+                    </span>
+                  </label>
+                  {errors.call_consent && <p className="text-sm text-destructive">{errors.call_consent.message}</p>}
+                </div>
                 <Button type="submit" size="lg" className="w-full text-base h-12 mt-2" disabled={isSubmitting}>
                   {isSubmitting ? (
                     <><Loader2 className="w-5 h-5 mr-2 animate-spin" /> Behandler...</>
@@ -508,7 +525,7 @@ export function PriceCalculator({ models: sanityModels }: { models: any[] }) {
                   )}
                 </Button>
                 <p className="text-xs text-muted-foreground text-center pt-1">
-                  Ingen forpligtelser · Vi kontakter dig inden for 1–2 hverdage
+                  Ingen forpligtelser · Vi ringer dig op inden for 2 hverdage med et specifikt tilbud
                 </p>
               </form>
 
@@ -539,8 +556,8 @@ export function PriceCalculator({ models: sanityModels }: { models: any[] }) {
                   <CheckCircle2 className="w-5 h-5 text-primary" />
                 </div>
                 <div>
-                  <h2 className="text-2xl font-medium leading-tight">Tak! Her er din oversigt</h2>
-                  <p className="text-muted-foreground text-sm">Vi kontakter dig inden for 1–2 hverdage</p>
+                  <h2 className="text-2xl font-medium leading-tight">Tak! Her er dit estimat</h2>
+                  <p className="text-muted-foreground text-sm">Vi ringer dig op inden for 2 hverdage med et specifikt tilbud</p>
                 </div>
               </div>
 
@@ -625,6 +642,18 @@ export function PriceCalculator({ models: sanityModels }: { models: any[] }) {
                   <p className="text-xs text-muted-foreground mt-2 text-right">+ tilvalg, der prissættes efter areal eller individuelt</p>
                 )}
                 <p className="text-xs text-muted-foreground mt-2 text-right">Vejledende fra-priser · uforpligtende estimat · ekskl. grundkøb og tinglysning</p>
+              </div>
+
+              <div className="bg-primary/8 border border-primary/25 rounded-2xl p-6 mb-6 flex items-start gap-4">
+                <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                  <Phone className="w-5 h-5 text-primary" />
+                </div>
+                <div>
+                  <p className="font-medium text-foreground">Vi ringer dig op inden for 2 hverdage med et specifikt tilbud</p>
+                  <p className="text-sm text-muted-foreground mt-1">
+                    Ovenstående er et uforpligtende estimat. En af vores rådgivere kontakter dig på telefon for at gennemgå dine ønsker og give dig et konkret, personligt tilbud.
+                  </p>
+                </div>
               </div>
 
               <Button size="lg" className="w-full sm:w-auto" onClick={() => window.location.href = "/"}>
