@@ -29,13 +29,6 @@ const CUSTOM_TIERS = [
   { id: "premium", title: "Premium / Højstandard", desc: "Eksklusive materialer og detaljer overalt." }
 ];
 
-/** Hjælper: vis en tilvalgs fra-pris (fast, pr. m² eller individuel). */
-function addonPriceLabel(a: AddonOption): string {
-  if (a.pricePerM2) return `Fra ${a.pricePerM2.toLocaleString("da-DK")} kr./m²`;
-  if (a.custom) return "Pris oplyses";
-  return `Fra ${(a.price ?? 0).toLocaleString("da-DK")} kr.`;
-}
-
 export function PriceCalculator({ models: sanityModels }: { models: any[] }) {
   // Use mock fallback when Sanity has no models yet
   const models = sanityModels && sanityModels.length > 0 ? sanityModels : MOCK_MODELS;
@@ -364,7 +357,6 @@ export function PriceCalculator({ models: sanityModels }: { models: any[] }) {
                       <div className="flex-1 min-w-0">
                         <h3 className="font-medium text-foreground mb-1 break-words hyphens-auto">{addon.title}</h3>
                         <p className="text-xs text-muted-foreground leading-relaxed mb-1">{addon.desc}</p>
-                        <p className="text-sm font-medium text-primary">{addonPriceLabel(addon)}</p>
                         {isSelected && addon.pricePerM2 && (
                           <div className="mt-3 flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
                             <Label htmlFor={`area-${addon.id}`} className="text-xs text-muted-foreground">Antal m²</Label>
@@ -385,7 +377,6 @@ export function PriceCalculator({ models: sanityModels }: { models: any[] }) {
                   );
                 })}
               </div>
-              <p className="text-xs text-muted-foreground mt-6">Alle tilvalgspriser er vejledende fra-priser.</p>
             </div>
           )}
 

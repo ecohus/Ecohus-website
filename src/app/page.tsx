@@ -401,7 +401,8 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ─── TESTIMONIALS ─── */}
+      {/* ─── TESTIMONIALS ─── (hidden) */}
+      {false && (
       <section className="py-24 bg-background">
         <div className="container mx-auto px-4 md:px-8">
           <div className="text-center mb-16">
@@ -432,6 +433,7 @@ export default async function HomePage() {
           )}
         </div>
       </section>
+      )}
 
       {/* ─── CTA BANNER ─── */}
       <section className="py-28 bg-[#2C5F3E] text-white">

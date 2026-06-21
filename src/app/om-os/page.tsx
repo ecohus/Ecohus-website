@@ -198,7 +198,8 @@ export default async function OmOsPage() {
         </div>
       </section>
 
-      {/* 7 · Mød holdet */}
+      {/* 7 · Mød holdet (hidden) */}
+      {false && (
       <section className="py-32 bg-background">
         <div className="container mx-auto px-4 md:px-8">
           <div className="text-center mb-20">
@@ -230,6 +231,7 @@ export default async function OmOsPage() {
           )}
         </div>
       </section>
+      )}
 
       {/* 8 · CTA */}
       <section className="py-24 bg-primary text-primary-foreground">
