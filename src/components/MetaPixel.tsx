@@ -1,6 +1,7 @@
 "use client";
 
 import Script from "next/script";
+import { CONSENT_STORAGE_KEY } from "@/lib/meta-pixel";
 
 const META_PIXEL_ID = "716102357728118";
 
@@ -17,8 +18,17 @@ export function MetaPixel() {
           t.src=v;s=b.getElementsByTagName(e)[0];
           s.parentNode.insertBefore(t,s)}(window, document,'script',
           'https://connect.facebook.net/en_US/fbevents.js');
+          // Hold all events until the visitor consents. PageView and any later
+          // events (e.g. Lead) are queued and only sent once consent is granted.
+          fbq('consent', 'revoke');
           fbq('init', '${META_PIXEL_ID}');
           fbq('track', 'PageView');
+          // Returning visitors who already accepted: grant immediately.
+          try {
+            if (localStorage.getItem('${CONSENT_STORAGE_KEY}') === 'accepted') {
+              fbq('consent', 'grant');
+            }
+          } catch (e) {}
         `}
       </Script>
       <noscript>

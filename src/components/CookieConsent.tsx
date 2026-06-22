@@ -2,24 +2,27 @@
 
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
+import { CONSENT_STORAGE_KEY, setPixelConsent } from "@/lib/meta-pixel";
 
 export function CookieConsent() {
   const [show, setShow] = useState(false);
 
   useEffect(() => {
-    const consent = localStorage.getItem("ecohus-cookie-consent");
+    const consent = localStorage.getItem(CONSENT_STORAGE_KEY);
     if (!consent) {
       setShow(true);
     }
   }, []);
 
   const accept = () => {
-    localStorage.setItem("ecohus-cookie-consent", "accepted");
+    localStorage.setItem(CONSENT_STORAGE_KEY, "accepted");
+    setPixelConsent(true);
     setShow(false);
   };
 
   const decline = () => {
-    localStorage.setItem("ecohus-cookie-consent", "declined");
+    localStorage.setItem(CONSENT_STORAGE_KEY, "declined");
+    setPixelConsent(false);
     setShow(false);
   };
 

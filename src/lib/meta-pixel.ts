@@ -11,6 +11,19 @@ declare global {
   }
 }
 
+/** localStorage key holding the visitor's cookie-consent choice ("accepted" | "declined"). */
+export const CONSENT_STORAGE_KEY = "ecohus-cookie-consent";
+
+/**
+ * Grant or revoke Meta Pixel consent (Meta's Consent Mode). While revoked, the
+ * pixel queues events without sending them; granting flushes and enables them.
+ * Safe to call anywhere — it no-ops on the server or before the pixel loads.
+ */
+export function setPixelConsent(granted: boolean) {
+  if (typeof window === "undefined" || typeof window.fbq !== "function") return;
+  window.fbq("consent", granted ? "grant" : "revoke");
+}
+
 /**
  * Fire a Meta Pixel standard event (e.g. "Lead", "Contact").
  * Safe to call anywhere — it no-ops on the server or before the pixel loads.
