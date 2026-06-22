@@ -6,6 +6,7 @@ import { useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { calculatorLeadSchema } from "@/lib/validations";
+import { trackLead } from "@/lib/meta-pixel";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -147,6 +148,13 @@ export function PriceCalculator({ models: sanityModels }: { models: any[] }) {
       setIsRevealed(true);
         setStep(isCustomBuild ? 6 : 5);
         window.scrollTo({ top: 0, behavior: "smooth" });
+        // Report the completed price-calculator lead to the Meta Pixel.
+        // Standard (non-custom) builds carry the estimated value for ROAS reporting.
+        trackLead({
+          contentName: "Prisberegner",
+          source: "prisberegner",
+          value: !isCustomBuild && estimatedTotal > 0 ? estimatedTotal : undefined,
+        });
       }
     } catch {
       setServerError("Netværksfejl. Prøv igen.");

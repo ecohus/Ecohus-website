@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { contactFormSchema } from "@/lib/validations";
+import { trackLead } from "@/lib/meta-pixel";
 import { z } from "zod";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -70,6 +71,8 @@ function RenovationContactForm() {
         setServerError(result.error || "Der skete en fejl");
       } else {
         setIsSuccess(true);
+        // Report the completed renovation contact form to the Meta Pixel.
+        trackLead({ contentName: "Renovering kontaktformular", source: "renovering" });
       }
     } catch {
       setServerError("Der opstod en netværksfejl. Prøv igen senere.");

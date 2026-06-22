@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { contactFormSchema } from "@/lib/validations";
+import { trackLead } from "@/lib/meta-pixel";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -62,6 +63,8 @@ export function ContactForm({ models }: { models: { name: string; display_name?:
         setServerError(result.error || "Der skete en fejl");
       } else {
         setIsSuccess(true);
+        // Report the completed contact form to the Meta Pixel.
+        trackLead({ contentName: "Kontaktformular", source: "kontakt" });
       }
     } catch (err) {
       setServerError("Der opstod en netværksfejl. Prøv igen senere.");
