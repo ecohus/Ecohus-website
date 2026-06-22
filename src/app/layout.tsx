@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans, Cormorant_Garamond, DM_Sans } from "next/font/google";
 import { GoogleAnalytics } from '@next/third-parties/google';
+import Script from "next/script";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { Navbar } from "@/components/Navbar";
@@ -9,6 +10,7 @@ import { CookieConsent } from "@/components/CookieConsent";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { TransitionOverlay } from "@/components/TransitionOverlay";
 import { MetaPixel } from "@/components/MetaPixel";
+import { CONSENT_STORAGE_KEY } from "@/lib/consent";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -47,6 +49,24 @@ export default function RootLayout({
       <head>
       </head>
       <body className="antialiased min-h-screen flex flex-col relative pb-[env(safe-area-inset-bottom)]">
+        {/* Google Consent Mode v2 — deny tracking storage by default, before
+            gtag loads. Returning visitors who already accepted are granted. */}
+        <Script id="google-consent-default" strategy="beforeInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            var ecohusConsent = 'denied';
+            try {
+              if (localStorage.getItem('${CONSENT_STORAGE_KEY}') === 'accepted') ecohusConsent = 'granted';
+            } catch (e) {}
+            gtag('consent', 'default', {
+              ad_storage: ecohusConsent,
+              analytics_storage: ecohusConsent,
+              ad_user_data: ecohusConsent,
+              ad_personalization: ecohusConsent,
+            });
+          `}
+        </Script>
         <ThemeProvider />
         <TransitionOverlay />
         <Navbar />

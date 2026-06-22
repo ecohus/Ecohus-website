@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { CONSENT_STORAGE_KEY, setPixelConsent } from "@/lib/meta-pixel";
+import { CONSENT_STORAGE_KEY, applyConsent } from "@/lib/consent";
 
 export function CookieConsent() {
   const [show, setShow] = useState(false);
@@ -16,13 +16,13 @@ export function CookieConsent() {
 
   const accept = () => {
     localStorage.setItem(CONSENT_STORAGE_KEY, "accepted");
-    setPixelConsent(true);
+    applyConsent(true);
     setShow(false);
   };
 
   const decline = () => {
     localStorage.setItem(CONSENT_STORAGE_KEY, "declined");
-    setPixelConsent(false);
+    applyConsent(false);
     setShow(false);
   };
 
