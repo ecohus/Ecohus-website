@@ -219,10 +219,12 @@ export function AdminDashboard({
   contactLeads: initialContacts,
   calculatorLeads: initialCalculators,
   loadError,
+  demoMode = false,
 }: {
   contactLeads: ContactLead[];
   calculatorLeads: CalculatorLead[];
   loadError: string | null;
+  demoMode?: boolean;
 }) {
   const router = useRouter();
   const [contacts, setContacts] = useState(initialContacts);
@@ -272,6 +274,13 @@ export function AdminDashboard({
           Log ud
         </button>
       </div>
+
+      {demoMode && (
+        <div className="mb-8 rounded-lg border border-amber-300 bg-amber-50 p-4 text-sm text-amber-900">
+          <strong>Demo-data</strong> — Supabase er ikke forbundet lokalt, så du ser eksempel-leads.
+          Ændringer gemmes ikke. I drift vises de rigtige leads fra databasen.
+        </div>
+      )}
 
       {loadError && (
         <div className="mb-8 rounded-lg border border-destructive/40 bg-destructive/10 p-4 text-sm text-destructive">

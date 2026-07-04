@@ -32,6 +32,22 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Supabase er ikke konfigureret på serveren" }, { status: 500 });
     }
 
+    // Demo-login lokalt, når Supabase-URL'en er placeholderen — samme
+    // konvention som formularernes mock-insert. Kan aldrig rammes i drift.
+    if (url.includes("your-project.supabase.co")) {
+      const demoSession = createAdminSession(email);
+      if (demoSession) {
+        cookies().set(ADMIN_COOKIE, demoSession, {
+          httpOnly: true,
+          secure: false,
+          sameSite: "lax",
+          path: "/",
+          maxAge: ADMIN_SESSION_MAX_AGE,
+        });
+        return NextResponse.json({ success: true, demo: true });
+      }
+    }
+
     // Samme fejlbesked uanset årsag, så gyldige e-mails ikke kan gættes
     const invalid = NextResponse.json({ error: "Forkert e-mail eller adgangskode" }, { status: 401 });
 

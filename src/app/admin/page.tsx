@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { isAdminAuthenticated } from "@/lib/admin-auth";
 import { supabase } from "@/lib/supabase";
 import type { CalculatorLead, ContactLead } from "@/lib/admin-types";
+import { MOCK_CALCULATOR_LEADS, MOCK_CONTACT_LEADS } from "@/lib/mock-leads";
 import { AdminLogin } from "@/components/admin/AdminLogin";
 import { AdminDashboard } from "@/components/admin/AdminDashboard";
 
@@ -27,6 +28,19 @@ export default async function AdminPage() {
 
   if (!isAdminAuthenticated()) {
     return <AdminLogin />;
+  }
+
+  // Demo-data lokalt, når Supabase-URL'en er placeholderen — samme konvention
+  // som formularernes mock-insert
+  if (process.env.NEXT_PUBLIC_SUPABASE_URL?.includes("your-project.supabase.co")) {
+    return (
+      <AdminDashboard
+        contactLeads={MOCK_CONTACT_LEADS}
+        calculatorLeads={MOCK_CALCULATOR_LEADS}
+        loadError={null}
+        demoMode
+      />
+    );
   }
 
   let contactLeads: ContactLead[] = [];

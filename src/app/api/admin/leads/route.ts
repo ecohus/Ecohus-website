@@ -37,6 +37,11 @@ export async function PATCH(req: Request) {
       return NextResponse.json({ error: "Ingen ændringer angivet" }, { status: 400 });
     }
 
+    // Demo-mode lokalt: ingen database at skrive til
+    if (process.env.NEXT_PUBLIC_SUPABASE_URL?.includes("your-project.supabase.co")) {
+      return NextResponse.json({ success: true, demo: true });
+    }
+
     const { error: dbError } = await supabase
       .from(TABLES[table])
       .update(update)
