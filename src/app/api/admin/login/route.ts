@@ -1,9 +1,13 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
+import { createClient } from "@supabase/supabase-js";
 import { ratelimit } from "@/lib/ratelimit";
-import { ADMIN_COOKIE, adminSessionToken, verifyAdminPassword } from "@/lib/admin-auth";
-
-const SESSION_MAX_AGE = 60 * 60 * 24 * 7; // 7 dage
+import {
+  ADMIN_COOKIE,
+  ADMIN_SESSION_MAX_AGE,
+  createAdminSession,
+  isEmailAllowed,
+} from "@/lib/admin-auth";
 
 export async function POST(req: Request) {
   try {
@@ -15,22 +19,47 @@ export async function POST(req: Request) {
     }
 
     const body = await req.json();
+    const email = typeof body?.email === "string" ? body.email.trim() : "";
     const password = typeof body?.password === "string" ? body.password : "";
 
-    if (!process.env.ADMIN_PASSWORD) {
-      return NextResponse.json({ error: "ADMIN_PASSWORD er ikke konfigureret på serveren" }, { status: 500 });
+    if (!email || !password) {
+      return NextResponse.json({ error: "Udfyld e-mail og adgangskode" }, { status: 400 });
     }
 
-    if (!verifyAdminPassword(password)) {
-      return NextResponse.json({ error: "Forkert adgangskode" }, { status: 401 });
+    const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+    if (!url || !anonKey || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
+      return NextResponse.json({ error: "Supabase er ikke konfigureret på serveren" }, { status: 500 });
     }
 
-    cookies().set(ADMIN_COOKIE, adminSessionToken()!, {
+    // Samme fejlbesked uanset årsag, så gyldige e-mails ikke kan gættes
+    const invalid = NextResponse.json({ error: "Forkert e-mail eller adgangskode" }, { status: 401 });
+
+    if (!isEmailAllowed(email)) return invalid;
+
+    // Verificér login mod Supabase Auth. Sessionen fra Supabase bruges ikke —
+    // vi udsteder vores egen cookie via createAdminSession.
+    const authClient = createClient(url, anonKey, {
+      auth: { persistSession: false, autoRefreshToken: false },
+    });
+    const { data, error } = await authClient.auth.signInWithPassword({ email, password });
+
+    if (error || !data?.user) return invalid;
+
+    const userEmail = data.user.email ?? email;
+    if (!isEmailAllowed(userEmail)) return invalid;
+
+    const session = createAdminSession(userEmail);
+    if (!session) {
+      return NextResponse.json({ error: "Supabase er ikke konfigureret på serveren" }, { status: 500 });
+    }
+
+    cookies().set(ADMIN_COOKIE, session, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
       path: "/",
-      maxAge: SESSION_MAX_AGE,
+      maxAge: ADMIN_SESSION_MAX_AGE,
     });
 
     return NextResponse.json({ success: true });

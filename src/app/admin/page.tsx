@@ -13,12 +13,13 @@ export const metadata: Metadata = {
 };
 
 export default async function AdminPage() {
-  if (!process.env.ADMIN_PASSWORD) {
+  if (!process.env.SUPABASE_SERVICE_ROLE_KEY || !process.env.NEXT_PUBLIC_SUPABASE_URL) {
     return (
       <div className="container mx-auto px-4 py-24 max-w-xl text-center">
         <h1 className="text-3xl font-medium mb-4">Admin er ikke konfigureret</h1>
         <p className="text-muted-foreground">
-          Sæt miljøvariablen <code className="font-mono text-sm">ADMIN_PASSWORD</code> for at aktivere admin-dashboardet.
+          Sæt miljøvariablerne <code className="font-mono text-sm">NEXT_PUBLIC_SUPABASE_URL</code> og{" "}
+          <code className="font-mono text-sm">SUPABASE_SERVICE_ROLE_KEY</code> for at aktivere admin-dashboardet.
         </p>
       </div>
     );

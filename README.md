@@ -3,7 +3,7 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 ## Leads & admin
 
 - Alle leads (kontaktformular + prisberegner) gemmes i Supabase og udløser to Resend-mails: en intern notifikation til Ecohus og en bekræftelse til kunden.
-- Admin-dashboard på `/admin` (login via `ADMIN_PASSWORD`) viser alle leads med status-tracking (Ny → Kontaktet → Tilbud sendt → Vundet/Tabt) og interne noter.
+- Admin-dashboard på `/admin` (login via Supabase Auth-bruger, valgfri `ADMIN_ALLOWED_EMAILS`-allowlist) viser alle leads med status-tracking (Ny → Kontaktet → Tilbud sendt → Vundet/Tabt) og interne noter.
 - Database-opsætning: se `SUPABASE-OPSAETNING.md` og kør `supabase/migration-002-lead-tracking-rls.sql` i Supabase SQL Editor.
 
 ## Getting Started

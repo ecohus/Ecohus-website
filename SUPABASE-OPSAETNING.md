@@ -22,20 +22,36 @@ Migrationen gør følgende:
   al adgang går gennem serverens service role-nøgle. Det er den sikre opsætning,
   da leads indeholder persondata (navn, e-mail, telefon).
 
-## 2. Miljøvariabler (Vercel / hosting)
+## 2. Opret admin-bruger (login til dashboardet)
+
+Admin-dashboardet bruger Supabase Auth. Sådan oprettes en bruger, der kan logge ind:
+
+1. Gå til **Authentication → Users** i Supabase → klik **Add user** → **Create new user**.
+2. Indtast e-mail og en stærk adgangskode, og sæt flueben i **Auto Confirm User**.
+3. **Vigtigt:** Slå offentlig tilmelding fra, så fremmede ikke kan oprette sig selv:
+   **Authentication → Sign In / Providers → Email** → slå **"Allow new users to sign up"** FRA.
+4. (Anbefalet ekstra lås) Sæt miljøvariablen `ADMIN_ALLOWED_EMAILS` til de e-mails,
+   der må logge ind, fx `kontakt@ecohus.dk` — så har kun de konti adgang, uanset
+   hvad der ellers findes af brugere.
+
+Flere personer kan få adgang ved blot at oprette flere brugere (og tilføje dem
+til `ADMIN_ALLOWED_EMAILS`, hvis den er sat).
+
+## 3. Miljøvariabler (Vercel / hosting)
 
 Efter migrationen SKAL disse være sat i hosting-miljøet, ellers fejler formularerne:
 
 | Variabel | Hvor findes den | Bruges til |
 |---|---|---|
 | `NEXT_PUBLIC_SUPABASE_URL` | Supabase → Settings → API → Project URL | Forbindelse til databasen |
-| `SUPABASE_SERVICE_ROLE_KEY` | Supabase → Settings → API → `service_role` (klik "Reveal") | Server-adgang der bypasser RLS. **Må aldrig deles eller ligge i klient-kode.** |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase → Settings → API → `anon` / publishable key | Login-tjek mod Supabase Auth |
+| `SUPABASE_SERVICE_ROLE_KEY` | Supabase → Settings → API → `service_role` (klik "Reveal") | Server-adgang der bypasser RLS. **Må aldrig deles, sendes på mail eller ligge i klient-kode.** Indsættes KUN som miljøvariabel i hostingen (fx Vercel → Project → Settings → Environment Variables) |
 | `RESEND_API_KEY` | [resend.com](https://resend.com) → API Keys | Afsendelse af e-mails |
 | `RESEND_FROM_EMAIL` | Verificeret afsender, fx `Ecohus <noreply@ecohus.dk>` | Afsenderadresse på alle mails |
 | `RESEND_NOTIFY_EMAIL` | Fx `kontakt@ecohus.dk` | Modtager af interne lead-notifikationer |
-| `ADMIN_PASSWORD` | Vælg selv en stærk adgangskode | Login til admin-dashboardet på `/admin` |
+| `ADMIN_ALLOWED_EMAILS` | Vælges selv (kommasepareret liste) | Hvilke Supabase-brugere der må logge ind på `/admin` |
 
-## 3. Resend (e-mails)
+## 4. Resend (e-mails)
 
 Når en formular udfyldes, sendes der nu **to** e-mails:
 
@@ -47,17 +63,18 @@ For at mails ikke lander i spam, skal domænet `ecohus.dk` være verificeret i
 Resend: **Resend → Domains → Add Domain** og tilføj de viste DNS-poster
 (SPF/DKIM) hos domæneudbyderen.
 
-## 4. Admin-dashboard
+## 5. Admin-dashboard
 
 - URL: `https://<dit-domæne>/admin`
-- Login med adgangskoden fra `ADMIN_PASSWORD` (sessionen holder i 7 dage).
+- Login med e-mail + adgangskode fra Supabase-brugeren oprettet i trin 2
+  (sessionen holder i 7 dage).
 - Dashboardet viser alle leads fra både kontaktformularen og prisberegneren:
   - Statistik-overblik (antal leads, nye, vundne).
   - Status pr. lead: **Ny → Kontaktet → Tilbud sendt → Vundet / Tabt**.
   - Interne noter pr. lead.
 - Alle ændringer gemmes direkte i Supabase.
 
-## 5. Verificér at det virker
+## 6. Verificér at det virker
 
 1. Kør migrationen (trin 1).
 2. Udfyld kontaktformularen på hjemmesiden med en test-e-mail.
