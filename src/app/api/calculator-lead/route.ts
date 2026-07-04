@@ -3,6 +3,7 @@ import { calculatorLeadSchema } from "@/lib/validations";
 import { supabase } from "@/lib/supabase";
 import { ratelimit } from "@/lib/ratelimit";
 import { ADDONS, FOUNDATIONS } from "@/lib/spec";
+import { leadConfirmationHtml, leadConfirmationText } from "@/lib/lead-emails";
 import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_API_KEY || "missing");
@@ -105,11 +106,15 @@ export async function POST(req: Request) {
         emailText += `Estimeret pris fra: ${estimated_price_from ? Number(estimated_price_from).toLocaleString("da-DK") + " kr." : "Ikke beregnet"}\n`;
       }
 
+      const fromEmail = process.env.RESEND_FROM_EMAIL || "noreply@ecohus.dk";
+
       // The lead is already saved at this point, so an email failure must not
       // fail the request — just log it.
+
+      // 1) Intern notifikation til Ecohus
       try {
         await resend.emails.send({
-          from: process.env.RESEND_FROM_EMAIL || "noreply@ecohus.dk",
+          from: fromEmail,
           to: process.env.RESEND_NOTIFY_EMAIL || "kontakt@ecohus.dk",
           replyTo: email,
           subject: `Nyt Prisberegner Lead: ${name} ${is_custom_build ? "(Byg Selv)" : ""}`,
@@ -122,7 +127,43 @@ export async function POST(req: Request) {
           ] : undefined,
         });
       } catch (emailError) {
-        console.error("Resend error (calculator-lead):", emailError);
+        console.error("Resend error (calculator-lead, notify):", emailError);
+      }
+
+      // 2) Bekræftelse til lead'et
+      try {
+        const details = is_custom_build
+          ? [
+              { label: "Type", value: "Byg selv / egen plantegning" },
+              ...(custom_m2 ? [{ label: "Kvadratmeter", value: `${custom_m2} m²` }] : []),
+              ...(custom_roof ? [{ label: "Tag-type", value: custom_roof }] : []),
+              ...(custom_tier ? [{ label: "Prisklasse", value: custom_tier }] : []),
+              { label: "Fundament", value: foundationTitle },
+            ]
+          : [
+              ...(model_selected ? [{ label: "Model", value: model_selected }] : []),
+              { label: "Fundament", value: foundationTitle },
+              ...(estimated_price_from
+                ? [{ label: "Estimeret pris fra", value: `${Number(estimated_price_from).toLocaleString("da-DK")} kr.` }]
+                : []),
+            ];
+
+        const confirmation = {
+          name,
+          intro: is_custom_build
+            ? "Tak for din forespørgsel via prisberegneren på ecohus.dk. Vi har modtaget dine oplysninger og kigger på dit projekt:"
+            : "Tak for din forespørgsel via prisberegneren på ecohus.dk. Her er en kvittering for dit valg — bemærk at prisen er et vejledende estimat:",
+          details,
+        };
+        await resend.emails.send({
+          from: fromEmail,
+          to: email,
+          subject: "Kvittering for dit prisoverslag — Ecohus",
+          html: leadConfirmationHtml(confirmation),
+          text: leadConfirmationText(confirmation),
+        });
+      } catch (emailError) {
+        console.error("Resend error (calculator-lead, confirmation):", emailError);
       }
     }
 
