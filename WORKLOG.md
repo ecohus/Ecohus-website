@@ -1,5 +1,22 @@
 # Worklog — Ecohus
 
+## 2026-07-06 — Produktion sat i drift på ecohus-website
+
+- Fejlsøgt produktionsfejlen "Der skete en fejl…": manglende/forkerte
+  miljøvariabler i Vercel (bl.a. Upstash-værdi sat som hel `REDIS_URL`-linje
+  i stedet for REST-URL + token).
+- Opdaget at kundens Vercel-projekt (`ecohus-website`) deployer fra
+  `github.com/ecohus/Ecohus-website` — ikke fra det oprindelige repo. Sitet
+  kørte derfor gammel kode uden admin-dashboardet (404 på `/admin`).
+- Kundens repo havde 5 egne commits (cookie consent-gating af GA/Meta Pixel,
+  pixel-tracking af formularer, favicon, skjulte sektioner). Ingen fil-overlap
+  med vores arbejde — vores 4 commits blev cherry-picket ovenpå og pushet som
+  normal fast-forward. Ingen historik overskrevet.
+- Verificeret i produktion: `/admin` viser login, øvrige sider svarer 200.
+- **Kanonisk repo fremover: `ecohus/Ecohus-website`.** Det gamle
+  `djn203040-cmd/Ecohus` betragtes som arkiv og skal ikke bruges til nye
+  ændringer.
+
 ## 2026-07-04 — Lead-tracking, admin-dashboard, e-mails & sikkerhed
 
 ### Nyt: Admin-dashboard (`/admin`)
