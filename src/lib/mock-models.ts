@@ -50,7 +50,7 @@ export const MOCK_MODELS = [
     rooms: 3,
     bathrooms: 2,
     has_garage: false,
-    price_from: 1850000,
+    price_from: 2220000,
     description:
       "Rummelig bolig med tre værelser og to badeværelser. Designet til familier, der ønsker høj komfort og god plads til både hverdag og ferie.",
     image_url: "/Plantegninger/120m2/Version 1/Plantegning.png",
@@ -69,7 +69,7 @@ export const MOCK_MODELS = [
     rooms: 4,
     bathrooms: 2,
     has_garage: false,
-    price_from: 1900000,
+    price_from: 2350000,
     description:
       "En fleksibel bolig med fire værelser og moderne opholdsrum. Perfekt til større familier eller sommerhuse med mange gæster.",
     image_url: "/Plantegninger/120m2/Version 2/Plantegning.png",
@@ -88,7 +88,7 @@ export const MOCK_MODELS = [
     rooms: 3,
     bathrooms: 2,
     has_garage: false,
-    price_from: 2050000,
+    price_from: 2470000,
     description:
       "Lys og rummelig bolig med fokus på store opholdsrum og gode udearealer. Masser af plads til både hverdag og ferie.",
     image_url: "/Plantegninger/130m2/Version 1/Plantegning.png",
@@ -108,7 +108,7 @@ export const MOCK_MODELS = [
     rooms: 4,
     bathrooms: 2,
     has_garage: false,
-    price_from: 2150000,
+    price_from: 2550000,
     description:
       "Moderne bolig med fire værelser og gennemtænkt planløsning. Ideel til familien, der ønsker ekstra plads og høj funktionalitet.",
     image_url: "/Plantegninger/130m2/Version 2/130m2 V2.png",
